@@ -1,0 +1,11 @@
+# Environment variables & Secrets
+.env
+.env.*
+config.local.js
+
+# Operating System Files
+.DS_Store
+Thumbs.db
+
+# Vercel
+.vercel

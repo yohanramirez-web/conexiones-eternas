@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Conexiones Eternas | El Hilo Mesiánico de las Escrituras</title>
+  <meta name="description" content="Explorador audiovisual interactivo de las profecías del Antiguo Testamento y su cumplimiento exacto en Jesucristo.">
+  
+  <!-- Google Fonts: Cinzel Decorative, Cinzel, Lora & Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Cinzel:wght@500;700;800;900&family=Lora:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Canvas for subtle celestial particles -->
+  <canvas id="starsCanvas" class="stars-canvas"></canvas>
+
+  <!-- Navigation / Top Bar -->
+  <nav class="top-nav">
+    <div class="nav-container">
+      <div class="brand">
+        <span class="brand-symbol">✝</span>
+        <span class="brand-text">CONEXIONES ETERNAS</span>
+      </div>
+
+      <div class="nav-controls">
+        <!-- Ambient Music Toggle -->
+        <button id="ambientSoundBtn" class="nav-btn" title="Música ambiental sagrada" aria-label="Activar música ambiental">
+          <span class="btn-icon">🎵</span>
+          <span class="btn-text">Ambiente Sagrado: <strong id="ambientState">Apagado</strong></span>
+        </button>
+
+        <!-- Sound FX Toggle -->
+        <button id="soundFxBtn" class="nav-btn active-fx" title="Efectos de sonido sutiles" aria-label="Efectos de sonido">
+          <span class="btn-icon">🔔</span>
+          <span class="btn-text">Efectos: <strong id="sfxState">ON</strong></span>
+        </button>
+
+        <!-- AI Theologian Toggle Button -->
+        <button id="aiChatToggleBtn" class="nav-btn ai-btn" title="Preguntar al Teólogo IA" aria-label="Abrir Asistente Teológico IA">
+          <span class="btn-icon">🕊️</span>
+          <span class="btn-text">Consultor IA</span>
+          <span class="ai-badge">OpenRouter</span>
+        </button>
+
+        <!-- Theme Toggle (Dark Celestial / Sacred Parchment) -->
+        <button id="themeToggleBtn" class="nav-btn" title="Cambiar tema visual" aria-label="Cambiar tema">
+          <span class="btn-icon" id="themeIcon">☀️</span>
+          <span class="btn-text" id="themeText">Pergamino</span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Header -->
+  <header class="hero-section">
+    <div class="hero-glow"></div>
+    <div class="container hero-inner">
+      <div class="hero-badge">
+        <span class="sparkle">✦</span>
+        <span>EVIDENCIA HISTÓRICA & ESPIRITUAL</span>
+        <span class="sparkle">✦</span>
+      </div>
+      <h1 class="hero-title">CONEXIONES ETERNAS</h1>
+      <p class="hero-subtitle">
+        El hilo mesiánico que une el <em>Antiguo</em> y el <em>Nuevo Testamento</em> a través de los siglos. Descubre cómo decenas de profecías escritas hasta un milenio antes de Cristo se cumplieron con asombrosa precisión matemática e histórica en Jesús.
+      </p>
+
+      <!-- Spiritual & Study Progress Tracker -->
+      <div class="progress-bar-container">
+        <div class="progress-header">
+          <span class="progress-title">📖 Tu camino de meditación y estudio</span>
+          <span class="progress-score" id="progressScore">0 de 14 profecías meditadas (0%)</span>
+        </div>
+        <div class="progress-track">
+          <div class="progress-fill" id="progressFill" style="width: 0%;"></div>
+        </div>
+      </div>
+
+      <!-- Quick Stats & Apologetics Cards -->
+      <div class="stats-row">
+        <div class="stat-box" id="statCardProb">
+          <div class="stat-icon">🎲</div>
+          <div class="stat-value">1 en 10¹⁷</div>
+          <div class="stat-desc">Probabilidad de cumplir solo 8 profecías por azar</div>
+          <span class="stat-more">Ver ilustración de Texas &rarr;</span>
+        </div>
+        <div class="stat-box">
+          <div class="stat-icon">⏳</div>
+          <div class="stat-value">400 a 1,500</div>
+          <div class="stat-desc">Años transcurridos entre la predicción y el hecho</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-icon">📜</div>
+          <div class="stat-value">Qumrán 1947</div>
+          <div class="stat-desc">Rollos que confirman los textos antes de la era cristiana</div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Interactive Controls Section -->
+  <section class="container filter-section">
+    <div class="search-wrapper">
+      <svg class="search-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="11" cy="11" r="8"></circle>
+        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+      </svg>
+      <input type="text" id="searchInput" placeholder="Buscar por profeta, tema, libro o palabra (ej: Isaías, Belén, 30 monedas, cruz)...">
+      <button id="clearSearchBtn" class="clear-search-btn" title="Limpiar búsqueda" style="display: none;">&times;</button>
+    </div>
+
+    <div class="category-pills" id="categoryContainer">
+      <button class="pill-btn active" data-cat="all">Todas las Profecías (14)</button>
+      <button class="pill-btn" data-cat="nacimiento">👶 Nacimiento y Linaje</button>
+      <button class="pill-btn" data-cat="ministerio">🕊️ Ministerio y Vida</button>
+      <button class="pill-btn" data-cat="pasion">✝️ Pasión y Sacrificio</button>
+      <button class="pill-btn" data-cat="resurreccion">👑 Resurrección y Gloria</button>
+    </div>
+
+    <div class="sort-and-filter-row">
+      <span class="results-count" id="resultsCount">Mostrando 14 conexiones mesiánicas</span>
+      <div class="filter-actions">
+        <label for="sortOrderSelect" class="sort-label">Ordenar:</label>
+        <select id="sortOrderSelect" class="sort-select">
+          <option value="biblical">Orden Temático / Bíblico</option>
+          <option value="antiquity">Mayor Antigüedad (a.C.)</option>
+          <option value="title">Alfabético</option>
+        </select>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main Prophecies Grid -->
+  <main class="container">
+    <div class="prophecies-grid" id="propheciesGrid">
+      <!-- Injected via JavaScript -->
+    </div>
+  </main>
+
+  <!-- Texas Probability Illustration Modal -->
+  <div class="modal-backdrop" id="probModal">
+    <div class="modal-box prob-modal-box">
+      <button class="modal-close-icon" id="probModalClose">&times;</button>
+      <div class="prob-header">
+        <span class="prob-badge">MATEMÁTICA Y APOLOGÉTICA</span>
+        <h2>La Ilustración de Texas y las 8 Profecías</h2>
+        <p class="prob-author">Basado en la investigación del matemático y físico Dr. Peter Stoner (Ciencia Habla)</p>
+      </div>
+      <div class="prob-body">
+        <div class="prob-visual-card">
+          <div class="prob-coin-art">🪙</div>
+          <div class="prob-quote">
+            «Si tomas monedas de plata y cubres todo el estado de Texas (más de 690,000 km²) con una capa de 60 centímetros de profundidad... luego marcas una sola moneda con una cruz roja y la mezclas bien en cualquier punto del territorio... y le vendas los ojos a un hombre permitiéndole viajar y excavar donde quiera... ¿cuál es la probabilidad de que al agacharse tome exactamente la moneda marcada al primer intento? <strong>1 en 10¹⁷</strong>.»
+          </div>
+        </div>
+        <p class="prob-explanation">
+          Esa es exactamente la misma probabilidad de que un solo hombre cumpliera por simple azar <strong>únicamente ocho</strong> de las más de 300 profecías mesiánicas del Antiguo Testamento. Jesús no cumplió ocho: ¡cumplió todas y cada una de ellas!
+        </p>
+      </div>
+      <div class="prob-footer">
+        <button class="btn-action-primary" id="probUnderstoodBtn">¡Gloria a Dios! Entendido</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Detail Modal: Side-by-Side Parallel View with Audio Player -->
+  <div class="modal-backdrop" id="detailModal">
+    <div class="modal-box detail-modal-box">
+      <button class="modal-close-icon" id="detailModalClose" aria-label="Cerrar ventana">&times;</button>
+      
+      <!-- Modal Header -->
+      <div class="modal-head">
+        <div class="head-meta">
+          <span class="meta-tag" id="mCategoryTag">Nacimiento y Linaje</span>
+          <span class="meta-gap" id="mGapBadge">⏳ 700 años de diferencia</span>
+          <button id="markStudiedBtn" class="mark-studied-btn" title="Marcar como meditada">
+            <span class="check-icon">✓</span> <span id="markStudiedText">Marcar como leída</span>
+          </button>
+        </div>
+        <h2 class="modal-title" id="mTitle">Título de la Profecía</h2>
+      </div>
+
+      <!-- Audio Narration Toolbar inside Modal -->
+      <div class="audio-narrator-bar">
+        <div class="narrator-info">
+          <span class="sound-wave" id="soundWaveAnim">
+            <span></span><span></span><span></span><span></span>
+          </span>
+          <div class="narrator-labels">
+            <strong id="narratorStatus">Narración por Voz de las Escrituras</strong>
+            <span id="narratorSub">Escucha la profecía, el cumplimiento y la meditación guiada</span>
+          </div>
+        </div>
+
+        <div class="narrator-controls">
+          <button id="playAudioBtn" class="audio-ctrl-btn btn-play" title="Reproducir narración">
+            <span class="ctrl-icon">▶</span>
+            <span class="ctrl-text">Escuchar</span>
+          </button>
+          <button id="pauseAudioBtn" class="audio-ctrl-btn btn-pause" style="display: none;" title="Pausar narración">
+            <span class="ctrl-icon">⏸</span>
+            <span class="ctrl-text">Pausar</span>
+          </button>
+          <button id="stopAudioBtn" class="audio-ctrl-btn btn-stop" style="display: none;" title="Detener">
+            <span class="ctrl-icon">⏹</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Split Parallel View (OT vs NT) -->
+      <div class="scripture-split">
+        <!-- Old Testament Box -->
+        <div class="scripture-col ot-card" id="otBox">
+          <div class="col-ribbon ot-ribbon">
+            <span>📜 ANTIGUO TESTAMENTO</span>
+            <span class="date-badge" id="mOtDate">~700 a.C.</span>
+          </div>
+          <h3 class="verse-title" id="mOtBook">Isaías 53:4-5</h3>
+          <blockquote class="verse-passage" id="mOtText">
+            «Ciertamente llevó él nuestras enfermedades...»
+          </blockquote>
+          <div class="col-seal">
+            <span class="seal-icon">🏛️</span> Profetizado siglos antes de Cristo
+          </div>
+        </div>
+
+        <!-- Golden Bridge & Seal -->
+        <div class="bridge-divider">
+          <div class="bridge-stem"></div>
+          <div class="bridge-emblem" title="Cumplimiento consumado en la Cruz">
+            <span class="emblem-cross">✝</span>
+          </div>
+          <span class="bridge-tag">CUMPLIDO</span>
+          <div class="bridge-stem"></div>
+        </div>
+
+        <!-- New Testament Box -->
+        <div class="scripture-col nt-card" id="ntBox">
+          <div class="col-ribbon nt-ribbon">
+            <span>✨ NUEVO TESTAMENTO</span>
+            <span class="date-badge" id="mNtDate">~30-33 d.C.</span>
+          </div>
+          <h3 class="verse-title" id="mNtBook">1 Pedro 2:24</h3>
+          <blockquote class="verse-passage" id="mNtText">
+            «quien llevó él mismo nuestros pecados en su cuerpo...»
+          </blockquote>
+          <div class="col-seal">
+            <span class="seal-icon">👁️</span> Atestiguado por testigos presenciales
+          </div>
+        </div>
+      </div>
+
+      <!-- Apologetic Divine Seal Section -->
+      <div class="divine-insight-card" id="insightBox">
+        <div class="insight-header">
+          <div class="insight-badge-icon">🕊️</div>
+          <div>
+            <h4>El Sello de Inspiración Divina</h4>
+            <span class="insight-sub">¿Por qué este suceso no pudo ser casual ni fabricado por el hombre?</span>
+          </div>
+        </div>
+        <p class="insight-text" id="mInsightText">
+          Explicación profunda de los hechos históricos y espirituales.
+        </p>
+      </div>
+
+      <!-- Modal Bottom Navigation & Actions -->
+      <div class="modal-footer-nav">
+        <div class="nav-prev-next">
+          <button class="nav-step-btn" id="prevProphecyBtn" title="Anterior profecía">&larr; Anterior</button>
+          <button class="nav-step-btn" id="nextProphecyBtn" title="Siguiente profecía">Siguiente &rarr;</button>
+        </div>
+
+        <div class="nav-share-actions">
+          <button class="btn-ask-ai" id="askAiAboutProphecyBtn" title="Profundizar con el Teólogo IA">
+            <span class="btn-sparkle">🕊️</span>
+            <span>Preguntar a la IA sobre esta profecía</span>
+          </button>
+          <button class="btn-share" id="copyShareBtn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+            </svg>
+            Copiar Devocional Completo
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Theological AI Assistant Modal (Powered by OpenRouter) -->
+  <div class="modal-backdrop" id="aiModal">
+    <div class="modal-box ai-modal-box">
+      <button class="modal-close-icon" id="aiModalClose" aria-label="Cerrar consultor IA">&times;</button>
+      
+      <div class="ai-header">
+        <div class="ai-avatar">🕊️</div>
+        <div class="ai-header-titles">
+          <div class="ai-status-row">
+            <span class="ai-live-dot"></span>
+            <span class="ai-model-tag">OpenRouter • Gemini 2.0 Flash</span>
+          </div>
+          <h2 class="ai-title">Consultor Teológico Bíblico</h2>
+          <p class="ai-desc">Haz preguntas sobre pasajes, idiomas bíblicos (hebreo/griego), contexto o profecías.</p>
+        </div>
+      </div>
+
+      <!-- Chat messages container -->
+      <div class="ai-chat-messages" id="aiChatMessages">
+        <div class="ai-message assistant-message">
+          <div class="ai-avatar-small">🕊️</div>
+          <div class="msg-bubble">
+            <p><strong>Paz y gracia.</strong> Soy tu consultor de estudio bíblico para <em>Conexiones Eternas</em>.</p>
+            <p>Estoy conectado a OpenRouter para ayudarte a profundizar en las Escrituras, explicar el contexto histórico de las profecías y resolver dudas teológicas. ¿Qué pasaje o tema deseas escudriñar?</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick suggestion chips -->
+      <div class="ai-suggestions-tray" id="aiSuggestionsTray">
+        <span class="tray-label">Preguntas sugeridas:</span>
+        <div class="chips-scroll">
+          <button class="ai-chip">¿Por qué el Salmo 22 describe la crucifixión antes de que existiera?</button>
+          <button class="ai-chip">¿Qué significado profético tiene la Pascua del Éxodo?</button>
+          <button class="ai-chip">¿Qué valor y simbolismo tenían 30 piezas de plata?</button>
+          <button class="ai-chip">¿Por qué Jesús tenía que descender de David y nacer en Belén?</button>
+        </div>
+      </div>
+
+      <!-- Input Form -->
+      <form class="ai-input-form" id="aiInputForm">
+        <input type="text" id="aiUserInput" placeholder="Escribe tu pregunta bíblica o teológica..." autocomplete="off">
+        <button type="submit" id="aiSendBtn" class="ai-send-btn" title="Enviar consulta">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="22" y1="2" x2="11" y2="13"></line>
+            <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+          </svg>
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div class="custom-toast" id="customToast">
+    <span class="toast-icon">✨</span>
+    <span class="toast-msg" id="toastMessage">Texto copiado con éxito</span>
+  </div>
+
+  <!-- Footer Section -->
+  <footer class="app-footer">
+    <div class="container footer-layout">
+      <div class="footer-verse">
+        <p class="verse-p">
+          «Escudriñad las Escrituras; porque a vosotros os parece que en ellas tenéis la vida eterna; y ellas son las que dan testimonio de mí.»
+        </p>
+        <cite>— San Juan 5:39</cite>
+      </div>
+      <div class="footer-credits">
+        <p><strong>Conexiones Eternas</strong> • Diseñado para la edificación y profundización bíblica</p>
+        <p class="footer-sub">Todo el Antiguo Testamento apunta a la Cruz. Todo el Nuevo Testamento mira hacia ella.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="config.local.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

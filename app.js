@@ -218,81 +218,95 @@ const propheciesData = [
   }
 ];
 
-// --- 2. AUTHENTIC MESSIANIC HEBREW AUDIO SUITE (SYNTHESIZED HARP & SEQUENCER) ---
-class MessianicAudioEngine {
+// --- 2. AUTHENTIC HEBREW WORSHIP STREAM (YESHUA HAMASHIACH - JERUSALEM PRAISE) & HARP SFX ---
+let ytWorshipPlayer = null;
+let isWorshipReady = false;
+let isWorshipPlaying = false;
+let worshipVolumeLevel = 85;
+
+// Load official YouTube IFrame API asynchronously
+(function initYouTubeWorship() {
+  const tag = document.createElement('script');
+  tag.src = "https://www.youtube.com/iframe_api";
+  const firstScriptTag = document.getElementsByTagName('script')[0];
+  firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+})();
+
+window.onYouTubeIframeAPIReady = function() {
+  ytWorshipPlayer = new YT.Player('ytPlayerContainer', {
+    height: '0',
+    width: '0',
+    videoId: 'oYsAm82I7MY', // YESHUA HAMASHIACH – Hebrew Worship from Jerusalem
+    playerVars: {
+      'autoplay': 0,
+      'controls': 0,
+      'playsinline': 1,
+      'rel': 0,
+      'loop': 1,
+      'playlist': 'oYsAm82I7MY'
+    },
+    events: {
+      'onReady': (event) => {
+        isWorshipReady = true;
+        event.target.setVolume(worshipVolumeLevel);
+      },
+      'onStateChange': (event) => {
+        // YT.PlayerState: 1 = PLAYING, 2 = PAUSED, 0 = ENDED
+        if (event.data === 1) {
+          syncWorshipPlayerUI(true);
+        } else if (event.data === 2 || event.data === 0) {
+          syncWorshipPlayerUI(false);
+        }
+      }
+    }
+  });
+};
+
+function syncWorshipPlayerUI(playing) {
+  isWorshipPlaying = playing;
+  const bar = document.getElementById('messianicPlayerBar');
+  const navBtn = document.getElementById('ambientSoundBtn');
+  const ambientState = document.getElementById('ambientState');
+  const btnIcon = document.getElementById('worshipBtnIcon');
+  const btnLabel = document.getElementById('worshipBtnLabel');
+
+  if (playing) {
+    if (bar) bar.classList.add('playing');
+    if (navBtn) navBtn.classList.add('active-worship');
+    if (ambientState) ambientState.textContent = 'PAUSE';
+    if (btnIcon) btnIcon.textContent = '⏸';
+    if (btnLabel) btnLabel.textContent = 'Pause Worship';
+  } else {
+    if (bar) bar.classList.remove('playing');
+    if (navBtn) navBtn.classList.remove('active-worship');
+    if (ambientState) ambientState.textContent = 'PLAY';
+    if (btnIcon) btnIcon.textContent = '▶';
+    if (btnLabel) btnLabel.textContent = 'Play Worship';
+  }
+}
+
+function toggleWorshipMusic() {
+  if (!ytWorshipPlayer || !isWorshipReady) {
+    if (ytWorshipPlayer && typeof ytWorshipPlayer.playVideo === 'function') {
+      ytWorshipPlayer.playVideo();
+      syncWorshipPlayerUI(true);
+    }
+    return;
+  }
+  if (isWorshipPlaying) {
+    ytWorshipPlayer.pauseVideo();
+    syncWorshipPlayerUI(false);
+  } else {
+    ytWorshipPlayer.playVideo();
+    syncWorshipPlayerUI(true);
+  }
+}
+
+// Gentle Sacred UI Chimes
+class HarpSFXEngine {
   constructor() {
     this.ctx = null;
-    this.isPlaying = false;
     this.sfxEnabled = true;
-    this.sequenceTimer = null;
-    this.masterGain = null;
-    this.droneGain = null;
-    this.droneOscs = [];
-    this.stepIndex = 0;
-
-    // Authentic Messianic / Ahava Rabbah (Freygish / Hebrew Minor Scale in D)
-    // D, Eb, F#, G, A, Bb, C, D
-    this.scale = {
-      D2: 73.42,
-      A2: 110.00,
-      D3: 146.83,
-      Eb3: 155.56,
-      Fsharp3: 185.00,
-      G3: 196.00,
-      A3: 220.00,
-      Bb3: 233.08,
-      C4: 261.63,
-      D4: 293.66,
-      Eb4: 311.13,
-      Fsharp4: 369.99,
-      G4: 392.00,
-      A4: 440.00,
-      Bb4: 466.16,
-      C5: 523.25,
-      D5: 587.33
-    };
-
-    // Authentic Messianic Melodic Sequence (David's Harp / Jerusalem Theme in D Freygish)
-    this.melodySequence = [
-      { note: 'D4', dur: 1.2, vel: 0.8 },
-      { note: 'Eb4', dur: 0.6, vel: 0.6 },
-      { note: 'Fsharp4', dur: 1.0, vel: 0.85 },
-      { note: 'Eb4', dur: 0.6, vel: 0.65 },
-      { note: 'D4', dur: 1.4, vel: 0.75 },
-      { note: 'A3', dur: 0.8, vel: 0.7 },
-      { note: 'D4', dur: 1.2, vel: 0.8 },
-
-      { note: 'Fsharp4', dur: 1.0, vel: 0.85 },
-      { note: 'G4', dur: 0.6, vel: 0.7 },
-      { note: 'A4', dur: 1.4, vel: 0.9 },
-      { note: 'Bb4', dur: 0.8, vel: 0.85 },
-      { note: 'A4', dur: 1.0, vel: 0.8 },
-      { note: 'G4', dur: 0.6, vel: 0.7 },
-      { note: 'Fsharp4', dur: 1.2, vel: 0.75 },
-
-      { note: 'Eb4', dur: 0.8, vel: 0.7 },
-      { note: 'Fsharp4', dur: 0.8, vel: 0.75 },
-      { note: 'Eb4', dur: 0.8, vel: 0.7 },
-      { note: 'D4', dur: 2.0, vel: 0.85 },
-
-      // Ascending motif
-      { note: 'G4', dur: 0.8, vel: 0.75 },
-      { note: 'A4', dur: 0.8, vel: 0.8 },
-      { note: 'Bb4', dur: 1.0, vel: 0.85 },
-      { note: 'C5', dur: 0.6, vel: 0.9 },
-      { note: 'D5', dur: 1.8, vel: 0.95 },
-      { note: 'C5', dur: 0.8, vel: 0.8 },
-      { note: 'Bb4', dur: 0.8, vel: 0.8 },
-      { note: 'A4', dur: 1.2, vel: 0.85 },
-
-      // Resolution
-      { note: 'Fsharp4', dur: 1.0, vel: 0.8 },
-      { note: 'G4', dur: 0.6, vel: 0.75 },
-      { note: 'Eb4', dur: 1.0, vel: 0.7 },
-      { note: 'Fsharp4', dur: 0.6, vel: 0.75 },
-      { note: 'Eb4', dur: 0.8, vel: 0.7 },
-      { note: 'D4', dur: 2.5, vel: 0.9 }
-    ];
   }
 
   init() {
@@ -305,149 +319,32 @@ class MessianicAudioEngine {
     }
   }
 
-  // Plucked Harp Note Synthesis (Kinnor of David)
-  playHarpString(freq, velocity = 0.7, duration = 1.5) {
-    if (!this.ctx) return;
-    const now = this.ctx.currentTime;
-
-    // Dual oscillator with subtle detune for wooden harp string realism
-    const osc1 = this.ctx.createOscillator();
-    const osc2 = this.ctx.createOscillator();
-    const gain = this.ctx.createGain();
-    const filter = this.ctx.createBiquadFilter();
-
-    osc1.type = 'triangle';
-    osc2.type = 'sawtooth';
-
-    osc1.frequency.setValueAtTime(freq, now);
-    osc2.frequency.setValueAtTime(freq * 1.002, now); // 2 cents detune
-
-    // Bandpass filter to model wooden soundboard body
-    filter.type = 'bandpass';
-    filter.frequency.setValueAtTime(freq * 1.8, now);
-    filter.Q.setValueAtTime(2.2, now);
-
-    // Pluck attack & decay envelope
-    const peak = 0.18 * velocity;
-    gain.gain.setValueAtTime(0.0001, now);
-    gain.gain.linearRampToValueAtTime(peak, now + 0.008); // Instant pluck
-    gain.gain.exponentialRampToValueAtTime(peak * 0.35, now + 0.12);
-    gain.gain.exponentialRampToValueAtTime(0.0001, now + duration);
-
-    osc1.connect(filter);
-    osc2.connect(filter);
-    filter.connect(gain);
-    gain.connect(this.masterGain || this.ctx.destination);
-
-    osc1.start(now);
-    osc2.start(now);
-    osc1.stop(now + duration);
-    osc2.stop(now + duration);
-  }
-
-  // Solfeggio / Holy Chime SFX on UI click
   playHarpChime(freq = 528) {
     if (!this.sfxEnabled) return;
     this.init();
-    this.playHarpString(freq, 0.75, 1.2);
+    const now = this.ctx.currentTime;
+    const osc = this.ctx.createOscillator();
+    const gain = this.ctx.createGain();
+
+    osc.type = 'triangle';
+    osc.frequency.setValueAtTime(freq, now);
+
+    gain.gain.setValueAtTime(0.0001, now);
+    gain.gain.linearRampToValueAtTime(0.12, now + 0.01);
+    gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.9);
+
+    osc.connect(gain);
+    gain.connect(this.ctx.destination);
+
+    osc.start(now);
+    osc.stop(now + 0.9);
   }
 
   playSacredChord() {
     if (!this.sfxEnabled) return;
-    this.init();
-    const arpeggio = [this.scale.D4, this.scale.Fsharp4, this.scale.A4, this.scale.D5];
-    arpeggio.forEach((f, i) => {
-      setTimeout(() => this.playHarpString(f, 0.8, 1.6), i * 110);
+    [528, 639, 741].forEach((f, i) => {
+      setTimeout(() => this.playHarpChime(f), i * 110);
     });
-  }
-
-  // Continuous Messianic Hebrew Melodic Loop
-  toggleMessianicMelody() {
-    this.init();
-    if (this.isPlaying) {
-      this.stopMessianicMelody();
-      return false;
-    } else {
-      this.startMessianicMelody();
-      return true;
-    }
-  }
-
-  startMessianicMelody() {
-    if (this.isPlaying) return;
-    this.init();
-
-    const now = this.ctx.currentTime;
-    this.masterGain = this.ctx.createGain();
-    this.masterGain.gain.setValueAtTime(0.001, now);
-    this.masterGain.gain.linearRampToValueAtTime(0.75, now + 2); // Smooth fade in
-    this.masterGain.connect(this.ctx.destination);
-
-    // Warm Desert Drone in D (D2 & A2)
-    this.droneGain = this.ctx.createGain();
-    this.droneGain.gain.setValueAtTime(0.04, now);
-
-    const droneFilter = this.ctx.createBiquadFilter();
-    droneFilter.type = 'lowpass';
-    droneFilter.frequency.setValueAtTime(320, now);
-
-    const d2 = this.ctx.createOscillator();
-    const a2 = this.ctx.createOscillator();
-    d2.type = 'triangle';
-    a2.type = 'sine';
-    d2.frequency.setValueAtTime(this.scale.D2, now);
-    a2.frequency.setValueAtTime(this.scale.A2, now);
-
-    d2.connect(droneFilter);
-    a2.connect(droneFilter);
-    droneFilter.connect(this.droneGain);
-    this.droneGain.connect(this.masterGain);
-
-    d2.start(now);
-    a2.start(now);
-    this.droneOscs = [d2, a2];
-
-    this.isPlaying = true;
-    this.stepIndex = 0;
-    this.scheduleNextNote();
-  }
-
-  scheduleNextNote() {
-    if (!this.isPlaying) return;
-
-    const item = this.melodySequence[this.stepIndex];
-    const freq = this.scale[item.note] || 293.66;
-    this.playHarpString(freq, item.vel, item.dur);
-
-    // Subtle bass harp accent on key beats
-    if (this.stepIndex % 4 === 0) {
-      this.playHarpString(this.scale.D3, 0.5, 2.0);
-    }
-
-    this.stepIndex = (this.stepIndex + 1) % this.melodySequence.length;
-    const intervalMs = item.dur * 650; // Cadence timing
-
-    this.sequenceTimer = setTimeout(() => {
-      this.scheduleNextNote();
-    }, intervalMs);
-  }
-
-  stopMessianicMelody() {
-    if (!this.isPlaying) return;
-    clearTimeout(this.sequenceTimer);
-
-    if (this.masterGain) {
-      const now = this.ctx.currentTime;
-      this.masterGain.gain.linearRampToValueAtTime(0.001, now + 1.2);
-    }
-
-    setTimeout(() => {
-      this.droneOscs.forEach(o => {
-        try { o.stop(); } catch (e) {}
-      });
-      this.droneOscs = [];
-      this.isPlaying = false;
-    }, 1300);
   }
 }
 
@@ -604,7 +501,7 @@ function initStarsCanvas() {
 
 // --- 6. MAIN APPLICATION LOGIC ---
 document.addEventListener('DOMContentLoaded', () => {
-  const audio = new MessianicAudioEngine();
+  const audio = new HarpSFXEngine();
   const narrator = new VoiceNarrator();
   const tracker = new StudyTracker();
 
@@ -1002,19 +899,45 @@ ${p.insight}
     renderGrid();
   });
 
-  // Messianic Hebrew Music Button
-  ambientSoundBtn.addEventListener('click', () => {
-    const playing = audio.toggleMessianicMelody();
-    if (playing) {
-      ambientState.textContent = 'Playing 🕊️';
-      ambientSoundBtn.classList.add('active-ambient');
-      showToast('Ancient Messianic Hebrew melody playing');
-    } else {
-      ambientState.textContent = 'OFF';
-      ambientSoundBtn.classList.remove('active-ambient');
-      showToast('Messianic melody paused');
-    }
-  });
+  // Messianic Hebrew Worship Controls (Yeshua HaMashiach - Jerusalem Stream)
+  const worshipMainBtn = document.getElementById('worshipMainBtn');
+  const worshipVolumeSlider = document.getElementById('worshipVolumeSlider');
+  const playerMinimizeBtn = document.getElementById('playerMinimizeBtn');
+  const volMuteBtn = document.getElementById('volMuteBtn');
+  const messianicPlayerBar = document.getElementById('messianicPlayerBar');
+
+  if (ambientSoundBtn) ambientSoundBtn.addEventListener('click', toggleWorshipMusic);
+  if (worshipMainBtn) worshipMainBtn.addEventListener('click', toggleWorshipMusic);
+
+  if (worshipVolumeSlider) {
+    worshipVolumeSlider.addEventListener('input', (e) => {
+      worshipVolumeLevel = parseInt(e.target.value, 10);
+      if (ytWorshipPlayer && typeof ytWorshipPlayer.setVolume === 'function') {
+        ytWorshipPlayer.setVolume(worshipVolumeLevel);
+      }
+    });
+  }
+
+  if (playerMinimizeBtn && messianicPlayerBar) {
+    playerMinimizeBtn.addEventListener('click', () => {
+      messianicPlayerBar.classList.toggle('minimized');
+    });
+  }
+
+  if (volMuteBtn) {
+    let isMuted = false;
+    volMuteBtn.addEventListener('click', () => {
+      if (!ytWorshipPlayer) return;
+      isMuted = !isMuted;
+      if (isMuted) {
+        if (typeof ytWorshipPlayer.mute === 'function') ytWorshipPlayer.mute();
+        volMuteBtn.textContent = '🔇';
+      } else {
+        if (typeof ytWorshipPlayer.unMute === 'function') ytWorshipPlayer.unMute();
+        volMuteBtn.textContent = '🔊';
+      }
+    });
+  }
 
   // Sound FX Button
   soundFxBtn.addEventListener('click', () => {

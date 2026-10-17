@@ -26,10 +26,10 @@
       </div>
 
       <div class="nav-controls">
-        <!-- Messianic Music Toggle -->
-        <button id="ambientSoundBtn" class="nav-btn" title="Ancient Messianic Hebrew Melody" aria-label="Toggle Messianic Music">
-          <span class="btn-icon">🎵</span>
-          <span class="btn-text">Messianic Melody: <strong id="ambientState">OFF</strong></span>
+        <!-- Messianic Worship Music Toggle -->
+        <button id="ambientSoundBtn" class="nav-btn worship-nav-btn" title="Hebrew Worship from Jerusalem (Yeshua HaMashiach)" aria-label="Play Messianic Worship">
+          <span class="btn-icon">🕊️</span>
+          <span class="btn-text">Hebrew Worship: <strong id="ambientState">PLAY</strong></span>
         </button>
 
         <!-- Sound FX Toggle -->
@@ -342,6 +342,42 @@
       </form>
     </div>
   </div>
+
+  <!-- Floating Messianic Worship Audio Player (Yeshua HaMashiach - Jerusalem Praise) -->
+  <aside class="messianic-player-bar" id="messianicPlayerBar" aria-label="Hebrew Worship Player">
+    <!-- Hidden YouTube API container -->
+    <div id="ytPlayerContainer" class="yt-hidden-player"></div>
+
+    <div class="player-content">
+      <div class="player-left">
+        <div class="player-art-wrap">
+          <img src="https://i.ytimg.com/vi/oYsAm82I7MY/hqdefault.jpg" alt="Yeshua HaMashiach Worship" class="player-art" id="playerArt">
+          <div class="player-equalizer" id="playerEqualizer">
+            <span></span><span></span><span></span><span></span>
+          </div>
+        </div>
+        <div class="player-info">
+          <span class="player-badge">HEBREW WORSHIP • JERUSALEM</span>
+          <strong class="player-title" title="Yeshua HaMashiach – Songs of the Messiah and Eternal Light">Yeshua HaMashiach</strong>
+          <span class="player-subtitle">Jerusalem Praise Channel • Ambient Soaking</span>
+        </div>
+      </div>
+
+      <div class="player-controls-right">
+        <button class="player-toggle-btn" id="worshipMainBtn" title="Play / Pause Worship">
+          <span id="worshipBtnIcon">▶</span>
+          <span id="worshipBtnLabel">Play Worship</span>
+        </button>
+
+        <div class="volume-box">
+          <span class="vol-icon" id="volMuteBtn" title="Mute/Unmute">🔊</span>
+          <input type="range" id="worshipVolumeSlider" min="0" max="100" value="85" class="worship-slider" title="Worship Volume">
+        </div>
+
+        <button class="player-minimize-btn" id="playerMinimizeBtn" title="Minimize / Expand player">&minus;</button>
+      </div>
+    </div>
+  </aside>
 
   <!-- Toast Notification -->
   <div class="custom-toast" id="customToast">

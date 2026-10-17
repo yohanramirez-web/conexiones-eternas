@@ -514,7 +514,7 @@ body {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
   gap: 1.6rem;
-  margin-bottom: 4rem;
+  margin-bottom: 7.5rem;
 }
 
 .prophecy-card {

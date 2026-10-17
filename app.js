@@ -307,51 +307,80 @@ class HarpSFXEngine {
   constructor() {
     this.ctx = null;
     this.sfxEnabled = true;
+    this.scale = {
+      C4: 261.63,
+      D4: 293.66,
+      E4: 329.63,
+      F4: 349.23,
+      G4: 392.00,
+      A4: 440.00,
+      B4: 493.88,
+      C5: 523.25,
+      D5: 587.33,
+      E5: 659.25,
+      A5: 880.00
+    };
   }
 
   init() {
-    if (!this.ctx) {
-      const AudioContext = window.AudioContext || window.webkitAudioContext;
-      this.ctx = new AudioContext();
-    }
-    if (this.ctx.state === 'suspended') {
-      this.ctx.resume();
-    }
+    try {
+      if (!this.ctx) {
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        if (AudioContext) {
+          this.ctx = new AudioContext();
+        }
+      }
+      if (this.ctx && this.ctx.state === 'suspended') {
+        this.ctx.resume().catch(() => {});
+      }
+    } catch (_) {}
   }
 
   playHarpChime(freq = 528) {
     if (!this.sfxEnabled) return;
-    this.init();
-    const now = this.ctx.currentTime;
-    const osc = this.ctx.createOscillator();
-    const gain = this.ctx.createGain();
+    try {
+      this.init();
+      if (!this.ctx) return;
+      const targetFreq = (typeof freq === 'number' && !isNaN(freq)) ? freq : (this.scale?.D4 || 528);
+      const now = this.ctx.currentTime;
+      const osc = this.ctx.createOscillator();
+      const gain = this.ctx.createGain();
 
-    osc.type = 'triangle';
-    osc.frequency.setValueAtTime(freq, now);
+      osc.type = 'triangle';
+      osc.frequency.setValueAtTime(targetFreq, now);
 
-    gain.gain.setValueAtTime(0.0001, now);
-    gain.gain.linearRampToValueAtTime(0.12, now + 0.01);
-    gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.9);
+      gain.gain.setValueAtTime(0.0001, now);
+      gain.gain.linearRampToValueAtTime(0.12, now + 0.01);
+      gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.9);
 
-    osc.connect(gain);
-    gain.connect(this.ctx.destination);
+      osc.connect(gain);
+      gain.connect(this.ctx.destination);
 
-    osc.start(now);
-    osc.stop(now + 0.9);
+      osc.start(now);
+      osc.stop(now + 0.9);
+    } catch (_) {
+      // Audio autoplay policy or device restrictions must never break UI
+    }
   }
 
   playSacredChord() {
     if (!this.sfxEnabled) return;
-    [528, 639, 741].forEach((f, i) => {
-      setTimeout(() => this.playHarpChime(f), i * 110);
-    });
+    try {
+      [528, 639, 741].forEach((f, i) => {
+        setTimeout(() => this.playHarpChime(f), i * 110);
+      });
+    } catch (_) {}
   }
 }
 
 // --- 3. SCRIPTURE NARRATION VOICE (ENGLISH WEB SPEECH API) ---
 class VoiceNarrator {
   constructor() {
-    this.synth = window.speechSynthesis;
+    try {
+      this.synth = window.speechSynthesis || null;
+    } catch (_) {
+      this.synth = null;
+    }
     this.currentUtterance = null;
     this.isPlaying = false;
     this.isPaused = false;
@@ -360,67 +389,79 @@ class VoiceNarrator {
 
   speak(text) {
     if (!this.synth) return;
-    this.stop();
+    try {
+      this.stop();
 
-    this.currentUtterance = new SpeechSynthesisUtterance(text);
-    this.currentUtterance.lang = 'en-US';
-    this.currentUtterance.rate = 0.93; // Reverent, solemn pace
-    this.currentUtterance.pitch = 0.98;
+      this.currentUtterance = new SpeechSynthesisUtterance(text);
+      this.currentUtterance.lang = 'en-US';
+      this.currentUtterance.rate = 0.93; // Reverent, solemn pace
+      this.currentUtterance.pitch = 0.98;
 
-    // Pick a high-quality natural English voice
-    const voices = this.synth.getVoices();
-    const englishVoice = voices.find(v => v.lang.startsWith('en') && (
-      v.name.includes('Natural') || 
-      v.name.includes('Google') || 
-      v.name.includes('Daniel') || 
-      v.name.includes('Samantha') || 
-      v.name.includes('Serena') || 
-      v.name.includes('Oliver')
-    ));
-    if (englishVoice) {
-      this.currentUtterance.voice = englishVoice;
+      // Pick a high-quality natural English voice
+      const voices = (typeof this.synth.getVoices === 'function') ? this.synth.getVoices() : [];
+      const englishVoice = voices.find(v => v.lang && v.lang.startsWith('en') && (
+        v.name.includes('Natural') || 
+        v.name.includes('Google') || 
+        v.name.includes('Daniel') || 
+        v.name.includes('Samantha') || 
+        v.name.includes('Serena') || 
+        v.name.includes('Oliver')
+      ));
+      if (englishVoice) {
+        this.currentUtterance.voice = englishVoice;
+      }
+
+      this.currentUtterance.onstart = () => {
+        this.isPlaying = true;
+        this.isPaused = false;
+        if (this.onStateChange) this.onStateChange('playing');
+      };
+
+      this.currentUtterance.onend = () => {
+        this.isPlaying = false;
+        this.isPaused = false;
+        if (this.onStateChange) this.onStateChange('stopped');
+      };
+
+      this.currentUtterance.onerror = () => {
+        this.isPlaying = false;
+        this.isPaused = false;
+        if (this.onStateChange) this.onStateChange('stopped');
+      };
+
+      this.synth.speak(this.currentUtterance);
+    } catch (_) {
+      this.isPlaying = false;
+      this.isPaused = false;
+      if (this.onStateChange) this.onStateChange('stopped');
     }
-
-    this.currentUtterance.onstart = () => {
-      this.isPlaying = true;
-      this.isPaused = false;
-      if (this.onStateChange) this.onStateChange('playing');
-    };
-
-    this.currentUtterance.onend = () => {
-      this.isPlaying = false;
-      this.isPaused = false;
-      if (this.onStateChange) this.onStateChange('stopped');
-    };
-
-    this.currentUtterance.onerror = () => {
-      this.isPlaying = false;
-      this.isPaused = false;
-      if (this.onStateChange) this.onStateChange('stopped');
-    };
-
-    this.synth.speak(this.currentUtterance);
   }
 
   pause() {
     if (this.synth && this.isPlaying) {
-      this.synth.pause();
-      this.isPaused = true;
-      if (this.onStateChange) this.onStateChange('paused');
+      try {
+        this.synth.pause();
+        this.isPaused = true;
+        if (this.onStateChange) this.onStateChange('paused');
+      } catch (_) {}
     }
   }
 
   resume() {
     if (this.synth && this.isPaused) {
-      this.synth.resume();
-      this.isPaused = false;
-      if (this.onStateChange) this.onStateChange('playing');
+      try {
+        this.synth.resume();
+        this.isPaused = false;
+        if (this.onStateChange) this.onStateChange('playing');
+      } catch (_) {}
     }
   }
 
   stop() {
     if (this.synth) {
-      this.synth.cancel();
+      try {
+        this.synth.cancel();
+      } catch (_) {}
       this.isPlaying = false;
       this.isPaused = false;
       if (this.onStateChange) this.onStateChange('stopped');
@@ -664,15 +705,23 @@ document.addEventListener('DOMContentLoaded', () => {
         </div>
       `;
 
-      card.addEventListener('click', () => {
-        audio.playHarpChime(audio.scale.D4);
+      card.dataset.id = item.id;
+      card.setAttribute('role', 'button');
+      card.setAttribute('aria-label', `${item.title}: ${item.otBook} fulfilled in ${item.ntBook}`);
+
+      card.addEventListener('click', (e) => {
+        try {
+          audio.playHarpChime(audio.scale.D4);
+        } catch (_) {}
         openDetailModal(item.id);
       });
 
       card.addEventListener('keydown', (e) => {
         if (e.key === 'Enter' || e.key === ' ') {
           e.preventDefault();
-          audio.playHarpChime(audio.scale.D4);
+          try {
+            audio.playHarpChime(audio.scale.D4);
+          } catch (_) {}
           openDetailModal(item.id);
         }
       });
@@ -732,8 +781,8 @@ document.addEventListener('DOMContentLoaded', () => {
   // Navigate next / previous inside modal
   function navigateModal(direction) {
     if (displayList.length === 0) return;
-    narrator.stop();
-    audio.playHarpChime(audio.scale.A4);
+    try { narrator.stop(); } catch (_) {}
+    try { audio.playHarpChime(audio.scale.A4); } catch (_) {}
 
     if (direction === 'next') {
       activeIndex = (activeIndex + 1) % displayList.length;
@@ -790,7 +839,7 @@ document.addEventListener('DOMContentLoaded', () => {
     renderGrid();
 
     if (nowStudied) {
-      audio.playSacredChord();
+      try { audio.playSacredChord(); } catch (_) {}
       showToast('Prophecy marked as studied! Progress updated.');
     } else {
       showToast('Prophecy unmarked from your study record.');
@@ -818,7 +867,7 @@ ${p.insight}
 “For prophecy never came by the will of man, but holy men of God spoke as they were moved by the Holy Spirit.” (2 Peter 1:21)`;
 
     navigator.clipboard.writeText(devotional).then(() => {
-      audio.playHarpChime(audio.scale.D5);
+      try { audio.playHarpChime(audio.scale.D5); } catch (_) {}
       showToast('Full devotional copied to clipboard!');
     }).catch(() => {
       showToast('Unable to copy automatically.');
@@ -833,9 +882,19 @@ ${p.insight}
     if (e.target === detailModal) closeDetailModal();
   });
 
+  // Grid Event Delegation (Fallback ensuring cards always open on click)
+  propheciesGrid.addEventListener('click', (e) => {
+    const card = e.target.closest('.prophecy-card');
+    if (!card) return;
+    const id = parseInt(card.dataset.id, 10);
+    if (!isNaN(id)) {
+      openDetailModal(id);
+    }
+  });
+
   // Texas Probability Modal
   statCardProb.addEventListener('click', () => {
-    audio.playHarpChime(audio.scale.A4);
+    try { audio.playHarpChime(audio.scale.A4); } catch (_) {}
     probModal.classList.add('open');
     document.body.style.overflow = 'hidden';
   });
@@ -846,7 +905,7 @@ ${p.insight}
   });
 
   probUnderstoodBtn.addEventListener('click', () => {
-    audio.playHarpChime(audio.scale.D5);
+    try { audio.playHarpChime(audio.scale.D5); } catch (_) {}
     probModal.classList.remove('open');
     document.body.style.overflow = 'auto';
   });
@@ -874,7 +933,7 @@ ${p.insight}
     categoryContainer.querySelectorAll('.pill-btn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
     activeCategory = btn.dataset.cat;
-    audio.playHarpChime(audio.scale.G4);
+    try { audio.playHarpChime(audio.scale.G4); } catch (_) {}
     renderGrid();
   });
 
@@ -895,7 +954,7 @@ ${p.insight}
   // Sort
   sortOrderSelect.addEventListener('change', (e) => {
     sortOrder = e.target.value;
-    audio.playHarpChime(audio.scale.D4);
+    try { audio.playHarpChime(audio.scale.D4); } catch (_) {}
     renderGrid();
   });
 
@@ -945,7 +1004,7 @@ ${p.insight}
     if (audio.sfxEnabled) {
       sfxState.textContent = 'ON';
       soundFxBtn.classList.add('active-fx');
-      audio.playHarpChime(audio.scale.D4);
+      try { audio.playHarpChime(audio.scale.D4); } catch (_) {}
       showToast('Sound effects enabled');
     } else {
       sfxState.textContent = 'OFF';
@@ -962,7 +1021,7 @@ ${p.insight}
     currentTheme = currentTheme === 'dark' ? 'parchment' : 'dark';
     applyTheme(currentTheme);
     localStorage.setItem('conexiones_theme', currentTheme);
-    audio.playHarpChime(audio.scale.A4);
+    try { audio.playHarpChime(audio.scale.A4); } catch (_) {}
   });
 
   function applyTheme(theme) {
@@ -1003,7 +1062,7 @@ ${p.insight}
   ];
 
   function openAiModal() {
-    audio.playHarpChime(audio.scale.D4);
+    try { audio.playHarpChime(audio.scale.D4); } catch (_) {}
     aiModal.classList.add('open');
     document.body.style.overflow = 'hidden';
     setTimeout(() => aiUserInput.focus(), 200);
@@ -1118,7 +1177,7 @@ ${p.insight}
       
       aiConversationHistory.push({ role: 'assistant', content: assistantReply });
       appendAiMessage('assistant', assistantReply);
-      audio.playHarpChime(audio.scale.D5);
+      try { audio.playHarpChime(audio.scale.D5); } catch (_) {}
 
     } catch (err) {
       removeTypingIndicator();

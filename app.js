@@ -1041,11 +1041,17 @@ ${p.insight}
            window.APP_CONFIG?.OPENROUTER_API_KEY || 
            "";
   }
-  const OPENROUTER_MODEL = "google/gemini-2.0-flash-001";
+  const OPENROUTER_PRIMARY_MODEL = "google/gemini-2.5-flash";
+  const OPENROUTER_FALLBACK_MODELS = [
+    "google/gemini-2.5-flash",
+    "google/gemini-2.5-flash-lite",
+    "google/gemini-3.5-flash"
+  ];
 
   const aiChatToggleBtn = document.getElementById('aiChatToggleBtn');
   const aiModal = document.getElementById('aiModal');
   const aiModalClose = document.getElementById('aiModalClose');
+  const aiKeyConfigBtn = document.getElementById('aiKeyConfigBtn');
   const aiChatMessages = document.getElementById('aiChatMessages');
   const aiSuggestionsTray = document.getElementById('aiSuggestionsTray');
   const aiInputForm = document.getElementById('aiInputForm');
@@ -1133,11 +1139,11 @@ ${p.insight}
 
     const apiKey = getOpenRouterKey();
     if (!apiKey) {
-      const promptKey = prompt("To consult the AI Biblical Scholar, please enter your OpenRouter API Key:");
+      const promptKey = prompt("To consult the AI Biblical Scholar, please enter your OpenRouter API Key (starts with sk-or-v1-...):");
       if (promptKey && promptKey.trim()) {
         localStorage.setItem('conexiones_openrouter_key', promptKey.trim());
       } else {
-        appendAiMessage('assistant', "⚠️ An OpenRouter API key is required to enable live theological research.");
+        appendAiMessage('assistant', "⚠️ An OpenRouter API key is required to enable live theological research. Click the '🔑 Key' button above to configure your key.");
         return;
       }
     }
@@ -1158,7 +1164,8 @@ ${p.insight}
           'X-Title': 'Eternal Connections'
         },
         body: JSON.stringify({
-          model: OPENROUTER_MODEL,
+          model: OPENROUTER_PRIMARY_MODEL,
+          models: OPENROUTER_FALLBACK_MODELS,
           messages: aiConversationHistory,
           temperature: 0.7,
           max_tokens: 1000
@@ -1169,7 +1176,8 @@ ${p.insight}
 
       if (!response.ok) {
         const errData = await response.json().catch(() => ({}));
-        throw new Error(errData.error?.message || `OpenRouter server error (${response.status})`);
+        const detailedMsg = errData.error?.message || `OpenRouter server error (${response.status})`;
+        throw new Error(detailedMsg);
       }
 
       const data = await response.json();
@@ -1181,7 +1189,13 @@ ${p.insight}
 
     } catch (err) {
       removeTypingIndicator();
-      appendAiMessage('assistant', `⚠️ *Apologies, an issue occurred while querying OpenRouter:* ${err.message}. Please verify your network connection.`);
+      let errorMsg = `⚠️ **Apologies, an issue occurred while querying OpenRouter:** ${err.message}.`;
+      if (err.message.includes('credits') || err.message.includes('402')) {
+        errorMsg += `\n\n*Note:* Your OpenRouter balance may require replenishment. You can check your account at https://openrouter.ai/settings/credits.`;
+      } else if (err.message.includes('401') || err.message.includes('key')) {
+        errorMsg += `\n\n*Note:* Please click the **🔑 Key** button at the top to re-enter your OpenRouter API key.`;
+      }
+      appendAiMessage('assistant', errorMsg);
     }
   }
 
@@ -1191,6 +1205,18 @@ ${p.insight}
   aiModal.addEventListener('click', (e) => {
     if (e.target === aiModal) closeAiModal();
   });
+
+  if (aiKeyConfigBtn) {
+    aiKeyConfigBtn.addEventListener('click', () => {
+      const current = getOpenRouterKey();
+      const masked = current ? `${current.substring(0, 10)}...${current.substring(current.length - 4)}` : 'None';
+      const newKey = prompt(`Current OpenRouter API Key: ${masked}\n\nEnter new key (or leave blank to keep current):`, current);
+      if (newKey !== null && newKey.trim() !== '') {
+        localStorage.setItem('conexiones_openrouter_key', newKey.trim());
+        showToast('OpenRouter API key updated successfully!');
+      }
+    });
+  }
 
   aiInputForm.addEventListener('submit', (e) => {
     e.preventDefault();

@@ -1406,6 +1406,26 @@ body {
   letter-spacing: 0.5px;
 }
 
+.ai-key-btn {
+  margin-left: 0.75rem;
+  background: rgba(230, 184, 92, 0.12);
+  border: 1px solid var(--gold-border);
+  color: var(--gold-light);
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 0.2rem 0.65rem;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: inherit;
+}
+
+.ai-key-btn:hover {
+  background: var(--gold-primary);
+  color: #0c121e;
+  border-color: var(--gold-primary);
+}
+
 .ai-title {
   font-family: 'Cinzel', serif;
   font-size: 1.35rem;

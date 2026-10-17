@@ -1,44 +1,44 @@
-# ✝ Conexiones Eternas
+# ✝ Eternal Connections
 
-> **El hilo mesiánico que une el Antiguo y el Nuevo Testamento a través de los siglos.**
+> **The golden thread weaving the Old and New Testaments across millennia.**
 
-Una aplicación web interactiva y audiovisual para el estudio y profundización de las profecías mesiánicas del Antiguo Testamento y su cumplimiento exacto en Jesucristo.
-
----
-
-## 🌟 Características Principales
-
-- **🕊️ Consultor Teológico con IA:** Asistente bíblico integrado (impulsado por OpenRouter) para responder preguntas sobre el contexto histórico, raíces en hebreo/griego y conexiones proféticas.
-- **📜 Vista Paralela de las Escrituras:** Comparación simultánea entre la profecía (Antiguo Testamento) y su cumplimiento (Nuevo Testamento).
-- **⏳ Cronología y Brecha Temporal:** Indicadores del tiempo transcurrido (de 400 a más de 1,500 años antes de Cristo).
-- **🎵 Música Sagrada Ambiental & Sonidos:** Motor de audio sintético (Web Audio API) con acordes meditativos continuos y efectos celestiales en 528 Hz.
-- **🎙️ Narración por Voz:** Lectura solemne en audio de las profecías y meditaciones (Web Speech API).
-- **🎨 Dos Diseños Inmersivos:** Modo Celestial (nocturno) y Modo Pergamino Sagrado (antiguo manuscrito iluminado).
-- **🎲 Evidencia Apologética:** Ilustración interactiva de la probabilidad matemática del Dr. Peter Stoner (1 en $10^{17}$) y los Manuscritos del Mar Muerto (Qumrán).
-- **📖 Seguimiento de Estudio:** Registro persistente de profecías meditadas con barra de progreso.
+An interactive, audiovisual web application designed for deep study, reflection, and exploration of Old Testament Messianic prophecies and their exact fulfillment in Jesus Christ.
 
 ---
 
-## 🚀 Despliegue en la Nube
+## 🌟 Key Features
 
-- **Sitio Web Oficial en Vercel:** [https://conexiones-eternas.vercel.app](https://conexiones-eternas.vercel.app)
-- **Repositorio en GitHub:** [https://github.com/yohanramirez-web/conexiones-eternas](https://github.com/yohanramirez-web/conexiones-eternas)
+- **🕊️ AI Biblical Theological Scholar:** Integrated study consultant powered by OpenRouter to answer in-depth questions about historical context, original Hebrew and Greek roots, and Messianic connections.
+- **🎵 Ancient Messianic Hebrew Melody:** Authentic synthesized Davidic Harp (Kinnor) arpeggiator playing in the ancient *Ahava Rabbah* (D Phrygian Dominant / Freygish Hebrew minor scale) over a warm ambient desert drone.
+- **📜 Side-by-Side Scripture Parallel View:** Direct comparison between the ancient Old Testament prophecy and its New Testament fulfillment.
+- **⏳ Timeline & Historical Gap:** Chronological context showing hundreds to thousands of years elapsed before fulfillment.
+- **🎙️ Scripture Audio Narration:** Solemn English audio narration for all prophecies, scriptures, and theological reflections (Web Speech API).
+- **🎨 Dual Sacred Visual Themes:** Celestial Night Mode (starlight & gold) and Sacred Parchment Mode (ancient illuminated manuscript).
+- **🎲 Apologetics & Probability:** Interactive presentation of Dr. Peter Stoner’s 1 in $10^{17}$ mathematical probability experiment (Texas Silver Dollars) and the archaeological significance of the Dead Sea Scrolls (Qumran).
+- **📖 Study Progress Tracker:** Personal meditation tracker saved automatically in local storage.
 
 ---
 
-## 💻 Ejecución Local
+## 🚀 Live Cloud Deployment
 
-No requiere frameworks ni compiladores complejos. Abre directamente en cualquier navegador moderno:
+- **Official Web Application on Vercel:** [https://conexiones-eternas.vercel.app](https://conexiones-eternas.vercel.app)
+- **GitHub Repository:** [https://github.com/yohanramirez-web/conexiones-eternas](https://github.com/yohanramirez-web/conexiones-eternas)
+
+---
+
+## 💻 Local Quickstart
+
+No complex build tools or frameworks required. Runs directly in any modern web browser:
 
 ```bash
-# Clonar el repositorio
+# Clone the repository
 git clone https://github.com/yohanramirez-web/conexiones-eternas.git
 cd conexiones-eternas
 
-# Abrir en el navegador
+# Open in default browser
 open index.html
 ```
 
 ---
 
-> *«Porque la profecía no fue en los tiempos pasados traída por voluntad humana, sino que los santos hombres de Dios hablaron siendo inspirados por el Espíritu Santo.»* — **2 Pedro 1:21**
+> *“For prophecy never came by the will of man, but holy men of God spoke as they were moved by the Holy Spirit.”* — **2 Peter 1:21**

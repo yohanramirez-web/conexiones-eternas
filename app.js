@@ -1,231 +1,298 @@
 /**
  * ============================================================================
- * CONEXIONES ETERNAS - NÚCLEO INTERACTIVO Y MOTOR DE AUDIO SAGRADO
+ * ETERNAL CONNECTIONS - CORE ENGINE & MESSIANIC HEBREW AUDIO SUITE
  * ============================================================================
  */
 
-// --- 1. BANCO DE DATOS: 14 CONEXIONES MESIÁNICAS FUNDAMENTALES ---
+// --- 1. DATA: 14 ESSENTIAL MESSIANIC PROPHECIES & FULFILLMENTS ---
 const propheciesData = [
   {
     id: 1,
-    title: "El Lugar Exacto del Nacimiento: Belén Efrata",
+    title: "The Exact Birthplace: Bethlehem Ephrathah",
     category: "nacimiento",
-    categoryName: "Nacimiento y Linaje",
-    gapYears: "700 años antes de Cristo",
+    categoryName: "Birth & Royal Lineage",
+    gapYears: "700 years before Christ",
     antiquityYear: 700,
-    otBook: "Miqueas 5:2",
-    otDate: "~700 a.C.",
-    otText: "«Pero tú, Belén Efrata, pequeña para estar entre las familias de Judá, de ti me saldrá el que será Señor en Israel; y sus salidas son desde el principio, desde los días de la eternidad.»",
-    ntBook: "Mateo 2:1 & Lucas 2:4-6",
-    ntDate: "~4 a.C. - 1 d.C.",
-    ntText: "«Cuando Jesús nació en Belén de Judea en días del rey Herodes, vinieron del oriente a Jerusalén unos magos... Y José subió de Galilea... a Judea, a la ciudad de David, que se llama Belén... y se cumplieron los días de su alumbramiento.»",
-    insight: "Miqueas especificó el nombre antiguo 'Belén Efrata' para no confundirla con otra Belén en el norte de Israel. Jesús no nació allí por plan humano: un decreto imperial de César Augusto obligó a María y José a viajar a esa aldea justo en los días del parto. Ningún hombre elige el pueblo donde va a nacer."
+    otBook: "Micah 5:2",
+    otDate: "~700 BC",
+    otText: "“But you, Bethlehem Ephrathah, though you are little among the thousands of Judah, yet out of you shall come forth to Me the One to be Ruler in Israel, whose goings forth are from of old, from everlasting.”",
+    ntBook: "Matthew 2:1 & Luke 2:4-6",
+    ntDate: "~4 BC - 1 AD",
+    ntText: "“Now after Jesus was born in Bethlehem of Judea in the days of Herod the king, behold, wise men from the East came to Jerusalem... And Joseph also went up from Galilee... to the city of David, which is called Bethlehem... and while they were there, the days were completed for her to be delivered.”",
+    insight: "Micah specifically named 'Bethlehem Ephrathah' to distinguish it from another town named Bethlehem in the northern tribal region of Zebulun. Jesus was not born in Bethlehem by human planning: an imperial decree from Caesar Augustus required Joseph and Mary to travel there at the exact moment of her labor. No human can choose before being born the exact village of their arrival into the world."
   },
   {
     id: 2,
-    title: "La Señal Milagrosa: La Virgen y Emanuel",
+    title: "The Miraculous Sign: The Virgin & Immanuel",
     category: "nacimiento",
-    categoryName: "Nacimiento y Linaje",
-    gapYears: "735 años antes de Cristo",
+    categoryName: "Birth & Royal Lineage",
+    gapYears: "735 years before Christ",
     antiquityYear: 735,
-    otBook: "Isaías 7:14",
-    otDate: "~735 a.C.",
-    otText: "«Por tanto, el Señor mismo os dará señal: He aquí que la virgen concebirá, y dará a luz un hijo, y llamará su nombre Emanuel.»",
-    ntBook: "Mateo 1:22-23 & Lucas 1:34-35",
-    ntDate: "~1 d.C.",
-    ntText: "«Todo esto aconteció para que se cumpliese lo dicho por el Señor por medio del profeta: He aquí, una virgen concebirá y dará a luz un hijo, y llamarás su nombre Emanuel, que traducido es: Dios con nosotros.»",
-    insight: "El término hebreo 'Almah' señaló un milagro sin precedentes en la dinastía de David. Cristo no heredó la naturaleza caída de Adán por simiente humana, cumpliendo también Génesis 3:15 sobre 'la simiente de la mujer'."
+    otBook: "Isaiah 7:14",
+    otDate: "~735 BC",
+    otText: "“Therefore the Lord Himself will give you a sign: Behold, the virgin shall conceive and bear a Son, and shall call His name Immanuel.”",
+    ntBook: "Matthew 1:22-23 & Luke 1:34-35",
+    ntDate: "~1 AD",
+    ntText: "“So all this was done that it might be fulfilled which was spoken by the Lord through the prophet, saying: ‘Behold, the virgin shall be with child, and bear a Son, and they shall call His name Immanuel,’ which is translated, ‘God with us.’”",
+    insight: "The Hebrew word 'Almah' signified an extraordinary miracle for the royal house of David. Christ did not inherit the fallen sinful nature of Adam through human seed, fulfilling also Genesis 3:15 regarding 'the seed of the woman' who would crush the serpent's head."
   },
   {
     id: 3,
-    title: "El Linaje Real Prometido: De Abraham y David",
+    title: "The Promised Royal Lineage: Seed of Abraham & David",
     category: "nacimiento",
-    categoryName: "Nacimiento y Linaje",
-    gapYears: "1,000 a 2,000 años",
+    categoryName: "Birth & Royal Lineage",
+    gapYears: "1,000 to 2,000 years",
     antiquityYear: 2000,
-    otBook: "Génesis 12:3 & 2 Samuel 7:12-13",
-    otDate: "~2000 a.C. y ~1000 a.C.",
-    otText: "«En ti serán benditas todas las familias de la tierra.» / «Yo levantaré después de ti a uno de tu linaje... y afirmaré para siempre el trono de su reino.»",
-    ntBook: "Mateo 1:1 & Lucas 1:32-33",
-    ntDate: "~1 d.C.",
-    ntText: "«Libro de la genealogía de Jesucristo, hijo de David, hijo de Abraham... Éste será grande, y será llamado Hijo del Altísimo; y el Señor Dios le dará el trono de David su padre; y su reino no tendrá fin.»",
-    insight: "El linaje mesiánico se fue estrechando progresivamente a lo largo de 20 siglos. En el año 70 d.C., los romanos destruyeron el Templo de Jerusalén quemando todos los archivos genealógicos de Israel. Nadie después de Jesús podría jamás demostrar descender de David."
+    otBook: "Genesis 12:3 & 2 Samuel 7:12-13",
+    otDate: "~2000 BC & ~1000 BC",
+    otText: "“In you all the families of the earth shall be blessed.” / “When your days are fulfilled... I will set up your seed after you... and I will establish the throne of his kingdom forever.”",
+    ntBook: "Matthew 1:1 & Luke 1:32-33",
+    ntDate: "~1 AD",
+    ntText: "“The book of the genealogy of Jesus Christ, the Son of David, the Son of Abraham... He will be great, and will be called the Son of the Highest; and the Lord God will give Him the throne of His father David. And He will reign over the house of Jacob forever, and of His kingdom there will be no end.”",
+    insight: "The Messianic genealogy narrowed progressively across 20 centuries: from all humanity → to Abraham → to the tribe of Judah → to the royal lineage of David. In 70 AD, the Roman army burned the Temple in Jerusalem along with all Jewish public genealogical archives; no one after Jesus could ever prove descent from King David."
   },
   {
     id: 4,
-    title: "El Niño Nacido: Dios Fuerte y Príncipe de Paz",
+    title: "The Child Born: Mighty God & Prince of Peace",
     category: "nacimiento",
-    categoryName: "Nacimiento y Linaje",
-    gapYears: "720 años antes de Cristo",
+    categoryName: "Birth & Royal Lineage",
+    gapYears: "720 years before Christ",
     antiquityYear: 720,
-    otBook: "Isaías 9:6-7",
-    otDate: "~720 a.C.",
-    otText: "«Porque un niño nos es nacido, hijo nos es dado, y el principado sobre su hombro; y se llamará su nombre Admirable, Consejero, Dios Fuerte, Padre Eterno, Príncipe de Paz. Lo dilatado de su imperio y la paz no tendrán límite...»",
-    ntBook: "Lucas 2:11 & Juan 1:1,14",
-    ntDate: "~1 - 30 d.C.",
-    ntText: "«Que os ha nacido hoy, en la ciudad de David, un Salvador, que es CRISTO el Señor... Y aquel Verbo fue hecho carne, y habitó entre nosotros (y vimos su gloria, gloria como del unigénito del Padre), lleno de gracia y de verdad.»",
-    insight: "Una de las declaraciones más asombrosas del Antiguo Testamento: un ser que nacería como 'niño' humano sería al mismo tiempo llamado 'Dios Fuerte' y 'Padre Eterno'. La encarnación de la Deidad en carne humana profetizada siete siglos antes."
+    otBook: "Isaiah 9:6-7",
+    otDate: "~720 BC",
+    otText: "“For unto us a Child is born, unto us a Son is given; and the government will be upon His shoulder. And His name will be called Wonderful, Counselor, Mighty God, Everlasting Father, Prince of Peace. Of the increase of His government and peace there will be no end...”",
+    ntBook: "Luke 2:11 & John 1:1,14",
+    ntDate: "~1 - 30 AD",
+    ntText: "“For there is born to you this day in the city of David a Savior, who is Christ the Lord... And the Word became flesh and dwelt among us, and we beheld His glory, the glory as of the only begotten of the Father, full of grace and truth.”",
+    insight: "One of the most awe-inspiring declarations in the Old Testament: an entity born as a human 'Child' would simultaneously be called 'Mighty God' (El Gibbor) and 'Everlasting Father'. The full incarnation of Deity into human history prophesied more than seven centuries in advance."
   },
   {
     id: 5,
-    title: "Entrada Triunfal: El Rey Justo sobre un Pollino",
+    title: "Triumphal Entry: The Humble King on a Colt",
     category: "ministerio",
-    categoryName: "Ministerio y Vida",
-    gapYears: "520 años antes de Cristo",
+    categoryName: "Ministry & Life",
+    gapYears: "520 years before Christ",
     antiquityYear: 520,
-    otBook: "Zacarías 9:9",
-    otDate: "~520 a.C.",
-    otText: "«Alégrate mucho, hija de Sion; da voces de júbilo, hija de Jerusalén; he aquí tu rey vendrá a ti, justo y salvador, humilde, y cabalgando sobre un asno, sobre un pollino hijo de asna.»",
-    ntBook: "Mateo 21:4-9 & Juan 12:14-15",
-    ntDate: "~33 d.C.",
-    ntText: "«Todo esto aconteció para que se cumpliese lo dicho por el profeta... He aquí, tu Rey viene a ti, manso, y sentado sobre una asna, sobre un pollino... Y las multitudes clamaban: ¡Hosanna al Hijo de David! ¡Bendito el que viene en el nombre del Señor!»",
-    insight: "Mientras los conquistadores de la época entraban sobre caballos de guerra y carruajes dorados sembrando terror, Jesús entró en Jerusalén como Rey de Paz en un humilde pollino, exactamente como Zacarías había escrito."
+    otBook: "Zechariah 9:9",
+    otDate: "~520 BC",
+    otText: "“Rejoice greatly, O daughter of Zion! Shout, O daughter of Jerusalem! Behold, your King is coming to you; He is just and having salvation, lowly and riding on a donkey, a colt, the foal of a donkey.”",
+    ntBook: "Matthew 21:4-9 & John 12:14-15",
+    ntDate: "~33 AD",
+    ntText: "“All this was done that it might be fulfilled which was spoken by the prophet, saying: ‘Tell the daughter of Zion, Behold, your King is coming to you, lowly, and sitting on a donkey, a colt, the foal of a donkey.’... And the multitudes cried out: ‘Hosanna to the Son of David! Blessed is He who comes in the name of the Lord!’”",
+    insight: "While worldly conquerors of antiquity rode into conquered capitals atop war stallions and golden chariots, Jesus entered the Holy City of Jerusalem as the King of Peace on a humble donkey's colt, exactly as Zechariah had foreseen half a millennium earlier."
   },
   {
     id: 6,
-    title: "Traición por un Íntimo y Amigo Cercano",
+    title: "Betrayal by a Close and Trusted Friend",
     category: "ministerio",
-    categoryName: "Ministerio y Vida",
-    gapYears: "1,000 años antes de Cristo",
+    categoryName: "Ministry & Life",
+    gapYears: "1,000 years before Christ",
     antiquityYear: 1000,
-    otBook: "Salmo 41:9",
-    otDate: "~1000 a.C.",
-    otText: "«Aun el hombre de mi paz, en quien yo confiaba, el que de mi pan comía, alzó contra mí el calcañar.»",
-    ntBook: "Juan 13:18,21 & Mateo 26:21-25",
-    ntDate: "~33 d.C.",
-    ntText: "«No hablo de todos vosotros; yo sé a quiénes he elegido; mas para que se cumpla la Escritura: El que come pan conmigo, alzó contra mí su calcañar... De cierto os digo, que uno de vosotros me va a entregar.»",
-    insight: "Jesús mismo citó este Salmo durante la Última Cena. No fue entregado por un enemigo visible de Roma o el Sanedrín, sino por uno de sus doce apóstoles que comía de su mismo plato."
+    otBook: "Psalm 41:9",
+    otDate: "~1000 BC",
+    otText: "“Even my own familiar friend in whom I trusted, who ate my bread, has lifted up his heel against me.”",
+    ntBook: "John 13:18,21 & Matthew 26:21-25",
+    ntDate: "~33 AD",
+    ntText: "“I do not speak concerning all of you. I know whom I have chosen; but that the Scripture may be fulfilled: ‘He who eats bread with Me has lifted up his heel against Me.’... Most assuredly, I say to you, one of you will betray Me.”",
+    insight: "Jesus directly cited this Psalm at the Last Supper. The Messiah was not captured through open battle with Roman legions or temple guards, but betrayed by one of His closest disciples who dipped bread into the same dish with Him."
   },
   {
     id: 7,
-    title: "El Precio de la Traición: 30 Monedas y el Alfarero",
+    title: "The Price of Betrayal: 30 Pieces of Silver & The Potter",
     category: "pasion",
-    categoryName: "Pasión y Sacrificio",
-    gapYears: "520 años antes de Cristo",
+    categoryName: "Passion & Sacrifice",
+    gapYears: "520 years before Christ",
     antiquityYear: 520,
-    otBook: "Zacarías 11:12-13",
-    otDate: "~520 a.C.",
-    otText: "«Y pesaron por mi salario treinta piezas de plata. Y me dijo Jehová: Échalo al tesoro; ¡hermoso precio con que me han apreciado! Y tomé las treinta piezas de plata, y las eché en la casa de Jehová al alfarero.»",
-    ntBook: "Mateo 26:15 & 27:3-7",
-    ntDate: "~33 d.C.",
-    ntText: "«Y ellos le asignaron treinta piezas de plata... Y Judas, arrojando las piezas de plata en el templo, salió y se ahorcó. Los principales sacerdotes dijeron: No es lícito echarlas en el tesoro... y compraron con ellas el campo del alfarero.»",
-    insight: "Tres detalles precisos imposibles de coordinar humanamente: 1) La suma exacta (30 monedas de plata), 2) Que el dinero sería lanzado dentro del Templo, y 3) Que terminaría comprando el terreno de un alfarero."
+    otBook: "Zechariah 11:12-13",
+    otDate: "~520 BC",
+    otText: "“Then I said to them, ‘If it is agreeable to you, give me my wages; and if not, refrain.’ So they weighed out for my wages thirty pieces of silver. And the Lord said to me, ‘Throw it to the potter’—that princely price they set on me. So I took the thirty pieces of silver and threw them into the house of the Lord for the potter.”",
+    ntBook: "Matthew 26:15 & 27:3-7",
+    ntDate: "~33 AD",
+    ntText: "“And they counted out to him thirty pieces of silver... Then Judas, seeing that He had been condemned, was remorseful and brought back the thirty pieces of silver to the chief priests... And he threw down the pieces of silver in the temple and departed... And the chief priests took counsel and bought with them the potter’s field, to bury strangers in.”",
+    insight: "Three astonishingly precise details impossible to conspire humanly: 1) The exact valuation (30 silver coins, the legal price of a gored slave in Exodus 21), 2) That the money would be thrown onto the floor inside the Temple, and 3) That it would ultimately purchase a potter's field."
   },
   {
     id: 8,
-    title: "Silencioso y Manso ante sus Acusadores",
+    title: "Silent & Meek Before Accusers and Shearers",
     category: "pasion",
-    categoryName: "Pasión y Sacrificio",
-    gapYears: "700 años antes de Cristo",
+    categoryName: "Passion & Sacrifice",
+    gapYears: "700 years before Christ",
     antiquityYear: 700,
-    otBook: "Isaías 53:7",
-    otDate: "~700 a.C.",
-    otText: "«Angustiado él, y afligido, no abrió su boca; como cordero fue llevado al matadero; y como oveja delante de sus trasquiladores, enmudeció, y no abrió su boca.»",
-    ntBook: "Mateo 27:12-14 & 1 Pedro 2:23",
-    ntDate: "~33 d.C.",
-    ntText: "«Y siendo acusado por los principales sacerdotes y por los ancianos, nada respondió. Pilato entonces le dijo: ¿No oyes cuántas cosas testifican contra ti? Pero Jesús no le respondió ni una palabra; de tal manera que el gobernador se maravillaba en gran manera.»",
-    insight: "Ante acusaciones que conllevaban la crucifixión, cualquier reo defendía su vida desesperadamente. El silencio voluntario de Jesús asombró al gobernador romano Poncio Pilato, cumpliendo la profecía del Cordero de Dios."
+    otBook: "Isaiah 53:7",
+    otDate: "~700 BC",
+    otText: "“He was oppressed and He was afflicted, yet He opened not His mouth; He was led as a lamb to the slaughter, and as a sheep before its shearers is silent, so He opened not His mouth.”",
+    ntBook: "Matthew 27:12-14 & 1 Peter 2:23",
+    ntDate: "~33 AD",
+    ntText: "“And while He was being accused by the chief priests and elders, He answered nothing. Then Pilate said to Him, ‘Do You not hear how many things they testify against You?’ But He answered him not one word, so that the governor marveled greatly.”",
+    insight: "Facing false accusations carrying the death penalty, every human defendant frantically pleads their innocence. The voluntary silence of Jesus bewildered Roman Governor Pontius Pilate, fulfilling the prophecy of the innocent Lamb submitting willingly to the altar."
   },
   {
     id: 9,
-    title: "Crucifixión: Manos y Pies Traspasados y Ropas Sorteadas",
+    title: "Crucifixion: Pierced Hands and Feet & Cast Lots for Garments",
     category: "pasion",
-    categoryName: "Pasión y Sacrificio",
-    gapYears: "1,000 años antes de Cristo",
+    categoryName: "Passion & Sacrifice",
+    gapYears: "1,000 years before Christ",
     antiquityYear: 1000,
-    otBook: "Salmo 22:1, 16-18",
-    otDate: "~1000 a.C.",
-    otText: "«Dios mío, Dios mío, ¿por qué me has desamparado?... Horadaron mis manos y mis pies. Contar puedo todos mis huesos; ellos me miran y me observan. Repartieron entre sí mis vestidos, y sobre mi ropa echaron suertes.»",
-    ntBook: "Juan 19:23-24 & 20:25",
-    ntDate: "~33 d.C.",
-    ntText: "«Los soldados tomaron sus vestidos e hicieron cuatro partes... Dijeron entre sí: No la partamos, sino echemos suertes sobre ella, a ver de quién será. Esto fue para que se cumpliese la Escritura... 'Si no viere en sus manos la señal de los clavos... no creeré.'»",
-    insight: "El rey David compuso este Salmo diez siglos antes de Cristo. En tiempos de David, la pena de muerte en Israel era el apedreamiento. La crucifixión romana ni siquiera existía en el mundo mediterráneo. David describió con precisión los clavos, la asfixia y el sorteo de vestiduras."
+    otBook: "Psalm 22:1, 16-18",
+    otDate: "~1000 BC",
+    otText: "“My God, My God, why have You forsaken Me?... For dogs have surrounded Me; the congregation of the wicked has enclosed Me. They pierced My hands and My feet; I can count all My bones. They look and stare at Me. They divide My garments among them, and for My clothing they cast lots.”",
+    ntBook: "John 19:23-24 & 20:25",
+    ntDate: "~33 AD",
+    ntText: "“Then the soldiers, when they had crucified Jesus, took His garments and made four parts... They said therefore among themselves, ‘Let us not tear it, but cast lots for it, whose it shall be,’ that the Scripture might be fulfilled... ‘Unless I see in His hands the print of the nails... I will not believe.’”",
+    insight: "King David penned this Psalm a thousand years before Jesus. In David's era, capital punishment in Israel was stoning; Roman crucifixion had not yet been invented. David portrayed crucifixion in excruciating detail: the pierced extremities, dehydrated fever, and the soldiers casting dice for His seamless tunic."
   },
   {
     id: 10,
-    title: "Ni Uno de sus Huesos Quebrantado: El Cordero Pascual",
+    title: "Not One of His Bones Broken: The True Passover Lamb",
     category: "pasion",
-    categoryName: "Pasión y Sacrificio",
-    gapYears: "1,400 años antes de Cristo",
+    categoryName: "Passion & Sacrifice",
+    gapYears: "1,400 years before Christ",
     antiquityYear: 1400,
-    otBook: "Éxodo 12:46 & Salmo 34:20",
-    otDate: "~1440 a.C. y ~1000 a.C.",
-    otText: "«Ni quebraréis hueso suyo.» (Estatuto del Cordero Pascual) / «Él guarda todos sus huesos; ni uno de ellos será quebrantado.»",
-    ntBook: "Juan 19:32-36",
-    ntDate: "~33 d.C.",
-    ntText: "«Fueron, pues, los soldados, y quebraron las piernas al primero, y asimismo al otro... Mas cuando llegaron a Jesús, como le vieron ya muerto, no le quebraron las piernas... Porque estas cosas acontecieron para que se cumpliese la Escritura: No será quebrado hueso suyo.»",
-    insight: "La costumbre militar de Roma era quebrar las piernas con mazas de hierro para acelerar la asfixia. Los dos malhechores sufrieron la fractura de piernas, pero al llegar a Jesús vieron que ya había muerto, cumpliendo el tipo exacto del Cordero Pascual ileso."
+    otBook: "Exodus 12:46 & Psalm 34:20",
+    otDate: "~1440 BC & ~1000 BC",
+    otText: "“Nor shall you break one of its bones.” (Statute of the Passover Lamb) / “He guards all his bones; not one of them is broken.”",
+    ntBook: "John 19:32-36",
+    ntDate: "~33 AD",
+    ntText: "“Then the soldiers came and broke the legs of the first and of the other who was crucified with Him. But when they came to Jesus and saw that He was already dead, they did not break His legs... For these things were done that the Scripture should be fulfilled, ‘Not one of His bones shall be broken.’”",
+    insight: "Standard Roman crucifixion protocol was to smash the victims' shins with iron mallets (crurifragium) to hasten suffocation before sundown. The soldiers broke the legs of both thieves; but seeing Jesus had already yielded His spirit, a soldier merely pierced His side, preserving the Passover archetype intact."
   },
   {
     id: 11,
-    title: "El Siervo Sufriente: Molido por Nuestras Rebeliones",
+    title: "The Suffering Servant: Crushed for Our Iniquities",
     category: "pasion",
-    categoryName: "Pasión y Sacrificio",
-    gapYears: "700 años antes de Cristo",
+    categoryName: "Passion & Sacrifice",
+    gapYears: "700 years before Christ",
     antiquityYear: 700,
-    otBook: "Isaías 53:4-6",
-    otDate: "~700 a.C.",
-    otText: "«Ciertamente llevó él nuestras enfermedades, y sufrió nuestros dolores... Mas él herido fue por nuestras rebeliones, molido por nuestros pecados; el castigo de nuestra paz fue sobre él, y por su llaga fuimos nosotros curados... Jehová cargó en él el pecado de todos nosotros.»",
-    ntBook: "1 Pedro 2:24 & Romanos 5:8",
-    ntDate: "~33 - 64 d.C.",
-    ntText: "«quien llevó él mismo nuestros pecados en su cuerpo sobre el madero, para que nosotros, estando muertos a los pecados, vivamos a la justicia; y por cuya herida fuisteis sanados... Mas Dios muestra su amor para con nosotros, en que siendo aún pecadores, Cristo murió por nosotros.»",
-    insight: "El corazón del Evangelio: expiación sustitutoria. El Salvador cargó la condena judicial que merecía el pecador. El Gran Rollo de Isaías hallado en las cuevas del Mar Muerto (datado en el 150 a.C.) contiene este pasaje íntegro y sin alteraciones."
+    otBook: "Isaiah 53:4-6",
+    otDate: "~700 BC",
+    otText: "“Surely He has borne our griefs and carried our sorrows; yet we esteemed Him stricken, smitten by God, and afflicted. But He was wounded for our transgressions, He was bruised for our iniquities; the chastisement for our peace was upon Him, and by His stripes we are healed... And the Lord has laid on Him the iniquity of us all.”",
+    ntBook: "1 Peter 2:24 & Romans 5:8",
+    ntDate: "~33 - 64 AD",
+    ntText: "“who Himself bore our sins in His own body on the tree, that we, having died to sins, might live for righteousness—by whose stripes you were healed... But God demonstrates His own love toward us, in that while we were still sinners, Christ died for us.”",
+    insight: "The core of the Gospel: substitutionary atonement. The Messiah bore the legal penalty due to fallen humanity. The Great Isaiah Scroll found at Qumran near the Dead Sea (dated to ~150 BC) contains this exact chapter intact word for word."
   },
   {
     id: 12,
-    title: "Sepultura de Honor en la Tumba de un Hombre Rico",
+    title: "An Honorable Burial in the Tomb of a Wealthy Man",
     category: "pasion",
-    categoryName: "Pasión y Sacrificio",
-    gapYears: "700 años antes de Cristo",
+    categoryName: "Passion & Sacrifice",
+    gapYears: "700 years before Christ",
     antiquityYear: 700,
-    otBook: "Isaías 53:9",
-    otDate: "~700 a.C.",
-    otText: "«Y se dispuso con los impíos su sepultura, mas con los ricos fue en su muerte; aunque nunca hizo maldad, ni hubo engaño en su boca.»",
-    ntBook: "Mateo 27:57-60",
-    ntDate: "~33 d.C.",
-    ntText: "«Cuando llegó la noche, vino un hombre rico de Arimatea, llamado José, que también había sido discípulo de Jesús... y pidió el cuerpo de Jesús... Y tomando José el cuerpo, lo envolvió en una sábana limpia, y lo puso en su sepulcro nuevo, que había labrado en la peña.»",
-    insight: "A los criminales crucificados se les arrojaba a fosas comunes o a los basureros extramuros. Isaías predijo que aunque moriría con los criminales, su sepulcro final pertenecería a un hombre rico. José de Arimatea cumplió esto sin proponérselo."
+    otBook: "Isaiah 53:9",
+    otDate: "~700 BC",
+    otText: "“And they made His grave with the wicked—but with the rich at His death, because He had done no violence, nor was any deceit in His mouth.”",
+    ntBook: "Matthew 27:57-60",
+    ntDate: "~33 AD",
+    ntText: "“Now when evening had come, there came a rich man from Arimathea, named Joseph, who himself had also become a disciple of Jesus... He went to Pilate and asked for the body of Jesus... When Joseph had taken the body, he wrapped it in a clean linen cloth, and laid it in his new tomb which he had hewn out of the rock.”",
+    insight: "The customary Roman fate for executed criminals was discarding their corpses into mass trenches or the fires of Gehenna. Yet Isaiah predicted that while He would die alongside outlaws ('with the wicked'), His final burial would be with the wealthy. Joseph of Arimathea fulfilled this without human orchestration."
   },
   {
     id: 13,
-    title: "La Resurrección: Su Carne no Vio Corrupción",
+    title: "The Resurrection: His Flesh Did Not See Corruption",
     category: "resurreccion",
-    categoryName: "Resurrección y Gloria",
-    gapYears: "1,000 años antes de Cristo",
+    categoryName: "Resurrection & Glory",
+    gapYears: "1,000 years before Christ",
     antiquityYear: 1000,
-    otBook: "Salmo 16:10 & Isaías 53:10-11",
-    otDate: "~1000 a.C.",
-    otText: "«Porque no dejarás mi alma en el Seol, ni permitirás que tu santo vea corrupción... Cuando haya puesto su vida en expiación por el pecado, verá linaje, vivirá por largos días...»",
-    ntBook: "Hechos 2:31-32 & Lucas 24:5-6",
-    ntDate: "~33 d.C.",
-    ntText: "«Viéndolo antes, David habló de la resurrección de Cristo, que su alma no fue dejada en el Hades, ni su carne vio corrupción. A este Jesús resucitó Dios, de lo cual todos nosotros somos testigos... ¿Por qué buscáis entre los muertos al que vive? No está aquí, sino que ha resucitado.»",
-    insight: "La tumba vacía. David murió y su sepulcro permanecía en Jerusalén, pero Jesús resucitó al tercer día antes de que su cuerpo experimentara descomposición orgánica, sellando su victoria sobre el pecado y la muerte."
+    otBook: "Psalm 16:10 & Isaiah 53:10-11",
+    otDate: "~1000 BC",
+    otText: "“For You will not leave my soul in Sheol, nor will You allow Your Holy One to see corruption... When You make His soul an offering for sin, He shall see His seed, He shall prolong His days... He shall see the labor of His soul, and be satisfied.”",
+    ntBook: "Acts 2:31-32 & Luke 24:5-6",
+    ntDate: "~33 AD",
+    ntText: "“He, foreseeing this, spoke concerning the resurrection of the Christ, that His soul was not left in Hades, nor did His flesh see corruption. This Jesus God has raised up, of which we are all witnesses... ‘Why do you seek the living among the dead? He is not here, but is risen!’”",
+    insight: "The empty tomb. King David died and was buried, his tomb remaining in Jerusalem; therefore, he prophesied of another. Jesus rose on the third day before biological decay set in, inaugurating eternal life and triumph over death."
   },
   {
     id: 14,
-    title: "Ascensión y Reino Eterno a la Diestra de Dios",
+    title: "Ascension & Everlasting Dominion at the Right Hand of God",
     category: "resurreccion",
-    categoryName: "Resurrección y Gloria",
-    gapYears: "1,000 y 550 años antes de Cristo",
+    categoryName: "Resurrection & Glory",
+    gapYears: "1,000 & 550 years before Christ",
     antiquityYear: 1000,
-    otBook: "Salmo 110:1 & Daniel 7:13-14",
-    otDate: "~1000 a.C. y ~550 a.C.",
-    otText: "«Jehová dijo a mi Señor: Siéntate a mi diestra, hasta que ponga a tus enemigos por estrado de tus pies.» / «Y le fue dado dominio, gloria y reino, para que todos los pueblos, naciones y lenguas le sirvieran; su dominio es eterno.»",
-    ntBook: "Marcos 16:19, Hechos 1:9 & Hebreos 1:3",
-    ntDate: "~33 - 65 d.C.",
-    ntText: "«Y el Señor, después que les habló, fue recibido arriba en el cielo, y se sentó a la diestra de Dios... habiendo efectuado la purificación de nuestros pecados por medio de sí mismo, se sentó a la diestra de la Majestad en las alturas.»",
-    insight: "Jesús citó el Salmo 110 ante el Sanedrín al ser juzgado, identificándose como el Señor exaltado a la diestra del Padre Todopoderoso, cuyo reino no tendrá fin."
+    otBook: "Psalm 110:1 & Daniel 7:13-14",
+    otDate: "~1000 BC & ~550 BC",
+    otText: "“The Lord said to my Lord, ‘Sit at My right hand, till I make Your enemies Your footstool.’” / “Then to Him was given dominion and glory and a kingdom, that all peoples, nations, and languages should serve Him. His dominion is an everlasting dominion.”",
+    ntBook: "Mark 16:19, Acts 1:9 & Hebrews 1:3",
+    ntDate: "~33 - 65 AD",
+    ntText: "“So then, after the Lord had spoken to them, He was received up into heaven, and sat down at the right hand of God... who being the brightness of His glory... when He had by Himself purged our sins, sat down at the right hand of the Majesty on high.”",
+    insight: "Jesus quoted Psalm 110 directly before the Sanhedrin during His trial, identifying Himself as the Divine Son exalted at the right hand of the Almighty Father, whose everlasting kingdom shall never pass away."
   }
 ];
 
-// --- 2. MOTOR DE AUDIO SAGRADO (WEB AUDIO API SYNTHESIZER) ---
-class SacredAudioEngine {
+// --- 2. AUTHENTIC MESSIANIC HEBREW AUDIO SUITE (SYNTHESIZED HARP & SEQUENCER) ---
+class MessianicAudioEngine {
   constructor() {
     this.ctx = null;
-    this.isAmbientPlaying = false;
-    this.ambientGain = null;
-    this.ambientOscillators = [];
+    this.isPlaying = false;
     this.sfxEnabled = true;
+    this.sequenceTimer = null;
+    this.masterGain = null;
+    this.droneGain = null;
+    this.droneOscs = [];
+    this.stepIndex = 0;
+
+    // Authentic Messianic / Ahava Rabbah (Freygish / Hebrew Minor Scale in D)
+    // D, Eb, F#, G, A, Bb, C, D
+    this.scale = {
+      D2: 73.42,
+      A2: 110.00,
+      D3: 146.83,
+      Eb3: 155.56,
+      Fsharp3: 185.00,
+      G3: 196.00,
+      A3: 220.00,
+      Bb3: 233.08,
+      C4: 261.63,
+      D4: 293.66,
+      Eb4: 311.13,
+      Fsharp4: 369.99,
+      G4: 392.00,
+      A4: 440.00,
+      Bb4: 466.16,
+      C5: 523.25,
+      D5: 587.33
+    };
+
+    // Authentic Messianic Melodic Sequence (David's Harp / Jerusalem Theme in D Freygish)
+    this.melodySequence = [
+      { note: 'D4', dur: 1.2, vel: 0.8 },
+      { note: 'Eb4', dur: 0.6, vel: 0.6 },
+      { note: 'Fsharp4', dur: 1.0, vel: 0.85 },
+      { note: 'Eb4', dur: 0.6, vel: 0.65 },
+      { note: 'D4', dur: 1.4, vel: 0.75 },
+      { note: 'A3', dur: 0.8, vel: 0.7 },
+      { note: 'D4', dur: 1.2, vel: 0.8 },
+
+      { note: 'Fsharp4', dur: 1.0, vel: 0.85 },
+      { note: 'G4', dur: 0.6, vel: 0.7 },
+      { note: 'A4', dur: 1.4, vel: 0.9 },
+      { note: 'Bb4', dur: 0.8, vel: 0.85 },
+      { note: 'A4', dur: 1.0, vel: 0.8 },
+      { note: 'G4', dur: 0.6, vel: 0.7 },
+      { note: 'Fsharp4', dur: 1.2, vel: 0.75 },
+
+      { note: 'Eb4', dur: 0.8, vel: 0.7 },
+      { note: 'Fsharp4', dur: 0.8, vel: 0.75 },
+      { note: 'Eb4', dur: 0.8, vel: 0.7 },
+      { note: 'D4', dur: 2.0, vel: 0.85 },
+
+      // Ascending motif
+      { note: 'G4', dur: 0.8, vel: 0.75 },
+      { note: 'A4', dur: 0.8, vel: 0.8 },
+      { note: 'Bb4', dur: 1.0, vel: 0.85 },
+      { note: 'C5', dur: 0.6, vel: 0.9 },
+      { note: 'D5', dur: 1.8, vel: 0.95 },
+      { note: 'C5', dur: 0.8, vel: 0.8 },
+      { note: 'Bb4', dur: 0.8, vel: 0.8 },
+      { note: 'A4', dur: 1.2, vel: 0.85 },
+
+      // Resolution
+      { note: 'Fsharp4', dur: 1.0, vel: 0.8 },
+      { note: 'G4', dur: 0.6, vel: 0.75 },
+      { note: 'Eb4', dur: 1.0, vel: 0.7 },
+      { note: 'Fsharp4', dur: 0.6, vel: 0.75 },
+      { note: 'Eb4', dur: 0.8, vel: 0.7 },
+      { note: 'D4', dur: 2.5, vel: 0.9 }
+    ];
   }
 
   init() {
@@ -238,111 +305,153 @@ class SacredAudioEngine {
     }
   }
 
-  // Tono de campana celestial armónica al interactuar
-  playHarpChime(frequency = 528) {
-    if (!this.sfxEnabled) return;
-    this.init();
-
+  // Plucked Harp Note Synthesis (Kinnor of David)
+  playHarpString(freq, velocity = 0.7, duration = 1.5) {
+    if (!this.ctx) return;
     const now = this.ctx.currentTime;
-    const osc = this.ctx.createOscillator();
+
+    // Dual oscillator with subtle detune for wooden harp string realism
+    const osc1 = this.ctx.createOscillator();
+    const osc2 = this.ctx.createOscillator();
     const gain = this.ctx.createGain();
+    const filter = this.ctx.createBiquadFilter();
 
-    osc.type = 'sine';
-    osc.frequency.setValueAtTime(frequency, now);
-    osc.frequency.exponentialRampToValueAtTime(frequency * 1.5, now + 0.8);
+    osc1.type = 'triangle';
+    osc2.type = 'sawtooth';
 
-    gain.gain.setValueAtTime(0.15, now);
-    gain.gain.exponentialRampToValueAtTime(0.0001, now + 1.2);
+    osc1.frequency.setValueAtTime(freq, now);
+    osc2.frequency.setValueAtTime(freq * 1.002, now); // 2 cents detune
 
-    osc.connect(gain);
-    gain.connect(this.ctx.destination);
+    // Bandpass filter to model wooden soundboard body
+    filter.type = 'bandpass';
+    filter.frequency.setValueAtTime(freq * 1.8, now);
+    filter.Q.setValueAtTime(2.2, now);
 
-    osc.start(now);
-    osc.stop(now + 1.2);
+    // Pluck attack & decay envelope
+    const peak = 0.18 * velocity;
+    gain.gain.setValueAtTime(0.0001, now);
+    gain.gain.linearRampToValueAtTime(peak, now + 0.008); // Instant pluck
+    gain.gain.exponentialRampToValueAtTime(peak * 0.35, now + 0.12);
+    gain.gain.exponentialRampToValueAtTime(0.0001, now + duration);
+
+    osc1.connect(filter);
+    osc2.connect(filter);
+    filter.connect(gain);
+    gain.connect(this.masterGain || this.ctx.destination);
+
+    osc1.start(now);
+    osc2.start(now);
+    osc1.stop(now + duration);
+    osc2.stop(now + duration);
   }
 
-  // Tono solemne de confirmación
-  playSacredTone() {
+  // Solfeggio / Holy Chime SFX on UI click
+  playHarpChime(freq = 528) {
     if (!this.sfxEnabled) return;
     this.init();
-    const chord = [396, 528, 639]; // Frecuencias sagradas Solfeggio
-    chord.forEach((freq, idx) => {
-      setTimeout(() => {
-        this.playHarpChime(freq);
-      }, idx * 120);
+    this.playHarpString(freq, 0.75, 1.2);
+  }
+
+  playSacredChord() {
+    if (!this.sfxEnabled) return;
+    this.init();
+    const arpeggio = [this.scale.D4, this.scale.Fsharp4, this.scale.A4, this.scale.D5];
+    arpeggio.forEach((f, i) => {
+      setTimeout(() => this.playHarpString(f, 0.8, 1.6), i * 110);
     });
   }
 
-  // Música ambiental sagrada: Acordes meditativos sostenidos con filtro suave
-  toggleAmbientMusic() {
+  // Continuous Messianic Hebrew Melodic Loop
+  toggleMessianicMelody() {
     this.init();
-    if (this.isAmbientPlaying) {
-      this.stopAmbientMusic();
+    if (this.isPlaying) {
+      this.stopMessianicMelody();
       return false;
     } else {
-      this.startAmbientMusic();
+      this.startMessianicMelody();
       return true;
     }
   }
 
-  startAmbientMusic() {
-    if (this.isAmbientPlaying) return;
+  startMessianicMelody() {
+    if (this.isPlaying) return;
     this.init();
 
     const now = this.ctx.currentTime;
-    this.ambientGain = this.ctx.createGain();
-    this.ambientGain.gain.setValueAtTime(0.001, now);
-    this.ambientGain.gain.exponentialRampToValueAtTime(0.07, now + 3); // Suave crescendo
+    this.masterGain = this.ctx.createGain();
+    this.masterGain.gain.setValueAtTime(0.001, now);
+    this.masterGain.gain.linearRampToValueAtTime(0.75, now + 2); // Smooth fade in
+    this.masterGain.connect(this.ctx.destination);
 
-    // Filtro paso-bajo cálido (tipo órgano etéreo)
-    const filter = this.ctx.createBiquadFilter();
-    filter.type = 'lowpass';
-    filter.frequency.setValueAtTime(450, now);
+    // Warm Desert Drone in D (D2 & A2)
+    this.droneGain = this.ctx.createGain();
+    this.droneGain.gain.setValueAtTime(0.04, now);
 
-    // Acorde Mayor Sagrado: C3, G3, C4, E4 (130.81Hz, 196.00Hz, 261.63Hz, 329.63Hz)
-    const freqs = [130.81, 196.00, 261.63, 329.63];
-    this.ambientOscillators = freqs.map((freq) => {
-      const osc = this.ctx.createOscillator();
-      osc.type = 'triangle';
-      osc.frequency.setValueAtTime(freq, now);
+    const droneFilter = this.ctx.createBiquadFilter();
+    droneFilter.type = 'lowpass';
+    droneFilter.frequency.setValueAtTime(320, now);
 
-      // Sutil vibrato
-      const lfo = this.ctx.createOscillator();
-      const lfoGain = this.ctx.createGain();
-      lfo.frequency.setValueAtTime(0.4, now); // 0.4 Hz vibrato lento
-      lfoGain.gain.setValueAtTime(1.5, now);
-      lfo.connect(lfoGain);
-      lfoGain.connect(osc.frequency);
-      lfo.start(now);
+    const d2 = this.ctx.createOscillator();
+    const a2 = this.ctx.createOscillator();
+    d2.type = 'triangle';
+    a2.type = 'sine';
+    d2.frequency.setValueAtTime(this.scale.D2, now);
+    a2.frequency.setValueAtTime(this.scale.A2, now);
 
-      osc.connect(filter);
-      osc.start(now);
-      return { osc, lfo };
-    });
+    d2.connect(droneFilter);
+    a2.connect(droneFilter);
+    droneFilter.connect(this.droneGain);
+    this.droneGain.connect(this.masterGain);
 
-    filter.connect(this.ambientGain);
-    this.ambientGain.connect(this.ctx.destination);
-    this.isAmbientPlaying = true;
+    d2.start(now);
+    a2.start(now);
+    this.droneOscs = [d2, a2];
+
+    this.isPlaying = true;
+    this.stepIndex = 0;
+    this.scheduleNextNote();
   }
 
-  stopAmbientMusic() {
-    if (!this.isAmbientPlaying || !this.ambientGain) return;
-    const now = this.ctx.currentTime;
-    this.ambientGain.gain.exponentialRampToValueAtTime(0.0001, now + 1.5);
+  scheduleNextNote() {
+    if (!this.isPlaying) return;
+
+    const item = this.melodySequence[this.stepIndex];
+    const freq = this.scale[item.note] || 293.66;
+    this.playHarpString(freq, item.vel, item.dur);
+
+    // Subtle bass harp accent on key beats
+    if (this.stepIndex % 4 === 0) {
+      this.playHarpString(this.scale.D3, 0.5, 2.0);
+    }
+
+    this.stepIndex = (this.stepIndex + 1) % this.melodySequence.length;
+    const intervalMs = item.dur * 650; // Cadence timing
+
+    this.sequenceTimer = setTimeout(() => {
+      this.scheduleNextNote();
+    }, intervalMs);
+  }
+
+  stopMessianicMelody() {
+    if (!this.isPlaying) return;
+    clearTimeout(this.sequenceTimer);
+
+    if (this.masterGain) {
+      const now = this.ctx.currentTime;
+      this.masterGain.gain.linearRampToValueAtTime(0.001, now + 1.2);
+    }
+
     setTimeout(() => {
-      this.ambientOscillators.forEach(({ osc, lfo }) => {
-        try {
-          osc.stop();
-          lfo.stop();
-        } catch (e) {}
+      this.droneOscs.forEach(o => {
+        try { o.stop(); } catch (e) {}
       });
-      this.ambientOscillators = [];
-      this.isAmbientPlaying = false;
-    }, 1600);
+      this.droneOscs = [];
+      this.isPlaying = false;
+    }, 1300);
   }
 }
 
-// --- 3. MOTOR DE NARRACIÓN POR VOZ (WEB SPEECH API) ---
+// --- 3. SCRIPTURE NARRATION VOICE (ENGLISH WEB SPEECH API) ---
 class VoiceNarrator {
   constructor() {
     this.synth = window.speechSynthesis;
@@ -357,15 +466,22 @@ class VoiceNarrator {
     this.stop();
 
     this.currentUtterance = new SpeechSynthesisUtterance(text);
-    this.currentUtterance.lang = 'es-ES';
-    this.currentUtterance.rate = 0.92; // Cadencia reflexiva y reverente
+    this.currentUtterance.lang = 'en-US';
+    this.currentUtterance.rate = 0.93; // Reverent, solemn pace
     this.currentUtterance.pitch = 0.98;
 
-    // Buscar una voz en español de alta calidad
+    // Pick a high-quality natural English voice
     const voices = this.synth.getVoices();
-    const spanishVoice = voices.find(v => v.lang.startsWith('es') && (v.name.includes('Natural') || v.name.includes('Google') || v.name.includes('Monica') || v.name.includes('Jorge') || v.name.includes('Paulina')));
-    if (spanishVoice) {
-      this.currentUtterance.voice = spanishVoice;
+    const englishVoice = voices.find(v => v.lang.startsWith('en') && (
+      v.name.includes('Natural') || 
+      v.name.includes('Google') || 
+      v.name.includes('Daniel') || 
+      v.name.includes('Samantha') || 
+      v.name.includes('Serena') || 
+      v.name.includes('Oliver')
+    ));
+    if (englishVoice) {
+      this.currentUtterance.voice = englishVoice;
     }
 
     this.currentUtterance.onstart = () => {
@@ -415,10 +531,10 @@ class VoiceNarrator {
   }
 }
 
-// --- 4. GESTOR DE PROGRESO DE ESTUDIO (LOCALSTORAGE) ---
+// --- 4. PERSISTENT STUDY PROGRESS TRACKER ---
 class StudyTracker {
   constructor() {
-    this.storageKey = 'conexiones_eternas_studied_v1';
+    this.storageKey = 'eternal_connections_studied_v1';
     this.studiedSet = new Set(JSON.parse(localStorage.getItem(this.storageKey) || '[]'));
   }
 
@@ -441,7 +557,7 @@ class StudyTracker {
   }
 }
 
-// --- 5. ANIMACIÓN DE ESTRELLAS CELESTIALES (CANVAS) ---
+// --- 5. CELESTIAL BACKGROUND PARTICLES (CANVAS) ---
 function initStarsCanvas() {
   const canvas = document.getElementById('starsCanvas');
   if (!canvas) return;
@@ -486,15 +602,15 @@ function initStarsCanvas() {
   render();
 }
 
-// --- 6. APLICACIÓN PRINCIPAL & CONTROLADORES DE EVENTOS ---
+// --- 6. MAIN APPLICATION LOGIC ---
 document.addEventListener('DOMContentLoaded', () => {
-  const audio = new SacredAudioEngine();
+  const audio = new MessianicAudioEngine();
   const narrator = new VoiceNarrator();
   const tracker = new StudyTracker();
 
   initStarsCanvas();
 
-  // Estados UI
+  // App UI State
   let activeCategory = 'all';
   let searchQuery = '';
   let sortOrder = 'biblical';
@@ -502,7 +618,7 @@ document.addEventListener('DOMContentLoaded', () => {
   let activeIndex = 0;
   let displayList = [...propheciesData];
 
-  // Elementos DOM
+  // DOM Elements
   const propheciesGrid = document.getElementById('propheciesGrid');
   const searchInput = document.getElementById('searchInput');
   const clearSearchBtn = document.getElementById('clearSearchBtn');
@@ -567,16 +683,16 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 2800);
   }
 
-  // Actualizar barra de progreso
+  // Update Study Progress
   function updateProgress() {
     const total = propheciesData.length;
     const studiedCount = tracker.getCount();
     const percent = Math.round((studiedCount / total) * 100);
     progressFill.style.width = `${percent}%`;
-    progressScore.textContent = `${studiedCount} de ${total} profecías meditadas (${percent}%)`;
+    progressScore.textContent = `${studiedCount} of ${total} prophecies studied (${percent}%)`;
   }
 
-  // Filtrar y ordenar
+  // Filter & Sort
   function getFilteredProphecies() {
     let list = propheciesData.filter(item => {
       const matchCat = activeCategory === 'all' || item.category === activeCategory;
@@ -602,18 +718,18 @@ document.addEventListener('DOMContentLoaded', () => {
     return list;
   }
 
-  // Renderizar tarjetas
+  // Render Grid Cards
   function renderGrid() {
     displayList = getFilteredProphecies();
     propheciesGrid.innerHTML = '';
-    resultsCount.textContent = `Mostrando ${displayList.length} conexiones mesiánicas`;
+    resultsCount.textContent = `Showing ${displayList.length} Messianic connections`;
 
     if (displayList.length === 0) {
       propheciesGrid.innerHTML = `
         <div style="grid-column: 1 / -1; text-align: center; padding: 4rem 1rem; color: var(--text-muted);">
           <div style="font-size: 3rem; margin-bottom: 1rem;">🔍</div>
-          <h3 style="font-family: 'Cinzel', serif; font-size: 1.4rem; color: var(--text-main); margin-bottom: 0.5rem;">No se encontraron resultados</h3>
-          <p>Prueba con términos como "Belén", "Isaías", "cruz", "David" o limpia los filtros.</p>
+          <h3 style="font-family: 'Cinzel', serif; font-size: 1.4rem; color: var(--text-main); margin-bottom: 0.5rem;">No prophecies found</h3>
+          <p>Try searching for terms such as "Bethlehem", "Isaiah", "cross", "David", or clear the active filters.</p>
         </div>
       `;
       return;
@@ -629,22 +745,22 @@ document.addEventListener('DOMContentLoaded', () => {
         <div>
           <div class="card-top">
             <span class="card-tag">${item.categoryName}</span>
-            ${isStudied ? `<span class="card-studied-badge">✓ Meditada</span>` : `<span class="card-time">⏳ ${item.gapYears}</span>`}
+            ${isStudied ? `<span class="card-studied-badge">✓ Studied</span>` : `<span class="card-time">⏳ ${item.gapYears}</span>`}
           </div>
           <h3 class="card-title">${item.title}</h3>
           <div class="card-scriptures-row">
             <div class="card-pill ot">
               <span class="pill-ref">📜 ${item.otBook}</span>
-              <span class="pill-label">Profecía</span>
+              <span class="pill-label">Prophecy</span>
             </div>
             <div class="card-pill nt">
               <span class="pill-ref">✝️ ${item.ntBook}</span>
-              <span class="pill-label">Cumplimiento</span>
+              <span class="pill-label">Fulfillment</span>
             </div>
           </div>
         </div>
         <div class="card-bottom-cta">
-          <span>Abrir Conexión Sagrada</span>
+          <span>Examine Sacred Connection</span>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M5 12h14M12 5l7 7-7 7"/>
           </svg>
@@ -652,14 +768,14 @@ document.addEventListener('DOMContentLoaded', () => {
       `;
 
       card.addEventListener('click', () => {
-        audio.playHarpChime(639);
+        audio.playHarpChime(audio.scale.D4);
         openDetailModal(item.id);
       });
 
       card.addEventListener('keydown', (e) => {
         if (e.key === 'Enter' || e.key === ' ') {
           e.preventDefault();
-          audio.playHarpChime(639);
+          audio.playHarpChime(audio.scale.D4);
           openDetailModal(item.id);
         }
       });
@@ -668,7 +784,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Abrir Modal de Detalle
+  // Open Detail Modal
   function openDetailModal(id) {
     const item = propheciesData.find(p => p.id === id);
     if (!item) return;
@@ -692,7 +808,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     updateStudiedButtonState(item.id);
 
-    // Reset narrator state
+    // Reset voice narrator state
     narrator.stop();
 
     detailModal.classList.add('open');
@@ -709,18 +825,18 @@ document.addEventListener('DOMContentLoaded', () => {
     const isStudied = tracker.isStudied(id);
     if (isStudied) {
       markStudiedBtn.classList.add('active');
-      markStudiedText.textContent = 'Meditada (Completada)';
+      markStudiedText.textContent = 'Studied (Completed)';
     } else {
       markStudiedBtn.classList.remove('active');
-      markStudiedText.textContent = 'Marcar como meditada';
+      markStudiedText.textContent = 'Mark as Studied';
     }
   }
 
-  // Navegar siguiente/anterior
+  // Navigate next / previous inside modal
   function navigateModal(direction) {
     if (displayList.length === 0) return;
     narrator.stop();
-    audio.playHarpChime(528);
+    audio.playHarpChime(audio.scale.A4);
 
     if (direction === 'next') {
       activeIndex = (activeIndex + 1) % displayList.length;
@@ -730,25 +846,25 @@ document.addEventListener('DOMContentLoaded', () => {
     openDetailModal(displayList[activeIndex].id);
   }
 
-  // Lógica de narración
+  // Voice Narrator Controls
   narrator.onStateChange = (state) => {
     if (state === 'playing') {
       playAudioBtn.style.display = 'none';
       pauseAudioBtn.style.display = 'inline-flex';
       stopAudioBtn.style.display = 'inline-flex';
       soundWaveAnim.classList.add('playing');
-      narratorStatus.textContent = 'Narrando pasajes de la Escritura...';
+      narratorStatus.textContent = 'Narrating Holy Scriptures...';
     } else if (state === 'paused') {
       playAudioBtn.style.display = 'inline-flex';
       pauseAudioBtn.style.display = 'none';
       soundWaveAnim.classList.remove('playing');
-      narratorStatus.textContent = 'Narración en pausa';
+      narratorStatus.textContent = 'Narration paused';
     } else {
       playAudioBtn.style.display = 'inline-flex';
       pauseAudioBtn.style.display = 'none';
       stopAudioBtn.style.display = 'none';
       soundWaveAnim.classList.remove('playing');
-      narratorStatus.textContent = 'Narración por Voz de las Escrituras';
+      narratorStatus.textContent = 'Scripture Voice Narration';
     }
   };
 
@@ -757,10 +873,10 @@ document.addEventListener('DOMContentLoaded', () => {
     if (narrator.isPaused) {
       narrator.resume();
     } else {
-      const speechText = `Profecía Mesiánica: ${activeModalProphecy.title}. 
-      En el Antiguo Testamento, en ${activeModalProphecy.otBook}, se profetizó: ${activeModalProphecy.otText}. 
-      En el Nuevo Testamento, en ${activeModalProphecy.ntBook}, Jesús la cumple exactamente: ${activeModalProphecy.ntText}. 
-      El Sello de Inspiración Divina: ${activeModalProphecy.insight}`;
+      const speechText = `Messianic Prophecy: ${activeModalProphecy.title}. 
+      In the Old Testament, in ${activeModalProphecy.otBook}, it was prophesied: ${activeModalProphecy.otText}. 
+      In the New Testament, in ${activeModalProphecy.ntBook}, Jesus Christ fulfilled it: ${activeModalProphecy.ntText}. 
+      The Divine Inspiration Seal: ${activeModalProphecy.insight}`;
       narrator.speak(speechText);
     }
   });
@@ -768,7 +884,7 @@ document.addEventListener('DOMContentLoaded', () => {
   pauseAudioBtn.addEventListener('click', () => narrator.pause());
   stopAudioBtn.addEventListener('click', () => narrator.stop());
 
-  // Marcar como meditada
+  // Mark as studied
   markStudiedBtn.addEventListener('click', () => {
     if (!activeModalProphecy) return;
     const nowStudied = tracker.toggle(activeModalProphecy.id);
@@ -777,42 +893,42 @@ document.addEventListener('DOMContentLoaded', () => {
     renderGrid();
 
     if (nowStudied) {
-      audio.playSacredTone();
-      showToast('¡Has meditado en esta profecía! Progreso actualizado.');
+      audio.playSacredChord();
+      showToast('Prophecy marked as studied! Progress updated.');
     } else {
-      showToast('Profecía desmarcada de tu registro.');
+      showToast('Prophecy unmarked from your study record.');
     }
   });
 
-  // Copiar devocional completo
+  // Copy full devotional in English
   copyShareBtn.addEventListener('click', () => {
     if (!activeModalProphecy) return;
     const p = activeModalProphecy;
-    const devotional = `✨ CONEXIONES ETERNAS: EL HILO MESIÁNICO
+    const devotional = `✨ ETERNAL CONNECTIONS: THE MESSIANIC THREAD
 ═══════════════════════════════════
 📖 ${p.title}
-⏳ Tiempo entre promesa y hecho: ${p.gapYears}
+⏳ Time between prophecy and fulfillment: ${p.gapYears}
 
-📜 LA PROFECÍA (${p.otBook} - ${p.otDate}):
+📜 THE PROPHECY (${p.otBook} - ${p.otDate}):
 ${p.otText}
 
-✝️ EL CUMPLIMIENTO (${p.ntBook} - ${p.ntDate}):
+✝️ THE FULFILLMENT (${p.ntBook} - ${p.ntDate}):
 ${p.ntText}
 
-🕊️ EL SELLO DE INSPIRACIÓN DIVINA:
+🕊️ THE DIVINE INSPIRATION SEAL:
 ${p.insight}
 ═══════════════════════════════════
-«Porque la profecía no vino en los tiempos pasados por voluntad humana, sino que los santos hombres de Dios hablaron siendo inspirados por el Espíritu Santo.» (2 Pedro 1:21)`;
+“For prophecy never came by the will of man, but holy men of God spoke as they were moved by the Holy Spirit.” (2 Peter 1:21)`;
 
     navigator.clipboard.writeText(devotional).then(() => {
-      audio.playHarpChime(741);
-      showToast('¡Devocional copiado listo para compartir!');
+      audio.playHarpChime(audio.scale.D5);
+      showToast('Full devotional copied to clipboard!');
     }).catch(() => {
-      showToast('Error al copiar. Selecciona manualmente.');
+      showToast('Unable to copy automatically.');
     });
   });
 
-  // Navegación Modal
+  // Modal Navigation
   prevProphecyBtn.addEventListener('click', () => navigateModal('prev'));
   nextProphecyBtn.addEventListener('click', () => navigateModal('next'));
   detailModalClose.addEventListener('click', closeDetailModal);
@@ -820,9 +936,9 @@ ${p.insight}
     if (e.target === detailModal) closeDetailModal();
   });
 
-  // Modal de Probabilidad (Texas)
+  // Texas Probability Modal
   statCardProb.addEventListener('click', () => {
-    audio.playHarpChime(528);
+    audio.playHarpChime(audio.scale.A4);
     probModal.classList.add('open');
     document.body.style.overflow = 'hidden';
   });
@@ -833,7 +949,7 @@ ${p.insight}
   });
 
   probUnderstoodBtn.addEventListener('click', () => {
-    audio.playHarpChime(639);
+    audio.playHarpChime(audio.scale.D5);
     probModal.classList.remove('open');
     document.body.style.overflow = 'auto';
   });
@@ -845,7 +961,7 @@ ${p.insight}
     }
   });
 
-  // Teclado Escape
+  // Escape key listener
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
       closeDetailModal();
@@ -854,18 +970,18 @@ ${p.insight}
     }
   });
 
-  // Filtros de categoría
+  // Category filters
   categoryContainer.addEventListener('click', (e) => {
     const btn = e.target.closest('.pill-btn');
     if (!btn) return;
     categoryContainer.querySelectorAll('.pill-btn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
     activeCategory = btn.dataset.cat;
-    audio.playHarpChime(432);
+    audio.playHarpChime(audio.scale.G4);
     renderGrid();
   });
 
-  // Búsqueda
+  // Search
   searchInput.addEventListener('input', (e) => {
     searchQuery = e.target.value;
     clearSearchBtn.style.display = searchQuery ? 'block' : 'none';
@@ -879,43 +995,43 @@ ${p.insight}
     renderGrid();
   });
 
-  // Orden
+  // Sort
   sortOrderSelect.addEventListener('change', (e) => {
     sortOrder = e.target.value;
-    audio.playHarpChime(432);
+    audio.playHarpChime(audio.scale.D4);
     renderGrid();
   });
 
-  // Botón Música Ambiental
+  // Messianic Hebrew Music Button
   ambientSoundBtn.addEventListener('click', () => {
-    const playing = audio.toggleAmbientMusic();
+    const playing = audio.toggleMessianicMelody();
     if (playing) {
-      ambientState.textContent = 'Sonando 🕊️';
+      ambientState.textContent = 'Playing 🕊️';
       ambientSoundBtn.classList.add('active-ambient');
-      showToast('Música ambiental sagrada activada');
+      showToast('Ancient Messianic Hebrew melody playing');
     } else {
-      ambientState.textContent = 'Apagado';
+      ambientState.textContent = 'OFF';
       ambientSoundBtn.classList.remove('active-ambient');
-      showToast('Música ambiental pausada');
+      showToast('Messianic melody paused');
     }
   });
 
-  // Botón Efectos de Sonido
+  // Sound FX Button
   soundFxBtn.addEventListener('click', () => {
     audio.sfxEnabled = !audio.sfxEnabled;
     if (audio.sfxEnabled) {
       sfxState.textContent = 'ON';
       soundFxBtn.classList.add('active-fx');
-      audio.playHarpChime(528);
-      showToast('Efectos sonoros activados');
+      audio.playHarpChime(audio.scale.D4);
+      showToast('Sound effects enabled');
     } else {
       sfxState.textContent = 'OFF';
       soundFxBtn.classList.remove('active-fx');
-      showToast('Efectos sonoros silenciados');
+      showToast('Sound effects muted');
     }
   });
 
-  // Cambio de Tema (Oscuro Celestial vs Pergamino Sagrado)
+  // Theme Toggle (Dark Celestial vs Sacred Parchment)
   let currentTheme = localStorage.getItem('conexiones_theme') || 'dark';
   applyTheme(currentTheme);
 
@@ -923,7 +1039,7 @@ ${p.insight}
     currentTheme = currentTheme === 'dark' ? 'parchment' : 'dark';
     applyTheme(currentTheme);
     localStorage.setItem('conexiones_theme', currentTheme);
-    audio.playHarpChime(528);
+    audio.playHarpChime(audio.scale.A4);
   });
 
   function applyTheme(theme) {
@@ -933,11 +1049,11 @@ ${p.insight}
       themeText.textContent = 'Celestial';
     } else {
       themeIcon.textContent = '☀️';
-      themeText.textContent = 'Pergamino';
+      themeText.textContent = 'Parchment';
     }
   }
 
-  // --- 7. CONSULTOR TEOLÓGICO IA CON OPENROUTER ---
+  // --- 7. THEOLOGICAL AI SCHOLAR (OPENROUTER INTEGRATION) ---
   function getOpenRouterKey() {
     return localStorage.getItem('conexiones_openrouter_key') || 
            window.APP_CONFIG?.OPENROUTER_API_KEY || 
@@ -955,16 +1071,16 @@ ${p.insight}
   const aiSendBtn = document.getElementById('aiSendBtn');
   const askAiAboutProphecyBtn = document.getElementById('askAiAboutProphecyBtn');
 
-  // Historial de conversación
+  // English Theological System Prompt
   let aiConversationHistory = [
     {
       role: "system",
-      content: "Eres un erudito bíblico, teólogo respetuoso y guía espiritual sabio para la aplicación Conexiones Eternas. Tu propósito es explicar el significado profundo, el contexto histórico, el trasfondo lingüístico (hebreo y griego) y las conexiones proféticas entre el Antiguo y el Nuevo Testamento. Responde siempre con reverencia, gracia, claridad y rigor bíblico, citando pasajes clave. Responde en español con formato estructurado y amigable."
+      content: "You are a revered biblical scholar, Christian apologist, and spiritual guide for the Eternal Connections application. Your mission is to explain the deep prophetic patterns, historical contexts, linguistic roots in Biblical Hebrew and Greek, and Messianic fulfillment connecting the Old and New Testaments. Always respond with reverence, intellectual rigor, biblical grounding, and cite key scriptures. Provide well-structured, clear responses in English."
     }
   ];
 
   function openAiModal() {
-    audio.playHarpChime(528);
+    audio.playHarpChime(audio.scale.D4);
     aiModal.classList.add('open');
     document.body.style.overflow = 'hidden';
     setTimeout(() => aiUserInput.focus(), 200);
@@ -984,7 +1100,7 @@ ${p.insight}
     let formattedText = text
       .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
       .replace(/\*(.*?)\*/g, '<em>$1</em>')
-      .replace(/^«(.*?)»/gm, '<blockquote>«$1»</blockquote>')
+      .replace(/^“(.*?)”/gm, '<blockquote>“$1”</blockquote>')
       .replace(/\n\n/g, '</p><p>')
       .replace(/\n/g, '<br>');
 
@@ -1035,11 +1151,11 @@ ${p.insight}
 
     const apiKey = getOpenRouterKey();
     if (!apiKey) {
-      const promptKey = prompt("Para consultar al Teólogo IA, ingresa tu clave de OpenRouter:");
+      const promptKey = prompt("To consult the AI Biblical Scholar, please enter your OpenRouter API Key:");
       if (promptKey && promptKey.trim()) {
         localStorage.setItem('conexiones_openrouter_key', promptKey.trim());
       } else {
-        appendAiMessage('assistant', "⚠️ Se requiere una clave de API de OpenRouter para habilitar las consultas bíblicas en vivo.");
+        appendAiMessage('assistant', "⚠️ An OpenRouter API key is required to enable live theological research.");
         return;
       }
     }
@@ -1057,7 +1173,7 @@ ${p.insight}
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${currentKey}`,
           'HTTP-Referer': window.location.href,
-          'X-Title': 'Conexiones Eternas'
+          'X-Title': 'Eternal Connections'
         },
         body: JSON.stringify({
           model: OPENROUTER_MODEL,
@@ -1071,23 +1187,23 @@ ${p.insight}
 
       if (!response.ok) {
         const errData = await response.json().catch(() => ({}));
-        throw new Error(errData.error?.message || `Error del servidor OpenRouter (${response.status})`);
+        throw new Error(errData.error?.message || `OpenRouter server error (${response.status})`);
       }
 
       const data = await response.json();
-      const assistantReply = data.choices?.[0]?.message?.content || "No se recibió respuesta de la IA.";
+      const assistantReply = data.choices?.[0]?.message?.content || "No response received from AI.";
       
       aiConversationHistory.push({ role: 'assistant', content: assistantReply });
       appendAiMessage('assistant', assistantReply);
-      audio.playHarpChime(639);
+      audio.playHarpChime(audio.scale.D5);
 
     } catch (err) {
       removeTypingIndicator();
-      appendAiMessage('assistant', `⚠️ *Disculpa, ocurrió una dificultad técnica al consultar OpenRouter:* ${err.message}. Verifica tu conexión a internet o la disponibilidad del modelo.`);
+      appendAiMessage('assistant', `⚠️ *Apologies, an issue occurred while querying OpenRouter:* ${err.message}. Please verify your network connection.`);
     }
   }
 
-  // Event Listeners AI
+  // AI Event Listeners
   aiChatToggleBtn.addEventListener('click', openAiModal);
   aiModalClose.addEventListener('click', closeAiModal);
   aiModal.addEventListener('click', (e) => {
@@ -1099,33 +1215,32 @@ ${p.insight}
     sendAiQuery(aiUserInput.value);
   });
 
-  // Chips sugeridos
+  // Suggestion chips
   document.querySelectorAll('.ai-chip').forEach(chip => {
     chip.addEventListener('click', () => {
       sendAiQuery(chip.textContent);
     });
   });
 
-  // Botón "Preguntar a la IA sobre esta profecía" en el modal de detalle
+  // "Ask AI Scholar about this prophecy" button inside prophecy modal
   if (askAiAboutProphecyBtn) {
     askAiAboutProphecyBtn.addEventListener('click', () => {
       if (!activeModalProphecy) return;
       const p = activeModalProphecy;
       openAiModal();
-      const question = `Por favor, explícame con mayor profundidad teológica e histórica la profecía: "${p.title}" (${p.otBook} cumplida en ${p.ntBook}). ¿Qué detalles revelan que solo Dios pudo haberlo coordinado?`;
+      const question = `Please provide an in-depth theological and historical analysis of the prophecy: "${p.title}" (${p.otBook} fulfilled in ${p.ntBook}). What specific details demonstrate divine inspiration?`;
       sendAiQuery(question);
     });
   }
 
-  // Tecla escape para cerrar AI modal
+  // Close AI modal on escape
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && aiModal.classList.contains('open')) {
       closeAiModal();
     }
   });
 
-  // Inicialización
+  // Initialize
   updateProgress();
   renderGrid();
 });
-

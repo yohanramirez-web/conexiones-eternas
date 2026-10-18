@@ -26,22 +26,34 @@
       </div>
 
       <div class="nav-controls">
+        <!-- Language Switcher Button (English <-> Español) -->
+        <button id="langToggleBtn" class="nav-btn lang-nav-btn" title="Switch language / Cambiar idioma" aria-label="Switch language">
+          <span class="btn-icon">🌐</span>
+          <span class="btn-text" id="langBtnText">ESPAÑOL</span>
+        </button>
+
+        <!-- Holy Bible Reader Toggle Button -->
+        <button id="bibleReaderToggleBtn" class="nav-btn bible-nav-btn" title="Open Holy Scriptures (66 Books)" aria-label="Open Bible Reader">
+          <span class="btn-icon">📖</span>
+          <span class="btn-text" id="bibleNavBtnText">Holy Bible</span>
+        </button>
+
         <!-- Messianic Worship Music Toggle -->
         <button id="ambientSoundBtn" class="nav-btn worship-nav-btn" title="Hebrew Worship from Jerusalem (Yeshua HaMashiach)" aria-label="Play Messianic Worship">
           <span class="btn-icon">🕊️</span>
-          <span class="btn-text">Hebrew Worship: <strong id="ambientState">PLAY</strong></span>
+          <span class="btn-text"><span id="worshipNavLabel">Hebrew Worship:</span> <strong id="ambientState">PLAY</strong></span>
         </button>
 
         <!-- Sound FX Toggle -->
         <button id="soundFxBtn" class="nav-btn active-fx" title="Sacred sound chimes" aria-label="Sound effects">
           <span class="btn-icon">🔔</span>
-          <span class="btn-text">SFX: <strong id="sfxState">ON</strong></span>
+          <span class="btn-text"><span id="sfxNavLabel">SFX:</span> <strong id="sfxState">ON</strong></span>
         </button>
 
         <!-- AI Theologian Toggle Button -->
         <button id="aiChatToggleBtn" class="nav-btn ai-btn" title="Ask the AI Biblical Scholar" aria-label="Open AI Theological Scholar">
           <span class="btn-icon">🕊️</span>
-          <span class="btn-text">AI Scholar</span>
+          <span class="btn-text" id="aiNavBtnText">AI Scholar</span>
           <span class="ai-badge">OpenRouter</span>
         </button>
 
@@ -60,18 +72,18 @@
     <div class="container hero-inner">
       <div class="hero-badge">
         <span class="sparkle">✦</span>
-        <span>HISTORICAL & SPIRITUAL EVIDENCE</span>
+        <span id="heroBadgeText">HISTORICAL & SPIRITUAL EVIDENCE</span>
         <span class="sparkle">✦</span>
       </div>
-      <h1 class="hero-title">ETERNAL CONNECTIONS</h1>
-      <p class="hero-subtitle">
+      <h1 class="hero-title" id="heroTitle">ETERNAL CONNECTIONS</h1>
+      <p class="hero-subtitle" id="heroSubtitle">
         The golden thread weaving the <em>Old</em> and <em>New Testaments</em> across millennia. Discover how dozens of specific prophecies written centuries before Christ were fulfilled with astonishing historical, prophetic, and mathematical precision in Jesus.
       </p>
 
       <!-- Spiritual & Study Progress Tracker -->
       <div class="progress-bar-container">
         <div class="progress-header">
-          <span class="progress-title">📖 Your Scripture Meditation & Study Journey</span>
+          <span class="progress-title" id="progressTitle">📖 Your Scripture Meditation & Study Journey</span>
           <span class="progress-score" id="progressScore">0 of 14 prophecies studied (0%)</span>
         </div>
         <div class="progress-track">
@@ -83,19 +95,19 @@
       <div class="stats-row">
         <div class="stat-box" id="statCardProb">
           <div class="stat-icon">🎲</div>
-          <div class="stat-value">1 in 10¹⁷</div>
-          <div class="stat-desc">Mathematical probability of fulfilling just 8 prophecies by chance</div>
-          <span class="stat-more">View Texas Illustration &rarr;</span>
+          <div class="stat-value" id="statProbValue">1 in 10¹⁷</div>
+          <div class="stat-desc" id="statProbDesc">Mathematical probability of fulfilling just 8 prophecies by chance</div>
+          <span class="stat-more" id="statProbMore">View Texas Illustration &rarr;</span>
         </div>
         <div class="stat-box">
           <div class="stat-icon">⏳</div>
-          <div class="stat-value">400 to 1,500</div>
-          <div class="stat-desc">Years between the written prophecy and its historical fulfillment</div>
+          <div class="stat-value" id="statYearsValue">400 to 1,500</div>
+          <div class="stat-desc" id="statYearsDesc">Years between the written prophecy and its historical fulfillment</div>
         </div>
         <div class="stat-box">
           <div class="stat-icon">📜</div>
-          <div class="stat-value">Qumran 1947</div>
-          <div class="stat-desc">Dead Sea Scrolls proving scriptures existed centuries before Christ</div>
+          <div class="stat-value" id="statQumranValue">Qumran 1947</div>
+          <div class="stat-desc" id="statQumranDesc">Dead Sea Scrolls proving scriptures existed centuries before Christ</div>
         </div>
       </div>
     </div>
@@ -113,21 +125,21 @@
     </div>
 
     <div class="category-pills" id="categoryContainer">
-      <button class="pill-btn active" data-cat="all">All Prophecies (14)</button>
-      <button class="pill-btn" data-cat="nacimiento">👶 Birth & Royal Lineage</button>
-      <button class="pill-btn" data-cat="ministerio">🕊️ Ministry & Life</button>
-      <button class="pill-btn" data-cat="pasion">✝️ Passion & Sacrifice</button>
-      <button class="pill-btn" data-cat="resurreccion">👑 Resurrection & Glory</button>
+      <button class="pill-btn active" data-cat="all" id="pillBtnAll">All Prophecies (14)</button>
+      <button class="pill-btn" data-cat="nacimiento" id="pillBtnNac">👶 Birth & Royal Lineage</button>
+      <button class="pill-btn" data-cat="ministerio" id="pillBtnMin">🕊️ Ministry & Life</button>
+      <button class="pill-btn" data-cat="pasion" id="pillBtnPas">✝️ Passion & Sacrifice</button>
+      <button class="pill-btn" data-cat="resurreccion" id="pillBtnRes">👑 Resurrection & Glory</button>
     </div>
 
     <div class="sort-and-filter-row">
       <span class="results-count" id="resultsCount">Showing 14 Messianic connections</span>
       <div class="filter-actions">
-        <label for="sortOrderSelect" class="sort-label">Sort by:</label>
+        <label for="sortOrderSelect" class="sort-label" id="sortLabel">Sort by:</label>
         <select id="sortOrderSelect" class="sort-select">
-          <option value="biblical">Biblical / Thematic Order</option>
-          <option value="antiquity">Oldest First (BC)</option>
-          <option value="title">Alphabetical</option>
+          <option value="biblical" id="optBiblical">Biblical / Thematic Order</option>
+          <option value="antiquity" id="optAntiquity">Oldest First (BC)</option>
+          <option value="title" id="optTitle">Alphabetical</option>
         </select>
       </div>
     </div>
@@ -145,18 +157,18 @@
     <div class="modal-box prob-modal-box">
       <button class="modal-close-icon" id="probModalClose">&times;</button>
       <div class="prob-header">
-        <span class="prob-badge">MATHEMATICS & APOLOGETICS</span>
-        <h2>The Texas Silver Dollar Illustration (8 Prophecies)</h2>
-        <p class="prob-author">Based on the probability research of Dr. Peter W. Stoner (Science Speaks)</p>
+        <span class="prob-badge" id="probBadge">MATHEMATICS & APOLOGETICS</span>
+        <h2 id="probTitle">The Texas Silver Dollar Illustration (8 Prophecies)</h2>
+        <p class="prob-author" id="probAuthor">Based on the probability research of Dr. Peter W. Stoner (Science Speaks)</p>
       </div>
       <div class="prob-body">
         <div class="prob-visual-card">
           <div class="prob-coin-art">🪙</div>
-          <div class="prob-quote">
+          <div class="prob-quote" id="probQuote">
             “If you take silver dollars and cover the entire state of Texas (over 268,000 square miles) two feet deep... then mark one silver dollar with a red cross and stir the entire mass thoroughly... and blindfold a man, permitting him to travel wherever he wishes and dig as deep as he likes... what is the probability that he reaches down and picks up that exact marked coin on his very first attempt? <strong>1 in 10¹⁷</strong>.”
           </div>
         </div>
-        <p class="prob-explanation">
+        <p class="prob-explanation" id="probExplanation">
           That is the exact same mathematical probability that any one individual could have fulfilled by blind chance <strong>just eight</strong> of the more than 300 Old Testament Messianic prophecies. Jesus did not merely fulfill eight—He fulfilled every single one of them!
         </p>
       </div>
@@ -215,7 +227,7 @@
         <!-- Old Testament Box -->
         <div class="scripture-col ot-card" id="otBox">
           <div class="col-ribbon ot-ribbon">
-            <span>📜 OLD TESTAMENT</span>
+            <span id="otRibbonText">📜 OLD TESTAMENT</span>
             <span class="date-badge" id="mOtDate">~700 BC</span>
           </div>
           <h3 class="verse-title" id="mOtBook">Isaiah 53:4-5</h3>
@@ -223,7 +235,7 @@
             “Surely He has borne our griefs and carried our sorrows...”
           </blockquote>
           <div class="col-seal">
-            <span class="seal-icon">🏛️</span> Prophesied centuries before Christ
+            <span class="seal-icon">🏛️</span> <span id="otSealText">Prophesied centuries before Christ</span>
           </div>
         </div>
 
@@ -233,14 +245,14 @@
           <div class="bridge-emblem" title="Consummated on the Cross">
             <span class="emblem-cross">✝</span>
           </div>
-          <span class="bridge-tag">FULFILLED</span>
+          <span class="bridge-tag" id="bridgeTagText">FULFILLED</span>
           <div class="bridge-stem"></div>
         </div>
 
         <!-- New Testament Box -->
         <div class="scripture-col nt-card" id="ntBox">
           <div class="col-ribbon nt-ribbon">
-            <span>✨ NEW TESTAMENT</span>
+            <span id="ntRibbonText">✨ NEW TESTAMENT</span>
             <span class="date-badge" id="mNtDate">~30-33 AD</span>
           </div>
           <h3 class="verse-title" id="mNtBook">1 Peter 2:24</h3>
@@ -248,7 +260,7 @@
             “who Himself bore our sins in His own body on the tree...”
           </blockquote>
           <div class="col-seal">
-            <span class="seal-icon">👁️</span> Recorded by firsthand eyewitnesses
+            <span class="seal-icon">👁️</span> <span id="ntSealText">Recorded by firsthand eyewitnesses</span>
           </div>
         </div>
       </div>
@@ -258,8 +270,8 @@
         <div class="insight-header">
           <div class="insight-badge-icon">🕊️</div>
           <div>
-            <h4>The Divine Inspiration Seal</h4>
-            <span class="insight-sub">Why this historical connection could never be coincidence or man-made</span>
+            <h4 id="divineInsightTitle">The Divine Inspiration Seal</h4>
+            <span class="insight-sub" id="divineInsightSub">Why this historical connection could never be coincidence or man-made</span>
           </div>
         </div>
         <p class="insight-text" id="mInsightText">
@@ -270,21 +282,21 @@
       <!-- Modal Bottom Navigation & Actions -->
       <div class="modal-footer-nav">
         <div class="nav-prev-next">
-          <button class="nav-step-btn" id="prevProphecyBtn" title="Previous prophecy">&larr; Previous</button>
-          <button class="nav-step-btn" id="nextProphecyBtn" title="Next prophecy">Next &rarr;</button>
+          <button class="nav-step-btn" id="prevProphecyBtn" title="Previous prophecy"><span id="prevBtnText">&larr; Previous</span></button>
+          <button class="nav-step-btn" id="nextProphecyBtn" title="Next prophecy"><span id="nextBtnText">Next &rarr;</span></button>
         </div>
 
         <div class="nav-share-actions">
           <button class="btn-ask-ai" id="askAiAboutProphecyBtn" title="Ask the AI Scholar about this prophecy">
             <span class="btn-sparkle">🕊️</span>
-            <span>Ask AI Scholar about this prophecy</span>
+            <span id="askAiBtnText">Ask AI Scholar about this prophecy</span>
           </button>
           <button class="btn-share" id="copyShareBtn">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
               <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
             </svg>
-            Copy Full Devotional
+            <span id="copyShareBtnText">Copy Full Devotional</span>
           </button>
         </div>
       </div>
@@ -344,6 +356,93 @@
     </div>
   </div>
 
+  <!-- Holy Bible Reader Modal (All 66 Books - Genesis to Revelation) -->
+  <div class="modal-backdrop" id="bibleModal">
+    <div class="modal-box bible-modal-box">
+      <button class="modal-close-icon" id="bibleModalClose" aria-label="Close Holy Bible">&times;</button>
+      
+      <!-- Bible Header -->
+      <div class="bible-header">
+        <div class="bible-header-left">
+          <div class="bible-avatar">📖</div>
+          <div>
+            <h2 class="bible-title" id="bibleModalTitle">THE HOLY SCRIPTURES</h2>
+            <p class="bible-subtitle" id="bibleModalSubtitle">The Word of the Living God • Old and New Testaments (66 Books)</p>
+          </div>
+        </div>
+        <div class="bible-header-right">
+          <label for="bibleTranslationSelect" class="bible-trans-label" id="bibleTransLabel">Translation:</label>
+          <select id="bibleTranslationSelect" class="bible-trans-select">
+            <option value="RV1960">Reina Valera 1960 (Español)</option>
+            <option value="WEB">World English Bible (English)</option>
+            <option value="KJV">King James Version (English)</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Book & Chapter Selectors Toolbar -->
+      <div class="bible-nav-toolbar">
+        <div class="testament-filter-row">
+          <button class="testament-pill active" data-testament="all" id="testamentAllBtn">All (66)</button>
+          <button class="testament-pill" data-testament="OT" id="testamentOtBtn">Old Testament (39)</button>
+          <button class="testament-pill" data-testament="NT" id="testamentNtBtn">New Testament (27)</button>
+        </div>
+
+        <div class="bible-selector-row">
+          <div class="selector-field">
+            <label for="bibleBookSelect" id="bibleBookLabel">Book:</label>
+            <select id="bibleBookSelect" class="bible-select"></select>
+          </div>
+          <div class="selector-field">
+            <label for="bibleChapterSelect" id="bibleChapterLabel">Chapter:</label>
+            <select id="bibleChapterSelect" class="bible-select"></select>
+          </div>
+          <div class="bible-font-controls">
+            <button id="bibleFontDecBtn" class="font-btn" title="Decrease font size">A-</button>
+            <button id="bibleFontIncBtn" class="font-btn" title="Increase font size">A+</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Chapter Navigation & Status Bar -->
+      <div class="bible-reader-bar">
+        <div class="reader-heading">
+          <h3 id="bibleCurrentHeading">Genesis 1</h3>
+          <span class="reader-translation-tag" id="bibleCurrentTransTag">Reina Valera 1960</span>
+        </div>
+        <div class="reader-actions">
+          <button id="biblePrevChapterBtn" class="reader-nav-btn" title="Previous chapter">← Previous</button>
+          <button id="bibleNextChapterBtn" class="reader-nav-btn" title="Next chapter">Next →</button>
+          <button id="bibleCopyChapterBtn" class="reader-action-btn" title="Copy entire chapter">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+            </svg>
+            <span id="bibleCopyBtnText">Copy Chapter</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Messianic Cross-Reference Banner (Shown if chapter contains a prophecy) -->
+      <div class="prophecy-banner" id="bibleProphecyBanner" style="display: none;">
+        <span class="banner-icon">✨</span>
+        <div class="banner-text">
+          <strong id="bannerProphecyTitle">Messianic Prophecy Found in this Chapter!</strong>
+          <span id="bannerProphecyDesc">Click to open parallel view comparing with New Testament fulfillment.</span>
+        </div>
+        <button id="bannerOpenProphecyBtn" class="banner-btn">Examine Fulfillment →</button>
+      </div>
+
+      <!-- Verses Body Stream -->
+      <div class="bible-verses-stream" id="bibleVersesStream">
+        <div class="bible-loading-state">
+          <div class="sacred-spinner"></div>
+          <p id="bibleLoadingText">Opening the Sacred Scriptures...</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- Floating Messianic Worship Audio Player (Yeshua HaMashiach - Jerusalem Praise) -->
   <aside class="messianic-player-bar" id="messianicPlayerBar" aria-label="Hebrew Worship Player">
     <!-- Hidden YouTube API container -->
@@ -390,19 +489,20 @@
   <footer class="app-footer">
     <div class="container footer-layout">
       <div class="footer-verse">
-        <p class="verse-p">
+        <p class="verse-p" id="footerVerseText">
           “You search the Scriptures because you think that in them you have eternal life; and it is they that bear witness about Me.”
         </p>
-        <cite>— John 5:39</cite>
+        <cite id="footerCiteText">— John 5:39</cite>
       </div>
       <div class="footer-credits">
-        <p><strong>Eternal Connections</strong> • Built for deep scripture study, reflection, and edification</p>
-        <p class="footer-sub">All of the Old Testament points forward to the Cross. All of the New Testament looks back to it.</p>
+        <p id="footerCreditsText"><strong>Eternal Connections</strong> • Built for deep scripture study, reflection, and edification</p>
+        <p class="footer-sub" id="footerSubText">All of the Old Testament points forward to the Cross. All of the New Testament looks back to it.</p>
       </div>
     </div>
   </footer>
 
   <script src="config.local.js"></script>
+  <script src="bible-data.js"></script>
   <script src="app.js"></script>
 </body>
 </html>

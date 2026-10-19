@@ -1286,30 +1286,43 @@ function initStarsCanvas() {
   const ctx = canvas.getContext('2d');
   let width, height;
   let particles = [];
-  const count = 48;
+  const isMobile = window.innerWidth < 768 || ('ontouchstart' in window);
+  const count = isMobile ? 18 : 42;
+  let animId = null;
+  let lastTime = 0;
 
   function resize() {
     width = canvas.width = window.innerWidth;
     height = canvas.height = window.innerHeight;
   }
-  window.addEventListener('resize', resize);
+  window.addEventListener('resize', resize, { passive: true });
   resize();
 
   for (let i = 0; i < count; i++) {
     particles.push({
       x: Math.random() * width,
       y: Math.random() * height,
-      size: Math.random() * 2.2 + 0.5,
-      speedX: (Math.random() - 0.5) * 0.25,
-      speedY: (Math.random() - 0.5) * 0.25,
+      size: Math.random() * 2.0 + 0.5,
+      speedX: (Math.random() - 0.5) * (isMobile ? 0.15 : 0.25),
+      speedY: (Math.random() - 0.5) * (isMobile ? 0.15 : 0.25),
       alpha: Math.random() * 0.7 + 0.3,
-      alphaSpeed: Math.random() * 0.015 + 0.005,
+      alphaSpeed: Math.random() * 0.012 + 0.005,
       isGold: Math.random() > 0.4
     });
   }
 
-  function render() {
+  function render(now) {
+    // Throttle frame rate to ~30fps on mobile to save battery and avoid thermal throttling
+    if (isMobile) {
+      if (now - lastTime < 32) {
+        animId = requestAnimationFrame(render);
+        return;
+      }
+      lastTime = now;
+    }
+
     ctx.clearRect(0, 0, width, height);
+
     for (let p of particles) {
       p.x += p.speedX;
       p.y += p.speedY;
@@ -1321,20 +1334,37 @@ function initStarsCanvas() {
       if (p.y < 0) p.y = height;
       if (p.y > height) p.y = 0;
 
-      ctx.save();
       ctx.beginPath();
       ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
       ctx.fillStyle = p.isGold 
         ? `rgba(230, 184, 92, ${p.alpha * 0.75})`
         : `rgba(255, 255, 255, ${p.alpha * 0.45})`;
-      ctx.shadowBlur = p.isGold ? 8 : 4;
-      ctx.shadowColor = p.isGold ? 'rgba(230, 184, 92, 0.8)' : 'rgba(255, 255, 255, 0.5)';
+
+      // Skip heavy shadow blur on mobile for high performance
+      if (!isMobile) {
+        ctx.shadowBlur = p.isGold ? 8 : 4;
+        ctx.shadowColor = p.isGold ? 'rgba(230, 184, 92, 0.8)' : 'rgba(255, 255, 255, 0.5)';
+      }
       ctx.fill();
-      ctx.restore();
     }
-    requestAnimationFrame(render);
+
+    if (!document.hidden) {
+      animId = requestAnimationFrame(render);
+    }
   }
-  render();
+
+  // Handle tab visibility to pause animation loop when backgrounded
+  document.addEventListener('visibilitychange', () => {
+    if (!document.hidden && !animId) {
+      lastTime = performance.now();
+      animId = requestAnimationFrame(render);
+    } else if (document.hidden && animId) {
+      cancelAnimationFrame(animId);
+      animId = null;
+    }
+  });
+
+  animId = requestAnimationFrame(render);
 }
 
 // --- 7. MAIN APPLICATION LOGIC ---
@@ -1369,6 +1399,11 @@ document.addEventListener('DOMContentLoaded', () => {
   const themeToggleBtn = document.getElementById('themeToggleBtn');
   const themeIcon = document.getElementById('themeIcon');
   const themeText = document.getElementById('themeText');
+  const navHamburgerBtn = document.getElementById('navHamburgerBtn');
+  const navDrawerBackdrop = document.getElementById('navDrawerBackdrop');
+  const navControls = document.getElementById('navControls');
+  const langToggleBtnMobile = document.getElementById('langToggleBtnMobile');
+  const langBtnTextMobile = document.getElementById('langBtnTextMobile');
 
   // Hero & Stats
   const heroBadgeText = document.getElementById('heroBadgeText');
@@ -1592,6 +1627,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Navigation
     if (langBtnText) langBtnText.textContent = t.langBtn;
+    if (langBtnTextMobile) langBtnTextMobile.textContent = lang === 'es' ? 'EN' : 'ES';
     if (bibleNavBtnText) bibleNavBtnText.textContent = t.bibleBtn;
     if (worshipNavLabel) worshipNavLabel.textContent = t.worshipNavLabel;
     if (sfxNavLabel) sfxNavLabel.textContent = t.sfxNavLabel;
@@ -2131,6 +2167,78 @@ ${getLocalized(p, 'insight')}
     if (e.target === probModal) {
       probModal.classList.remove('open');
       document.body.style.overflow = 'auto';
+    }
+  });
+
+  // Mobile Navigation Drawer Controls
+  function closeMobileDrawer() {
+    if (navHamburgerBtn) {
+      navHamburgerBtn.classList.remove('active');
+      navHamburgerBtn.setAttribute('aria-expanded', 'false');
+    }
+    if (navControls) navControls.classList.remove('drawer-open');
+    if (navDrawerBackdrop) navDrawerBackdrop.classList.remove('active');
+  }
+
+  function toggleMobileDrawer() {
+    if (!navHamburgerBtn || !navControls) return;
+    const isOpen = navControls.classList.contains('drawer-open');
+    if (isOpen) {
+      closeMobileDrawer();
+    } else {
+      navHamburgerBtn.classList.add('active');
+      navHamburgerBtn.setAttribute('aria-expanded', 'true');
+      navControls.classList.add('drawer-open');
+      if (navDrawerBackdrop) navDrawerBackdrop.classList.add('active');
+    }
+  }
+
+  if (navHamburgerBtn) {
+    navHamburgerBtn.addEventListener('click', toggleMobileDrawer);
+  }
+  if (navDrawerBackdrop) {
+    navDrawerBackdrop.addEventListener('click', closeMobileDrawer);
+  }
+  if (navControls) {
+    navControls.querySelectorAll('.nav-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        if (window.innerWidth <= 860) {
+          closeMobileDrawer();
+        }
+      });
+    });
+  }
+
+  // Mobile quick language switcher button
+  if (langToggleBtnMobile) {
+    langToggleBtnMobile.addEventListener('click', () => {
+      const nextLang = currentLanguage === 'en' ? 'es' : 'en';
+      try { audio.playHarpChime(audio.scale.G4); } catch (_) {}
+      applyLanguage(nextLang);
+      showToast(nextLang === 'es' ? 'Idioma cambiado a Español 🇪🇸' : 'Language switched to English 🇺🇸');
+    });
+  }
+
+  // Automatically keep body.modal-open in sync with all modal backdrops
+  const modalObserver = new MutationObserver(() => {
+    const anyModalOpen = !!document.querySelector('.modal-backdrop.open');
+    if (anyModalOpen) {
+      document.body.classList.add('modal-open');
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.classList.remove('modal-open');
+      document.body.style.overflow = '';
+    }
+  });
+
+  document.querySelectorAll('.modal-backdrop').forEach(modalEl => {
+    modalObserver.observe(modalEl, { attributes: true, attributeFilter: ['class'] });
+  });
+
+  // Global Escape key listener: closes drawer or active modal
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      closeMobileDrawer();
     }
   });
 

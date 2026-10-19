@@ -25,7 +25,20 @@
         <span class="brand-text">ETERNAL CONNECTIONS</span>
       </div>
 
-      <div class="nav-controls">
+      <!-- Mobile Top Bar Quick Actions: Lang + Hamburger -->
+      <div class="nav-mobile-right">
+        <button id="langToggleBtnMobile" class="nav-mobile-lang-btn" title="Switch language / Cambiar idioma" aria-label="Switch language">
+          <span class="btn-icon">🌐</span>
+          <span class="btn-text-mobile" id="langBtnTextMobile">ES</span>
+        </button>
+        <button class="nav-hamburger-btn" id="navHamburgerBtn" aria-label="Toggle navigation menu" aria-expanded="false">
+          <span class="hamburger-bar"></span>
+          <span class="hamburger-bar"></span>
+          <span class="hamburger-bar"></span>
+        </button>
+      </div>
+
+      <div class="nav-controls" id="navControls">
         <!-- Language Switcher Button (English <-> Español) -->
         <button id="langToggleBtn" class="nav-btn lang-nav-btn" title="Switch language / Cambiar idioma" aria-label="Switch language">
           <span class="btn-icon">🌐</span>
@@ -65,6 +78,9 @@
       </div>
     </div>
   </nav>
+
+  <!-- Mobile Navigation Drawer Backdrop -->
+  <div class="nav-drawer-backdrop" id="navDrawerBackdrop"></div>
 
   <!-- Hero Header -->
   <header class="hero-section">
@@ -240,7 +256,7 @@
   <!-- Texas Probability Illustration Modal -->
   <div class="modal-backdrop" id="probModal">
     <div class="modal-box prob-modal-box">
-      <button class="modal-close-icon" id="probModalClose">&times;</button>
+      <button class="modal-close-icon" id="probModalClose" aria-label="Close probability modal">&times;</button>
       <div class="prob-header">
         <span class="prob-badge" id="probBadge">MATHEMATICS & APOLOGETICS</span>
         <h2 id="probTitle">The Texas Silver Dollar Illustration (8 Prophecies)</h2>

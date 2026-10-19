@@ -2783,6 +2783,27 @@ ${getLocalized(p, 'insight')}
     });
   }
 
+  const brandSymbol = document.querySelector('.brand-symbol');
+  if (brandSymbol) {
+    brandSymbol.style.cursor = 'pointer';
+    brandSymbol.title = "Christ is the center";
+    brandSymbol.addEventListener('click', (e) => {
+      e.preventDefault();
+      crossClickCount++;
+      try { audio.playHarpChime(audio.scale.C5); } catch (_) {}
+
+      clearTimeout(crossClickTimeout);
+      if (crossClickCount >= 3) {
+        crossClickCount = 0;
+        triggerAdminAccess();
+      } else {
+        crossClickTimeout = setTimeout(() => {
+          crossClickCount = 0;
+        }, 1400);
+      }
+    });
+  }
+
   if (footerAdminLockBtn) {
     footerAdminLockBtn.addEventListener('click', (e) => {
       e.preventDefault();

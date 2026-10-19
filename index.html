@@ -682,10 +682,24 @@
           <input type="range" id="worshipVolumeSlider" min="0" max="100" value="85" class="worship-slider" title="Worship Volume">
         </div>
 
-        <button class="player-minimize-btn" id="playerMinimizeBtn" title="Minimize / Expand player">&minus;</button>
+        <button class="player-minimize-btn" id="playerMinimizeBtn" title="Minimize / Collapse player" aria-label="Minimize Hebrew Worship player">
+          <span class="minimize-icon">⌄</span>
+        </button>
       </div>
     </div>
   </aside>
+
+  <!-- Compact Collapsed Floating Worship Pill (Pinned near bottom corner) -->
+  <button class="worship-mini-pill hidden-pill" id="worshipMiniPill" title="Expand Hebrew Worship Player" aria-label="Expand Hebrew Worship Player" style="display: none;">
+    <span class="mini-pill-art">
+      <span class="mini-pill-note">🎵</span>
+      <span class="mini-pill-eq" id="miniPillEq">
+        <span></span><span></span><span></span>
+      </span>
+    </span>
+    <span class="mini-pill-label" id="miniPillLabel">Hebrew Worship</span>
+    <span class="mini-pill-chevron">⌃</span>
+  </button>
 
   <!-- Toast Notification -->
   <div class="custom-toast" id="customToast">

@@ -789,7 +789,8 @@ const I18N = {
     adminResetBtn: "Reset to Default",
     adminResetToast: "Restored to default devotional.",
     adminExportBtn: "Export JSON",
-    adminExportToast: "Devotional JSON copied to clipboard! Ready to paste into repo."
+    adminExportToast: "Devotional JSON copied to clipboard! Ready to paste into repo.",
+    worshipMiniPill: "Hebrew Worship"
   },
   es: {
     pageTitle: "Conexiones Eternas | El Hilo Mesiánico de las Escrituras",
@@ -930,7 +931,8 @@ const I18N = {
     adminResetBtn: "Restaurar por defecto",
     adminResetToast: "Restaurado al devocional por defecto.",
     adminExportBtn: "Exportar JSON",
-    adminExportToast: "¡JSON del devocional copiado al portapapeles! Listo para pegar en el repositorio."
+    adminExportToast: "¡JSON del devocional copiado al portapapeles! Listo para pegar en el repositorio.",
+    worshipMiniPill: "Alabanza Mesiánica"
   }
 };
 
@@ -1028,6 +1030,7 @@ window.onYouTubeIframeAPIReady = function() {
 function syncWorshipPlayerUI(playing) {
   isWorshipPlaying = playing;
   const bar = document.getElementById('messianicPlayerBar');
+  const miniPill = document.getElementById('worshipMiniPill');
   const navBtn = document.getElementById('ambientSoundBtn');
   const ambientState = document.getElementById('ambientState');
   const btnIcon = document.getElementById('worshipBtnIcon');
@@ -1035,12 +1038,14 @@ function syncWorshipPlayerUI(playing) {
 
   if (playing) {
     if (bar) bar.classList.add('playing');
+    if (miniPill) miniPill.classList.add('playing');
     if (navBtn) navBtn.classList.add('active-worship');
     if (ambientState) ambientState.textContent = 'PAUSE';
     if (btnIcon) btnIcon.textContent = '⏸';
     if (btnLabel) btnLabel.textContent = currentLanguage === 'es' ? 'Pausar Alabanza' : 'Pause Worship';
   } else {
     if (bar) bar.classList.remove('playing');
+    if (miniPill) miniPill.classList.remove('playing');
     if (navBtn) navBtn.classList.remove('active-worship');
     if (ambientState) ambientState.textContent = 'PLAY';
     if (btnIcon) btnIcon.textContent = '▶';
@@ -1633,6 +1638,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (sfxNavLabel) sfxNavLabel.textContent = t.sfxNavLabel;
     if (sfxState) sfxState.textContent = audio.sfxEnabled ? t.sfxOn : t.sfxOff;
     if (aiNavBtnText) aiNavBtnText.textContent = t.aiScholar;
+    if (miniPillLabel) miniPillLabel.textContent = t.worshipMiniPill;
 
     // Hero & Stats
     if (heroBadgeText) heroBadgeText.textContent = t.heroBadge;
@@ -2284,12 +2290,15 @@ ${getLocalized(p, 'insight')}
     renderGrid();
   });
 
-  // Messianic Hebrew Worship Controls
+  // Messianic Hebrew Worship Controls & Visibility Toggle
   const worshipMainBtn = document.getElementById('worshipMainBtn');
   const worshipVolumeSlider = document.getElementById('worshipVolumeSlider');
   const playerMinimizeBtn = document.getElementById('playerMinimizeBtn');
   const volMuteBtn = document.getElementById('volMuteBtn');
   const messianicPlayerBar = document.getElementById('messianicPlayerBar');
+  const worshipMiniPill = document.getElementById('worshipMiniPill');
+  const miniPillLabel = document.getElementById('miniPillLabel');
+  const STORAGE_KEY_WORSHIP_VISIBLE = 'conexiones_worship_bar_visible';
 
   if (ambientSoundBtn) ambientSoundBtn.addEventListener('click', toggleWorshipMusic);
   if (worshipMainBtn) worshipMainBtn.addEventListener('click', toggleWorshipMusic);
@@ -2303,11 +2312,66 @@ ${getLocalized(p, 'insight')}
     });
   }
 
-  if (playerMinimizeBtn && messianicPlayerBar) {
-    playerMinimizeBtn.addEventListener('click', () => {
-      messianicPlayerBar.classList.toggle('minimized');
+  function setWorshipBarCollapsed(collapsed, save = true) {
+    if (!messianicPlayerBar) return;
+    if (collapsed) {
+      messianicPlayerBar.classList.add('collapsed');
+      if (worshipMiniPill) {
+        worshipMiniPill.style.display = 'inline-flex';
+        // Trigger reflow for smooth opacity/scale animation
+        void worshipMiniPill.offsetWidth;
+        worshipMiniPill.classList.remove('hidden-pill');
+        if (isWorshipPlaying) {
+          worshipMiniPill.classList.add('playing');
+        } else {
+          worshipMiniPill.classList.remove('playing');
+        }
+      }
+      if (save) {
+        try { localStorage.setItem(STORAGE_KEY_WORSHIP_VISIBLE, 'collapsed'); } catch (_) {}
+      }
+    } else {
+      messianicPlayerBar.classList.remove('collapsed');
+      if (worshipMiniPill) {
+        worshipMiniPill.classList.add('hidden-pill');
+        setTimeout(() => {
+          if (!messianicPlayerBar.classList.contains('collapsed')) {
+            worshipMiniPill.style.display = 'none';
+          }
+        }, 300);
+      }
+      if (save) {
+        try { localStorage.setItem(STORAGE_KEY_WORSHIP_VISIBLE, 'expanded'); } catch (_) {}
+      }
+    }
+  }
+
+  // Toggle button on the player bar (chevron '⌄' minimizes downward)
+  if (playerMinimizeBtn) {
+    playerMinimizeBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      try { audio.playHarpChime(audio.scale.D4); } catch (_) {}
+      setWorshipBarCollapsed(true, true);
     });
   }
+
+  // Floating mini pill click (expands player back up)
+  if (worshipMiniPill) {
+    worshipMiniPill.addEventListener('click', () => {
+      try { audio.playHarpChime(audio.scale.G4); } catch (_) {}
+      setWorshipBarCollapsed(false, true);
+    });
+  }
+
+  // Restore saved player visibility preference from localStorage
+  try {
+    const savedVisibility = localStorage.getItem(STORAGE_KEY_WORSHIP_VISIBLE);
+    if (savedVisibility === 'collapsed') {
+      setWorshipBarCollapsed(true, false);
+    } else {
+      setWorshipBarCollapsed(false, false);
+    }
+  } catch (_) {}
 
   if (volMuteBtn) {
     let isMuted = false;

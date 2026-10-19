@@ -2312,5 +2312,647 @@ body {
   }
 }
 
+/* ==========================================================================
+   DAILY / WEEKLY DEVOTIONAL SECTION & CARD
+   ========================================================================== */
+.devotional-section {
+  margin: 1.5rem auto 2.5rem auto;
+  position: relative;
+  z-index: 2;
+}
 
+.devotional-card {
+  background: linear-gradient(145deg, rgba(22, 32, 53, 0.95), rgba(12, 18, 30, 0.98));
+  border: 1px solid var(--gold-border);
+  border-radius: 20px;
+  padding: 2.2rem 2.6rem;
+  box-shadow: 0 16px 45px -10px rgba(0, 0, 0, 0.55), 0 0 30px var(--gold-glow);
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
 
+[data-theme="parchment"] .devotional-card {
+  background: linear-gradient(145deg, #ffffff, #faf6ee);
+  box-shadow: 0 16px 45px -10px rgba(70, 50, 30, 0.15), 0 0 25px var(--gold-glow);
+}
+
+.devotional-card:hover {
+  box-shadow: 0 20px 50px -10px rgba(0, 0, 0, 0.65), 0 0 38px var(--gold-glow);
+}
+
+.devo-card-glow {
+  position: absolute;
+  top: -80px;
+  right: -80px;
+  width: 260px;
+  height: 260px;
+  background: radial-gradient(circle, var(--gold-glow) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.devo-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.4rem;
+}
+
+.devo-header-left {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  flex-wrap: wrap;
+}
+
+.devo-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  background: rgba(230, 184, 92, 0.12);
+  border: 1px solid var(--gold-border);
+  color: var(--gold-light);
+  font-family: 'Cinzel', serif;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  padding: 0.35rem 0.95rem;
+  border-radius: 50px;
+}
+
+.devo-frequency-pill {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  font-family: 'Lora', Georgia, serif;
+  font-style: italic;
+}
+
+.devo-cross-btn {
+  background: rgba(230, 184, 92, 0.08);
+  border: 1px solid rgba(230, 184, 92, 0.25);
+  color: var(--gold-light);
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  user-select: none;
+}
+
+.devo-cross-btn:hover {
+  background: var(--gold-primary);
+  color: #060911;
+  transform: scale(1.12);
+  box-shadow: 0 0 16px var(--gold-glow);
+}
+
+.devo-cross-btn:active {
+  transform: scale(0.95);
+}
+
+.cross-glyph {
+  font-size: 1.15rem;
+  line-height: 1;
+}
+
+.devo-lead {
+  margin-bottom: 1.2rem;
+}
+
+.devo-title {
+  font-family: 'Cinzel Decorative', 'Cinzel', serif;
+  font-size: 1.85rem;
+  font-weight: 700;
+  color: var(--gold-primary);
+  margin-bottom: 0.4rem;
+  line-height: 1.3;
+}
+
+[data-theme="parchment"] .devo-title {
+  color: var(--gold-dark);
+}
+
+.devo-passage-ref {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-family: 'Cinzel', serif;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--nt-accent);
+}
+
+.ref-icon {
+  font-size: 1rem;
+}
+
+.devo-scripture-quote {
+  font-family: 'Lora', Georgia, serif;
+  font-size: 1.15rem;
+  font-style: italic;
+  line-height: 1.8;
+  color: var(--text-verse);
+  background: rgba(230, 184, 92, 0.04);
+  border-left: 3px solid var(--gold-primary);
+  border-radius: 0 12px 12px 0;
+  padding: 1.2rem 1.6rem;
+  margin-bottom: 1.5rem;
+}
+
+[data-theme="parchment"] .devo-scripture-quote {
+  background: rgba(148, 105, 28, 0.06);
+}
+
+.devo-reflection-block {
+  background: rgba(0, 0, 0, 0.18);
+  border: 1px solid var(--border-subtle);
+  border-radius: 12px;
+  padding: 1.4rem 1.6rem;
+  margin-bottom: 1.8rem;
+}
+
+[data-theme="parchment"] .devo-reflection-block {
+  background: rgba(80, 60, 40, 0.04);
+}
+
+.devo-reflection-label {
+  font-family: 'Cinzel', serif;
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--gold-light);
+  margin-bottom: 0.6rem;
+  letter-spacing: 0.04em;
+}
+
+[data-theme="parchment"] .devo-reflection-label {
+  color: var(--gold-dark);
+}
+
+.devo-reflection-text {
+  font-size: 1.02rem;
+  line-height: 1.82;
+  color: var(--text-main);
+  font-family: 'Lora', Georgia, serif;
+}
+
+.devo-actions-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  padding-top: 1.2rem;
+  border-top: 1px solid var(--border-subtle);
+}
+
+.devo-prophecy-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  background: linear-gradient(135deg, rgba(230, 184, 92, 0.22), rgba(184, 134, 40, 0.35));
+  border: 1px solid var(--gold-primary);
+  color: var(--gold-light);
+  border-radius: 10px;
+  padding: 0.65rem 1.3rem;
+  font-family: 'Cinzel', serif;
+  font-size: 0.88rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.devo-prophecy-btn:hover {
+  background: var(--gold-primary);
+  color: #060911;
+  box-shadow: 0 0 20px var(--gold-glow);
+  transform: translateY(-2px);
+}
+
+.devo-action-buttons {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.devo-action-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-main);
+  border-radius: 10px;
+  padding: 0.65rem 1.2rem;
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.devo-action-btn svg {
+  width: 16px;
+  height: 16px;
+}
+
+.devo-action-btn:hover {
+  border-color: var(--gold-primary);
+  color: var(--gold-light);
+  transform: translateY(-1px);
+}
+
+/* ==========================================================================
+   ADMIN PASSCODE MODAL
+   ========================================================================== */
+.admin-passcode-box {
+  max-width: 440px;
+  text-align: center;
+  padding: 2.2rem;
+}
+
+.passcode-head .passcode-icon {
+  font-size: 2.6rem;
+  display: block;
+  margin-bottom: 0.6rem;
+}
+
+.passcode-head h3 {
+  font-family: 'Cinzel', serif;
+  font-size: 1.35rem;
+  color: var(--gold-primary);
+  margin-bottom: 0.4rem;
+}
+
+.passcode-head p {
+  color: var(--text-muted);
+  font-size: 0.88rem;
+  line-height: 1.5;
+}
+
+.passcode-input-group {
+  display: flex;
+  gap: 0.5rem;
+  margin: 1.6rem 0 0.6rem 0;
+}
+
+.passcode-input-group input {
+  flex: 1;
+  padding: 0.75rem 1rem;
+  background: var(--bg-surface);
+  border: 1px solid var(--gold-border);
+  border-radius: 10px;
+  color: var(--text-main);
+  font-size: 0.95rem;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.passcode-input-group input:focus {
+  border-color: var(--gold-primary);
+  box-shadow: 0 0 12px var(--gold-glow);
+}
+
+.passcode-submit-btn {
+  padding: 0.75rem 1.3rem;
+  background: linear-gradient(135deg, var(--gold-primary), var(--gold-dark));
+  border: none;
+  border-radius: 10px;
+  color: #060911;
+  font-family: 'Cinzel', serif;
+  font-weight: 700;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.passcode-submit-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 0 16px var(--gold-glow);
+}
+
+.passcode-error {
+  color: #ef5350;
+  font-size: 0.82rem;
+  margin-top: 0.5rem;
+}
+
+/* ==========================================================================
+   ADMIN DEVOTIONAL EDITOR MODAL
+   ========================================================================== */
+.admin-devo-box {
+  max-width: 840px;
+  width: 95%;
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: 2.4rem;
+}
+
+.admin-devo-head {
+  margin-bottom: 1.6rem;
+  text-align: center;
+}
+
+.admin-devo-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: 'Cinzel', serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--gold-light);
+  letter-spacing: 0.12em;
+  margin-bottom: 0.4rem;
+}
+
+.admin-devo-head h2 {
+  font-family: 'Cinzel Decorative', 'Cinzel', serif;
+  font-size: 1.65rem;
+  color: var(--gold-primary);
+  margin-bottom: 0.4rem;
+}
+
+.admin-devo-head p {
+  color: var(--text-muted);
+  font-size: 0.88rem;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.admin-toolbar-row {
+  display: flex;
+  gap: 1.2rem;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1.2rem;
+  border-bottom: 1px solid var(--border-subtle);
+  background: rgba(230, 184, 92, 0.03);
+  padding: 1.2rem;
+  border-radius: 12px;
+  border: 1px solid var(--border-subtle);
+}
+
+.admin-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  flex: 1;
+  min-width: 200px;
+}
+
+.admin-group label, .admin-lang-tabs .lang-tab-label {
+  font-family: 'Cinzel', serif;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--gold-light);
+  letter-spacing: 0.04em;
+}
+
+.admin-select {
+  background: var(--bg-surface);
+  border: 1px solid var(--gold-border);
+  border-radius: 8px;
+  color: var(--text-main);
+  padding: 0.65rem 0.9rem;
+  font-size: 0.88rem;
+  outline: none;
+  cursor: pointer;
+  transition: border-color 0.2s;
+}
+
+.admin-select:focus {
+  border-color: var(--gold-primary);
+  box-shadow: 0 0 10px var(--gold-glow);
+}
+
+.admin-lang-tabs {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.admin-lang-tabs .tab-btn-group {
+  display: flex;
+  gap: 0.4rem;
+}
+
+.admin-tab-btn {
+  padding: 0.55rem 1rem;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: 8px;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-size: 0.88rem;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.admin-tab-btn:hover {
+  color: var(--text-main);
+  border-color: var(--gold-border);
+}
+
+.admin-tab-btn.active {
+  background: rgba(230, 184, 92, 0.18);
+  border-color: var(--gold-primary);
+  color: var(--gold-light);
+  box-shadow: 0 0 10px var(--gold-glow);
+}
+
+.admin-field-group {
+  margin-bottom: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.admin-field-group label {
+  font-family: 'Cinzel', serif;
+  font-size: 0.84rem;
+  font-weight: 700;
+  color: var(--gold-light);
+  letter-spacing: 0.04em;
+}
+
+.admin-input, .admin-textarea {
+  width: 100%;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: 10px;
+  color: var(--text-main);
+  padding: 0.8rem 1.1rem;
+  font-size: 0.95rem;
+  font-family: inherit;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.admin-input:focus, .admin-textarea:focus {
+  border-color: var(--gold-primary);
+  outline: none;
+  box-shadow: 0 0 14px var(--gold-glow);
+}
+
+.admin-textarea {
+  line-height: 1.65;
+  resize: vertical;
+}
+
+.admin-actions-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 1.8rem;
+  padding-top: 1.4rem;
+  border-top: 1px solid var(--border-subtle);
+  flex-wrap: wrap;
+}
+
+.admin-actions-left {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  flex-wrap: wrap;
+}
+
+.admin-btn-save {
+  background: linear-gradient(135deg, var(--gold-primary), var(--gold-dark));
+  color: #060911;
+  font-family: 'Cinzel', serif;
+  font-weight: 700;
+  font-size: 0.92rem;
+  padding: 0.75rem 1.6rem;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.admin-btn-save:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 20px var(--gold-glow);
+}
+
+.admin-btn-reset {
+  background: transparent;
+  color: #ef5350;
+  border: 1px solid rgba(239, 83, 80, 0.45);
+  font-family: 'Cinzel', serif;
+  font-weight: 700;
+  font-size: 0.85rem;
+  padding: 0.72rem 1.3rem;
+  border-radius: 10px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.2s ease;
+}
+
+.admin-btn-reset:hover {
+  background: rgba(239, 83, 80, 0.12);
+  border-color: #ef5350;
+}
+
+.admin-btn-export {
+  background: rgba(79, 165, 234, 0.12);
+  color: var(--nt-accent);
+  border: 1px solid rgba(79, 165, 234, 0.4);
+  font-family: 'Cinzel', serif;
+  font-weight: 700;
+  font-size: 0.85rem;
+  padding: 0.72rem 1.4rem;
+  border-radius: 10px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.2s ease;
+}
+
+.admin-btn-export:hover {
+  background: var(--nt-accent);
+  color: #ffffff;
+  box-shadow: 0 0 16px var(--nt-glow);
+}
+
+/* Footer Admin Trigger */
+.footer-admin-trigger {
+  margin-top: 0.9rem;
+  display: flex;
+  justify-content: center;
+}
+
+.footer-lock-btn {
+  background: transparent;
+  border: 1px solid transparent;
+  color: var(--text-faint);
+  font-size: 0.78rem;
+  cursor: pointer;
+  opacity: 0.45;
+  transition: opacity 0.25s, color 0.25s, border-color 0.25s;
+  padding: 0.25rem 0.65rem;
+  border-radius: 6px;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.footer-lock-btn:hover {
+  opacity: 1;
+  color: var(--gold-light);
+  border-color: rgba(230, 184, 92, 0.3);
+}
+
+/* Devotional Responsive Rules */
+@media (max-width: 768px) {
+  .devotional-card {
+    padding: 1.5rem 1.3rem;
+  }
+  .devo-title {
+    font-size: 1.45rem;
+  }
+  .devo-scripture-quote {
+    font-size: 1rem;
+    padding: 1rem 1.2rem;
+  }
+  .devo-actions-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .devo-action-buttons {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .devo-prophecy-btn, .devo-action-btn {
+    justify-content: center;
+  }
+  .admin-devo-box {
+    padding: 1.4rem;
+  }
+  .admin-toolbar-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .admin-actions-bar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .admin-actions-left {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .admin-btn-save, .admin-btn-reset, .admin-btn-export {
+    justify-content: center;
+    width: 100%;
+  }
+}

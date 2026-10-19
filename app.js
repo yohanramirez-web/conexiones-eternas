@@ -750,7 +750,42 @@ const I18N = {
     bibleTransLabel: "Translation:",
     bibleProphecyBannerTitle: "Messianic Prophecy Found in this Chapter!",
     bibleProphecyBannerDesc: "Click to open parallel view comparing with New Testament fulfillment.",
-    bibleProphecyBannerBtn: "Examine Fulfillment →"
+    bibleProphecyBannerBtn: "Examine Fulfillment →",
+    // Devotional Section & Admin Editor
+    devoBadgeWeekly: "WEEKLY REFLECTION",
+    devoBadgeDaily: "DAILY MEDITATION",
+    devoFreqWeekly: "Weekly Devotional",
+    devoFreqDaily: "Daily Devotional",
+    devoReflectionHeading: "🕊️ Guided Theological Reflection:",
+    devoLinkedProphecyCta: (title) => `Examine Linked Prophecy: ${title} →`,
+    devoListenBtn: "Listen",
+    devoCopyBtn: "Copy Message",
+    devoCopiedToast: "Devotional message copied to clipboard!",
+    passcodeTitle: "Admin Authentication",
+    passcodeSubtitle: "Enter the secret passcode to access the Devotional Editor.",
+    passcodePlaceholder: "Passcode (e.g. eternas2026)",
+    passcodeSubmitBtn: "Unlock →",
+    passcodeIncorrect: "Incorrect passcode. Please try again.",
+    passcodeUnlockedToast: "Admin mode unlocked!",
+    adminEditorBadge: "ADMINISTRATION & DEVOTIONAL EDITOR",
+    adminEditorTitle: "Daily / Weekly Devotional Editor",
+    adminEditorSubtitle: "Update the featured scripture meditation directly from your phone or desktop. Saves to client storage and updates in real-time.",
+    adminFreqLabel: "Frequency / Categoría:",
+    adminProphecyLabel: "Linked Prophecy / Profecía Vinculada:",
+    adminOptWeekly: "Weekly Message / Mensaje Semanal",
+    adminOptDaily: "Daily Message / Mensaje Diario",
+    adminOptNone: "None / Ninguna",
+    adminEditingLangLabel: "Editing language:",
+    adminFieldTitleLabel: "Devotional Title / Título:",
+    adminFieldRefLabel: "Scripture Passage Reference / Cita Bíblica:",
+    adminFieldScriptureLabel: "Scripture Text / Texto Bíblico:",
+    adminFieldReflectionLabel: "Theological Reflection / Reflexión Espiritual:",
+    adminSaveBtn: "Save Message",
+    adminSavedToast: "Devotional message saved and updated live!",
+    adminResetBtn: "Reset to Default",
+    adminResetToast: "Restored to default devotional.",
+    adminExportBtn: "Export JSON",
+    adminExportToast: "Devotional JSON copied to clipboard! Ready to paste into repo."
   },
   es: {
     pageTitle: "Conexiones Eternas | El Hilo Mesiánico de las Escrituras",
@@ -852,11 +887,92 @@ const I18N = {
     bibleTransLabel: "Traducción:",
     bibleProphecyBannerTitle: "¡Profecía Mesiánica encontrada en este capítulo!",
     bibleProphecyBannerDesc: "Haz clic para abrir el análisis paralelo comparado con su cumplimiento en el Nuevo Testamento.",
-    bibleProphecyBannerBtn: "Examinar Cumplimiento →"
+    bibleProphecyBannerBtn: "Examinar Cumplimiento →",
+    // Devotional Section & Admin Editor
+    devoBadgeWeekly: "REFLEXIÓN SEMANAL",
+    devoBadgeDaily: "MEDITACIÓN DIARIA",
+    devoFreqWeekly: "Devocional Semanal",
+    devoFreqDaily: "Devocional Diario",
+    devoReflectionHeading: "🕊️ Reflexión Teológica y Espiritual:",
+    devoLinkedProphecyCta: (title) => `Examinar Profecía Vinculada: ${title} →`,
+    devoListenBtn: "Escuchar",
+    devoCopyBtn: "Copiar Mensaje",
+    devoCopiedToast: "¡Mensaje devocional copiado al portapapeles!",
+    passcodeTitle: "Autenticación de Administrador",
+    passcodeSubtitle: "Ingresa la clave secreta para acceder al Editor Devocional.",
+    passcodePlaceholder: "Clave (ej. eternas2026)",
+    passcodeSubmitBtn: "Desbloquear →",
+    passcodeIncorrect: "Clave incorrecta. Inténtalo de nuevo.",
+    passcodeUnlockedToast: "¡Modo administrador desbloqueado!",
+    adminEditorBadge: "ADMINISTRACIÓN Y EDITOR DEVOCIONAL",
+    adminEditorTitle: "Editor de Mensaje Diario / Semanal",
+    adminEditorSubtitle: "Actualiza la reflexión bíblica directamente desde tu celular o computadora. Se guarda en el cliente y actualiza en tiempo real.",
+    adminFreqLabel: "Frecuencia / Categoría:",
+    adminProphecyLabel: "Profecía Vinculada:",
+    adminOptWeekly: "Mensaje Semanal / Weekly Message",
+    adminOptDaily: "Mensaje Diario / Daily Message",
+    adminOptNone: "Ninguna / None",
+    adminEditingLangLabel: "Idioma en edición:",
+    adminFieldTitleLabel: "Título del Devocional:",
+    adminFieldRefLabel: "Cita Bíblica del Pasaje:",
+    adminFieldScriptureLabel: "Texto Bíblico:",
+    adminFieldReflectionLabel: "Reflexión Teológica / Espiritual:",
+    adminSaveBtn: "Guardar Mensaje",
+    adminSavedToast: "¡Mensaje devocional guardado y actualizado en vivo!",
+    adminResetBtn: "Restaurar por defecto",
+    adminResetToast: "Restaurado al devocional por defecto.",
+    adminExportBtn: "Exportar JSON",
+    adminExportToast: "¡JSON del devocional copiado al portapapeles! Listo para pegar en el repositorio."
   }
 };
 
 let currentLanguage = localStorage.getItem('conexiones_lang') || (navigator.language && navigator.language.startsWith('es') ? 'es' : 'en');
+
+// --- 2.1 DEVOTIONAL STORE & PERSISTENCE ---
+const DEFAULT_DEVOTIONAL = {
+  frequency: "weekly",
+  prophecyId: 11,
+  title: {
+    es: "El Siervo Sufriente y Nuestra Paz",
+    en: "The Suffering Servant and Our Peace"
+  },
+  passageRef: {
+    es: "Isaías 53:4-5",
+    en: "Isaiah 53:4-5"
+  },
+  scriptureText: {
+    es: "«Ciertamente llevó él nuestras enfermedades, y sufrió nuestros dolores; y nosotros le tuvimos por azotado, por herido de Dios y abatido. Mas él herido fue por nuestras rebeliones, molido por nuestros pecados; el castigo de nuestra paz fue sobre él, y por su llaga fuimos nosotros curados.»",
+    en: "“Surely He has borne our griefs and carried our sorrows; yet we esteemed Him stricken, smitten by God, and afflicted. But He was pierced for our transgressions, He was crushed for our iniquities; upon Him was the chastisement that brought us peace, and with His wounds we are healed.”"
+  },
+  reflectionText: {
+    es: "Setecientos años antes de que Roma introdujera la crucifixión en Judea, el profeta Isaías contempló el corazón mismo de la redención. Cada herida y cada gota de sangre derramada por el Mesías en el madero no fueron una tragedia accidental, sino el cumplimiento exacto del plan eterno de Dios para reconciliar a la humanidad consigo mismo. Cuando las pruebas de este mundo intenten turbar tu espíritu, recuerda: el castigo de tu paz ya fue pagado en la Cruz. Descansa hoy en la suficiencia absoluta de Su gracia y amor eterno.",
+    en: "Seven hundred years before Rome introduced crucifixion to Judea, the prophet Isaiah beheld the very heartbeat of redemption. Every wound and every drop of blood poured out by the Messiah on the tree was not an accidental tragedy, but the precise fulfillment of God's eternal blueprint to reconcile humanity to Himself. When the trials of this world seek to trouble your soul, remember: the punishment for your peace has already been paid in full at the Cross. Rest today in the absolute sufficiency of His grace and eternal love."
+  },
+  updatedAt: "2026-10-19"
+};
+
+let activeDevotional = null;
+try {
+  const storedDevo = localStorage.getItem('conexiones_active_devotional');
+  if (storedDevo) {
+    activeDevotional = JSON.parse(storedDevo);
+  }
+} catch (e) {
+  console.warn("Could not load active devotional from localStorage:", e);
+}
+if (!activeDevotional) {
+  activeDevotional = JSON.parse(JSON.stringify(DEFAULT_DEVOTIONAL));
+}
+
+function getDevotionalField(field, lang = currentLanguage) {
+  if (!activeDevotional) return "";
+  const val = activeDevotional[field];
+  if (!val) return "";
+  if (typeof val === 'object') {
+    return val[lang] || val.es || val.en || "";
+  }
+  return String(val);
+}
 
 // --- 3. AUTHENTIC HEBREW WORSHIP STREAM (YESHUA HAMASHIACH - JERUSALEM PRAISE) ---
 let ytWorshipPlayer = null;
@@ -1353,6 +1469,68 @@ document.addEventListener('DOMContentLoaded', () => {
   const footerCreditsText = document.getElementById('footerCreditsText');
   const footerSubText = document.getElementById('footerSubText');
 
+  // Devotional Card DOM Elements
+  const devotionalSection = document.getElementById('devotionalSection');
+  const devotionalCard = document.getElementById('devotionalCard');
+  const devoBadge = document.getElementById('devoBadge');
+  const devoBadgeText = document.getElementById('devoBadgeText');
+  const devoFreqPill = document.getElementById('devoFreqPill');
+  const devoCrossTrigger = document.getElementById('devoCrossTrigger');
+  const devoTitle = document.getElementById('devoTitle');
+  const devoPassageRef = document.getElementById('devoPassageRef');
+  const devoRefText = document.getElementById('devoRefText');
+  const devoScriptureQuote = document.getElementById('devoScriptureQuote');
+  const devoReflectionLabel = document.getElementById('devoReflectionLabel');
+  const devoReflectionText = document.getElementById('devoReflectionText');
+  const devoLinkedProphecyBtn = document.getElementById('devoLinkedProphecyBtn');
+  const devoLinkedProphecyLabel = document.getElementById('devoLinkedProphecyLabel');
+  const devoListenBtn = document.getElementById('devoListenBtn');
+  const devoListenBtnText = document.getElementById('devoListenBtnText');
+  const devoCopyBtn = document.getElementById('devoCopyBtn');
+  const devoCopyBtnText = document.getElementById('devoCopyBtnText');
+
+  // Admin Passcode Modal Elements
+  const adminPasscodeModal = document.getElementById('adminPasscodeModal');
+  const adminPasscodeClose = document.getElementById('adminPasscodeClose');
+  const passcodeTitle = document.getElementById('passcodeTitle');
+  const passcodeSubtitle = document.getElementById('passcodeSubtitle');
+  const adminPasscodeForm = document.getElementById('adminPasscodeForm');
+  const adminPasscodeInput = document.getElementById('adminPasscodeInput');
+  const adminPasscodeSubmitBtn = document.getElementById('adminPasscodeSubmitBtn');
+  const passcodeError = document.getElementById('passcodeError');
+
+  // Admin Devotional Modal Elements
+  const adminDevoModal = document.getElementById('adminDevoModal');
+  const adminDevoClose = document.getElementById('adminDevoClose');
+  const adminEditorBadgeText = document.getElementById('adminEditorBadgeText');
+  const adminEditorTitle = document.getElementById('adminEditorTitle');
+  const adminEditorSubtitle = document.getElementById('adminEditorSubtitle');
+  const adminFreqLabel = document.getElementById('adminFreqLabel');
+  const adminDevoFreq = document.getElementById('adminDevoFreq');
+  const optWeekly = document.getElementById('optWeekly');
+  const optDaily = document.getElementById('optDaily');
+  const adminProphecyLabel = document.getElementById('adminProphecyLabel');
+  const adminDevoProphecy = document.getElementById('adminDevoProphecy');
+  const adminEditingLangLabel = document.getElementById('adminEditingLangLabel');
+  const adminTabEs = document.getElementById('adminTabEs');
+  const adminTabEn = document.getElementById('adminTabEn');
+  const adminDevoForm = document.getElementById('adminDevoForm');
+  const adminFieldTitleLabel = document.getElementById('adminFieldTitleLabel');
+  const adminDevoTitle = document.getElementById('adminDevoTitle');
+  const adminFieldRefLabel = document.getElementById('adminFieldRefLabel');
+  const adminDevoPassageRef = document.getElementById('adminDevoPassageRef');
+  const adminFieldScriptureLabel = document.getElementById('adminFieldScriptureLabel');
+  const adminDevoScriptureText = document.getElementById('adminDevoScriptureText');
+  const adminFieldReflectionLabel = document.getElementById('adminFieldReflectionLabel');
+  const adminDevoReflectionText = document.getElementById('adminDevoReflectionText');
+  const adminSaveBtn = document.getElementById('adminSaveBtn');
+  const adminSaveBtnText = document.getElementById('adminSaveBtnText');
+  const adminResetBtn = document.getElementById('adminResetBtn');
+  const adminResetBtnText = document.getElementById('adminResetBtnText');
+  const adminExportBtn = document.getElementById('adminExportBtn');
+  const adminExportBtnText = document.getElementById('adminExportBtnText');
+  const footerAdminLockBtn = document.getElementById('footerAdminLockBtn');
+
   // Toast
   const customToast = document.getElementById('customToast');
   const toastMessage = document.getElementById('toastMessage');
@@ -1490,6 +1668,29 @@ document.addEventListener('DOMContentLoaded', () => {
     // Refresh prophecies list & study progress
     updateProgress();
     renderGrid();
+
+    // Refresh Devotional Card & Admin Editor UI
+    renderDevotionalCard();
+    if (adminEditorBadgeText) adminEditorBadgeText.textContent = t.adminEditorBadge;
+    if (adminEditorTitle) adminEditorTitle.textContent = t.adminEditorTitle;
+    if (adminEditorSubtitle) adminEditorSubtitle.textContent = t.adminEditorSubtitle;
+    if (adminFreqLabel) adminFreqLabel.textContent = t.adminFreqLabel;
+    if (adminProphecyLabel) adminProphecyLabel.textContent = t.adminProphecyLabel;
+    if (optWeekly) optWeekly.textContent = t.adminOptWeekly;
+    if (optDaily) optDaily.textContent = t.adminOptDaily;
+    if (adminEditingLangLabel) adminEditingLangLabel.textContent = t.adminEditingLangLabel;
+    if (adminFieldTitleLabel) adminFieldTitleLabel.textContent = t.adminFieldTitleLabel;
+    if (adminFieldRefLabel) adminFieldRefLabel.textContent = t.adminFieldRefLabel;
+    if (adminFieldScriptureLabel) adminFieldScriptureLabel.textContent = t.adminFieldScriptureLabel;
+    if (adminFieldReflectionLabel) adminFieldReflectionLabel.textContent = t.adminFieldReflectionLabel;
+    if (adminSaveBtnText) adminSaveBtnText.textContent = t.adminSaveBtn;
+    if (adminResetBtnText) adminResetBtnText.textContent = t.adminResetBtn;
+    if (adminExportBtnText) adminExportBtnText.textContent = t.adminExportBtn;
+    if (passcodeTitle) passcodeTitle.textContent = t.passcodeTitle;
+    if (passcodeSubtitle) passcodeSubtitle.textContent = t.passcodeSubtitle;
+    if (adminPasscodeInput) adminPasscodeInput.placeholder = t.passcodePlaceholder;
+    if (adminPasscodeSubmitBtn) adminPasscodeSubmitBtn.textContent = t.passcodeSubmitBtn;
+    populateAdminProphecyDropdown();
 
     // If detail modal is open, refresh it in new language
     if (activeModalProphecy && detailModal.classList.contains('open')) {
@@ -2438,12 +2639,413 @@ ${getLocalized(p, 'insight')}
     });
   }
 
+  // ============================================================================
+  // --- 11. DEVOTIONAL & SECRET ADMIN EDITOR CONTROLLER ---
+  // ============================================================================
+
+  // Render the visible devotional card
+  function renderDevotionalCard() {
+    if (!devotionalCard) return;
+    const t = I18N[currentLanguage] || I18N.en;
+    const isDaily = activeDevotional.frequency === 'daily';
+
+    if (devoBadgeText) {
+      devoBadgeText.textContent = isDaily ? t.devoBadgeDaily : t.devoBadgeWeekly;
+    }
+    if (devoFreqPill) {
+      devoFreqPill.textContent = isDaily ? t.devoFreqDaily : t.devoFreqWeekly;
+    }
+    if (devoTitle) {
+      devoTitle.textContent = getDevotionalField('title');
+    }
+    if (devoRefText) {
+      devoRefText.textContent = getDevotionalField('passageRef');
+    }
+    if (devoScriptureQuote) {
+      devoScriptureQuote.textContent = getDevotionalField('scriptureText');
+    }
+    if (devoReflectionLabel) {
+      devoReflectionLabel.textContent = t.devoReflectionHeading;
+    }
+    if (devoReflectionText) {
+      devoReflectionText.textContent = getDevotionalField('reflectionText');
+    }
+    if (devoListenBtnText) {
+      devoListenBtnText.textContent = t.devoListenBtn;
+    }
+    if (devoCopyBtnText) {
+      devoCopyBtnText.textContent = t.devoCopyBtn;
+    }
+
+    // Linked Prophecy CTA
+    if (devoLinkedProphecyBtn) {
+      const pId = Number(activeDevotional.prophecyId);
+      const targetProphecy = propheciesData.find(p => p.id === pId);
+      if (targetProphecy) {
+        const pTitle = getLocalized(targetProphecy, 'title');
+        if (devoLinkedProphecyLabel) {
+          devoLinkedProphecyLabel.textContent = t.devoLinkedProphecyCta(pTitle);
+        }
+        devoLinkedProphecyBtn.style.display = 'inline-flex';
+        devoLinkedProphecyBtn.onclick = () => {
+          try { audio.playHarpChime(audio.scale.D5); } catch (_) {}
+          openDetailModal(targetProphecy.id);
+        };
+      } else {
+        devoLinkedProphecyBtn.style.display = 'none';
+        devoLinkedProphecyBtn.onclick = null;
+      }
+    }
+  }
+
+  // Copy Devotional Button
+  if (devoCopyBtn) {
+    devoCopyBtn.addEventListener('click', () => {
+      const isEs = currentLanguage === 'es';
+      const t = I18N[currentLanguage] || I18N.en;
+      const title = getDevotionalField('title');
+      const ref = getDevotionalField('passageRef');
+      const scripture = getDevotionalField('scriptureText');
+      const reflection = getDevotionalField('reflectionText');
+
+      const formatted = isEs
+        ? `✨ CONEXIONES ETERNAS • ${activeDevotional.frequency === 'daily' ? 'MENSAJE DIARIO' : 'MENSAJE SEMANAL'}\n═══════════════════════════════════\n📖 ${title} (${ref})\n\n${scripture}\n\n🕊️ REFLEXIÓN ESPIRITUAL:\n${reflection}\n\n— Conexiones Eternas (conexiones-eternas.vercel.app)`
+        : `✨ ETERNAL CONNECTIONS • ${activeDevotional.frequency === 'daily' ? 'DAILY MESSAGE' : 'WEEKLY MESSAGE'}\n═══════════════════════════════════\n📖 ${title} (${ref})\n\n${scripture}\n\n🕊️ THEOLOGICAL REFLECTION:\n${reflection}\n\n— Eternal Connections (conexiones-eternas.vercel.app)`;
+
+      navigator.clipboard.writeText(formatted).then(() => {
+        try { audio.playHarpChime(audio.scale.D5); } catch (_) {}
+        showToast(t.devoCopiedToast);
+      }).catch(() => {
+        showToast(isEs ? 'No se pudo copiar automáticamente.' : 'Unable to copy automatically.');
+      });
+    });
+  }
+
+  // Devotional Speech Voice (TTS)
+  if (devoListenBtn) {
+    let isDevoSpeaking = false;
+    devoListenBtn.addEventListener('click', () => {
+      if (!window.speechSynthesis) {
+        showToast("TTS not supported in this browser");
+        return;
+      }
+      if (isDevoSpeaking) {
+        window.speechSynthesis.cancel();
+        isDevoSpeaking = false;
+        if (devoListenBtnText) devoListenBtnText.textContent = (I18N[currentLanguage] || I18N.en).devoListenBtn;
+        return;
+      }
+
+      window.speechSynthesis.cancel();
+      const title = getDevotionalField('title');
+      const ref = getDevotionalField('passageRef');
+      const scripture = getDevotionalField('scriptureText');
+      const reflection = getDevotionalField('reflectionText');
+      const fullText = `${title}. ${ref}. ${scripture}. ${reflection}`;
+
+      const utt = new SpeechSynthesisUtterance(fullText);
+      utt.lang = currentLanguage === 'es' ? 'es-ES' : 'en-US';
+      utt.rate = 0.93;
+      utt.onend = () => {
+        isDevoSpeaking = false;
+        if (devoListenBtnText) devoListenBtnText.textContent = (I18N[currentLanguage] || I18N.en).devoListenBtn;
+      };
+      utt.onerror = () => {
+        isDevoSpeaking = false;
+        if (devoListenBtnText) devoListenBtnText.textContent = (I18N[currentLanguage] || I18N.en).devoListenBtn;
+      };
+
+      window.speechSynthesis.speak(utt);
+      isDevoSpeaking = true;
+      if (devoListenBtnText) devoListenBtnText.textContent = currentLanguage === 'es' ? 'Detener' : 'Stop';
+    });
+  }
+
+  // --- Secret Admin Triggers ---
+  let crossClickCount = 0;
+  let crossClickTimeout = null;
+
+  if (devoCrossTrigger) {
+    devoCrossTrigger.addEventListener('click', (e) => {
+      e.preventDefault();
+      crossClickCount++;
+      try { audio.playHarpChime(audio.scale.C5); } catch (_) {}
+
+      clearTimeout(crossClickTimeout);
+      if (crossClickCount >= 3) {
+        crossClickCount = 0;
+        triggerAdminAccess();
+      } else {
+        crossClickTimeout = setTimeout(() => {
+          crossClickCount = 0;
+        }, 1400);
+      }
+    });
+  }
+
+  if (footerAdminLockBtn) {
+    footerAdminLockBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      triggerAdminAccess();
+    });
+  }
+
+  function triggerAdminAccess() {
+    if (sessionStorage.getItem('conexiones_admin_unlocked') === 'true') {
+      openAdminDevoModal();
+    } else {
+      openPasscodeModal();
+    }
+  }
+
+  function openPasscodeModal() {
+    if (!adminPasscodeModal) return;
+    if (passcodeError) passcodeError.style.display = 'none';
+    if (adminPasscodeInput) adminPasscodeInput.value = '';
+    adminPasscodeModal.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    setTimeout(() => {
+      if (adminPasscodeInput) adminPasscodeInput.focus();
+    }, 200);
+  }
+
+  function closePasscodeModal() {
+    if (!adminPasscodeModal) return;
+    adminPasscodeModal.classList.remove('open');
+    document.body.style.overflow = 'auto';
+  }
+
+  if (adminPasscodeClose) {
+    adminPasscodeClose.addEventListener('click', closePasscodeModal);
+  }
+  if (adminPasscodeModal) {
+    adminPasscodeModal.addEventListener('click', (e) => {
+      if (e.target === adminPasscodeModal) closePasscodeModal();
+    });
+  }
+
+  if (adminPasscodeForm) {
+    adminPasscodeForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const entered = adminPasscodeInput ? adminPasscodeInput.value.trim() : '';
+      const secret = window.ADMIN_PASSCODE || 'eternas2026';
+      if (entered === secret) {
+        sessionStorage.setItem('conexiones_admin_unlocked', 'true');
+        closePasscodeModal();
+        try { audio.playSacredChord(); } catch (_) {}
+        const t = I18N[currentLanguage] || I18N.en;
+        showToast(t.passcodeUnlockedToast);
+        setTimeout(() => {
+          openAdminDevoModal();
+        }, 200);
+      } else {
+        if (passcodeError) {
+          passcodeError.style.display = 'block';
+          passcodeError.textContent = (I18N[currentLanguage] || I18N.en).passcodeIncorrect;
+        }
+        if (adminPasscodeInput) {
+          adminPasscodeInput.select();
+          adminPasscodeInput.focus();
+        }
+      }
+    });
+  }
+
+  // --- Admin Devotional Editor Modal ---
+  let adminEditingLang = 'es';
+  let adminDraftDevo = null;
+
+  function populateAdminProphecyDropdown() {
+    if (!adminDevoProphecy) return;
+    const currentVal = adminDevoProphecy.value;
+    adminDevoProphecy.innerHTML = '';
+
+    const noneOpt = document.createElement('option');
+    noneOpt.value = '';
+    noneOpt.textContent = (I18N[currentLanguage] || I18N.en).adminOptNone;
+    adminDevoProphecy.appendChild(noneOpt);
+
+    propheciesData.forEach(p => {
+      const opt = document.createElement('option');
+      opt.value = String(p.id);
+      const pTitle = getLocalized(p, 'title');
+      const pRef = getLocalized(p, 'otBook');
+      opt.textContent = `${p.id}. ${pTitle} (${pRef})`;
+      adminDevoProphecy.appendChild(opt);
+    });
+
+    if (currentVal) adminDevoProphecy.value = currentVal;
+  }
+
+  function syncDraftFromInputs() {
+    if (!adminDraftDevo) return;
+    if (!adminDraftDevo.title || typeof adminDraftDevo.title !== 'object') {
+      adminDraftDevo.title = { es: "", en: "" };
+    }
+    if (!adminDraftDevo.passageRef || typeof adminDraftDevo.passageRef !== 'object') {
+      adminDraftDevo.passageRef = { es: "", en: "" };
+    }
+    if (!adminDraftDevo.scriptureText || typeof adminDraftDevo.scriptureText !== 'object') {
+      adminDraftDevo.scriptureText = { es: "", en: "" };
+    }
+    if (!adminDraftDevo.reflectionText || typeof adminDraftDevo.reflectionText !== 'object') {
+      adminDraftDevo.reflectionText = { es: "", en: "" };
+    }
+
+    const lang = adminEditingLang;
+    if (adminDevoTitle) adminDraftDevo.title[lang] = adminDevoTitle.value.trim();
+    if (adminDevoPassageRef) adminDraftDevo.passageRef[lang] = adminDevoPassageRef.value.trim();
+    if (adminDevoScriptureText) adminDraftDevo.scriptureText[lang] = adminDevoScriptureText.value.trim();
+    if (adminDevoReflectionText) adminDraftDevo.reflectionText[lang] = adminDevoReflectionText.value.trim();
+    if (adminDevoFreq) adminDraftDevo.frequency = adminDevoFreq.value;
+    if (adminDevoProphecy) adminDraftDevo.prophecyId = adminDevoProphecy.value ? Number(adminDevoProphecy.value) : "";
+  }
+
+  function loadInputsFromDraft(lang) {
+    if (!adminDraftDevo) return;
+    adminEditingLang = lang;
+
+    if (adminTabEs) adminTabEs.classList.toggle('active', lang === 'es');
+    if (adminTabEn) adminTabEn.classList.toggle('active', lang === 'en');
+
+    const titleVal = adminDraftDevo.title ? (adminDraftDevo.title[lang] || '') : '';
+    const refVal = adminDraftDevo.passageRef ? (adminDraftDevo.passageRef[lang] || '') : '';
+    const scriptureVal = adminDraftDevo.scriptureText ? (adminDraftDevo.scriptureText[lang] || '') : '';
+    const reflectionVal = adminDraftDevo.reflectionText ? (adminDraftDevo.reflectionText[lang] || '') : '';
+
+    if (adminDevoTitle) adminDevoTitle.value = titleVal;
+    if (adminDevoPassageRef) adminDevoPassageRef.value = refVal;
+    if (adminDevoScriptureText) adminDevoScriptureText.value = scriptureVal;
+    if (adminDevoReflectionText) adminDevoReflectionText.value = reflectionVal;
+
+    if (adminDevoFreq) adminDevoFreq.value = adminDraftDevo.frequency || 'weekly';
+    if (adminDevoProphecy) adminDevoProphecy.value = adminDraftDevo.prophecyId ? String(adminDraftDevo.prophecyId) : '';
+  }
+
+  function openAdminDevoModal() {
+    if (!adminDevoModal) return;
+    adminDraftDevo = JSON.parse(JSON.stringify(activeDevotional));
+    populateAdminProphecyDropdown();
+    loadInputsFromDraft(currentLanguage);
+
+    adminDevoModal.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeAdminDevoModal() {
+    if (!adminDevoModal) return;
+    adminDevoModal.classList.remove('open');
+    document.body.style.overflow = 'auto';
+  }
+
+  if (adminDevoClose) {
+    adminDevoClose.addEventListener('click', closeAdminDevoModal);
+  }
+  if (adminDevoModal) {
+    adminDevoModal.addEventListener('click', (e) => {
+      if (e.target === adminDevoModal) closeAdminDevoModal();
+    });
+  }
+
+  if (adminTabEs) {
+    adminTabEs.addEventListener('click', () => {
+      syncDraftFromInputs();
+      loadInputsFromDraft('es');
+    });
+  }
+  if (adminTabEn) {
+    adminTabEn.addEventListener('click', () => {
+      syncDraftFromInputs();
+      loadInputsFromDraft('en');
+    });
+  }
+
+  // Save Devotional Form Submit
+  if (adminDevoForm) {
+    adminDevoForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      syncDraftFromInputs();
+
+      // Graceful mirroring if only one language was updated
+      if (!adminDraftDevo.title.en && adminDraftDevo.title.es) adminDraftDevo.title.en = adminDraftDevo.title.es;
+      if (!adminDraftDevo.title.es && adminDraftDevo.title.en) adminDraftDevo.title.es = adminDraftDevo.title.en;
+
+      if (!adminDraftDevo.passageRef.en && adminDraftDevo.passageRef.es) adminDraftDevo.passageRef.en = adminDraftDevo.passageRef.es;
+      if (!adminDraftDevo.passageRef.es && adminDraftDevo.passageRef.en) adminDraftDevo.passageRef.es = adminDraftDevo.passageRef.en;
+
+      if (!adminDraftDevo.scriptureText.en && adminDraftDevo.scriptureText.es) adminDraftDevo.scriptureText.en = adminDraftDevo.scriptureText.es;
+      if (!adminDraftDevo.scriptureText.es && adminDraftDevo.scriptureText.en) adminDraftDevo.scriptureText.es = adminDraftDevo.scriptureText.en;
+
+      if (!adminDraftDevo.reflectionText.en && adminDraftDevo.reflectionText.es) adminDraftDevo.reflectionText.en = adminDraftDevo.reflectionText.es;
+      if (!adminDraftDevo.reflectionText.es && adminDraftDevo.reflectionText.en) adminDraftDevo.reflectionText.es = adminDraftDevo.reflectionText.en;
+
+      adminDraftDevo.updatedAt = new Date().toISOString().split('T')[0];
+
+      // Store in localStorage & active state
+      activeDevotional = JSON.parse(JSON.stringify(adminDraftDevo));
+      try {
+        localStorage.setItem('conexiones_active_devotional', JSON.stringify(activeDevotional));
+      } catch (err) {
+        console.warn("Error storing devotional:", err);
+      }
+
+      // Live reactive update on screen immediately without page reload
+      renderDevotionalCard();
+
+      closeAdminDevoModal();
+      try { audio.playSacredChord(); } catch (_) {}
+      const t = I18N[currentLanguage] || I18N.en;
+      showToast(t.adminSavedToast);
+    });
+  }
+
+  // Reset Devotional Button
+  if (adminResetBtn) {
+    adminResetBtn.addEventListener('click', () => {
+      const isEs = currentLanguage === 'es';
+      const confirmMsg = isEs
+        ? "¿Deseas restaurar la reflexión devocional original por defecto?"
+        : "Do you want to restore the original default devotional reflection?";
+      if (!confirm(confirmMsg)) return;
+
+      try {
+        localStorage.removeItem('conexiones_active_devotional');
+      } catch (_) {}
+
+      activeDevotional = JSON.parse(JSON.stringify(DEFAULT_DEVOTIONAL));
+      adminDraftDevo = JSON.parse(JSON.stringify(DEFAULT_DEVOTIONAL));
+      loadInputsFromDraft(adminEditingLang);
+      renderDevotionalCard();
+
+      try { audio.playHarpChime(audio.scale.C4); } catch (_) {}
+      const t = I18N[currentLanguage] || I18N.en;
+      showToast(t.adminResetToast);
+    });
+  }
+
+  // Export JSON Button
+  if (adminExportBtn) {
+    adminExportBtn.addEventListener('click', () => {
+      syncDraftFromInputs();
+      const jsonStr = JSON.stringify(adminDraftDevo || activeDevotional, null, 2);
+      navigator.clipboard.writeText(jsonStr).then(() => {
+        try { audio.playHarpChime(audio.scale.E5); } catch (_) {}
+        const t = I18N[currentLanguage] || I18N.en;
+        showToast(t.adminExportToast);
+      }).catch(() => {
+        showToast("Unable to copy JSON automatically.");
+      });
+    });
+  }
+
   // Escape key global listener
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
       closeDetailModal();
       closeAiModal();
       closeBibleModal();
+      closePasscodeModal();
+      closeAdminDevoModal();
       if (probModal) probModal.classList.remove('open');
       document.body.style.overflow = 'auto';
     }

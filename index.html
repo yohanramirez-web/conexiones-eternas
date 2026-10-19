@@ -113,6 +113,74 @@
     </div>
   </header>
 
+  <!-- Daily / Weekly Devotional Section -->
+  <section class="container devotional-section" id="devotionalSection">
+    <article class="devotional-card" id="devotionalCard">
+      <div class="devo-card-glow"></div>
+      
+      <header class="devo-header">
+        <div class="devo-header-left">
+          <span class="devo-badge" id="devoBadge">
+            <span class="devo-badge-icon">✨</span>
+            <span id="devoBadgeText">WEEKLY REFLECTION</span>
+          </span>
+          <span class="devo-frequency-pill" id="devoFreqPill">Devotional Meditation</span>
+        </div>
+        
+        <div class="devo-header-right">
+          <!-- Hidden Admin Trigger 1: Triple click on Sacred Cross -->
+          <button class="devo-cross-btn" id="devoCrossTrigger" title="Christ is the center • Triple-click for admin editor" aria-label="Sacred Cross Icon">
+            <span class="cross-glyph">✝</span>
+          </button>
+        </div>
+      </header>
+
+      <div class="devo-body">
+        <div class="devo-lead">
+          <h2 class="devo-title" id="devoTitle">The Suffering Servant and Our Peace</h2>
+          <div class="devo-passage-ref" id="devoPassageRef">
+            <span class="ref-icon">📖</span>
+            <span id="devoRefText">Isaiah 53:4-5</span>
+          </div>
+        </div>
+
+        <blockquote class="devo-scripture-quote" id="devoScriptureQuote">
+          “Surely He has borne our griefs and carried our sorrows; yet we esteemed Him stricken, smitten by God, and afflicted. But He was pierced for our transgressions, He was crushed for our iniquities; upon Him was the chastisement that brought us peace, and with His wounds we are healed.”
+        </blockquote>
+
+        <div class="devo-reflection-block">
+          <div class="devo-reflection-label" id="devoReflectionLabel">🕊️ Guided Theological Reflection:</div>
+          <p class="devo-reflection-text" id="devoReflectionText">
+            Seven hundred years before Rome introduced crucifixion to Judea, the prophet Isaiah beheld the very heartbeat of redemption...
+          </p>
+        </div>
+      </div>
+
+      <footer class="devo-actions-row">
+        <!-- Linked Prophecy CTA (Visible when devotional has a linked prophecy) -->
+        <button class="devo-prophecy-btn" id="devoLinkedProphecyBtn">
+          <span class="prophecy-btn-sparkle">📜</span>
+          <span id="devoLinkedProphecyLabel">Examine Linked Prophecy: Isaiah 53 (#11) &rarr;</span>
+        </button>
+
+        <div class="devo-action-buttons">
+          <button class="devo-action-btn" id="devoListenBtn" title="Listen to devotional reflection">
+            <span class="btn-icon">🔊</span>
+            <span id="devoListenBtnText">Listen</span>
+          </button>
+
+          <button class="devo-action-btn" id="devoCopyBtn" title="Copy full devotional">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+            </svg>
+            <span id="devoCopyBtnText">Copy Message</span>
+          </button>
+        </div>
+      </footer>
+    </article>
+  </section>
+
   <!-- Interactive Controls Section -->
   <section class="container filter-section">
     <div class="search-wrapper">
@@ -443,6 +511,113 @@
     </div>
   </div>
 
+  <!-- Hidden Admin Passcode Modal -->
+  <div class="modal-backdrop" id="adminPasscodeModal">
+    <div class="modal-box admin-passcode-box">
+      <button class="modal-close-icon" id="adminPasscodeClose" aria-label="Close passcode prompt">&times;</button>
+      <div class="passcode-head">
+        <span class="passcode-icon">🔐</span>
+        <h3 id="passcodeTitle">Admin Authentication</h3>
+        <p id="passcodeSubtitle">Enter the secret passcode to access the Devotional Editor.</p>
+      </div>
+      <form id="adminPasscodeForm" class="passcode-form">
+        <div class="passcode-input-group">
+          <input type="password" id="adminPasscodeInput" placeholder="Passcode (e.g. eternas2026)" autocomplete="current-password" required>
+          <button type="submit" id="adminPasscodeSubmitBtn" class="passcode-submit-btn">Unlock &rarr;</button>
+        </div>
+        <p class="passcode-error" id="passcodeError" style="display: none;">Incorrect passcode. Please try again.</p>
+      </form>
+    </div>
+  </div>
+
+  <!-- Admin Devotional Editor Modal -->
+  <div class="modal-backdrop" id="adminDevoModal">
+    <div class="modal-box admin-devo-box">
+      <button class="modal-close-icon" id="adminDevoClose" aria-label="Close Devotional Editor">&times;</button>
+      
+      <div class="admin-devo-head">
+        <div class="admin-devo-badge">
+          <span class="sparkle">✦</span>
+          <span id="adminEditorBadgeText">ADMINISTRATION & DEVOTIONAL EDITOR</span>
+          <span class="sparkle">✦</span>
+        </div>
+        <h2 id="adminEditorTitle">Daily / Weekly Devotional Editor</h2>
+        <p id="adminEditorSubtitle">Update the featured scripture meditation directly from your phone or desktop. Saves to client storage and updates in real-time.</p>
+      </div>
+
+      <!-- Editor Controls Bar -->
+      <div class="admin-toolbar-row">
+        <div class="admin-group">
+          <label for="adminDevoFreq" id="adminFreqLabel">Frequency / Categoría:</label>
+          <select id="adminDevoFreq" class="admin-select">
+            <option value="weekly" id="optWeekly">Weekly Message / Mensaje Semanal</option>
+            <option value="daily" id="optDaily">Daily Message / Mensaje Diario</option>
+          </select>
+        </div>
+
+        <div class="admin-group">
+          <label for="adminDevoProphecy" id="adminProphecyLabel">Linked Prophecy / Profecía Vinculada:</label>
+          <select id="adminDevoProphecy" class="admin-select">
+            <option value="">None / Ninguna</option>
+            <!-- Populated dynamically with all 14 prophecies -->
+          </select>
+        </div>
+
+        <div class="admin-lang-tabs">
+          <span class="lang-tab-label" id="adminEditingLangLabel">Editing language:</span>
+          <div class="tab-btn-group">
+            <button type="button" class="admin-tab-btn active" id="adminTabEs" data-lang="es">🇪🇸 Español</button>
+            <button type="button" class="admin-tab-btn" id="adminTabEn" data-lang="en">🇺🇸 English</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Devotional Form Fields -->
+      <form id="adminDevoForm" class="admin-devo-form">
+        <!-- Title Input -->
+        <div class="admin-field-group">
+          <label for="adminDevoTitle" id="adminFieldTitleLabel">Devotional Title / Título:</label>
+          <input type="text" id="adminDevoTitle" class="admin-input" placeholder="e.g. El Siervo Sufriente y Nuestra Paz" required>
+        </div>
+
+        <!-- Scripture Passage Reference -->
+        <div class="admin-field-group">
+          <label for="adminDevoPassageRef" id="adminFieldRefLabel">Scripture Passage Reference / Cita Bíblica:</label>
+          <input type="text" id="adminDevoPassageRef" class="admin-input" placeholder="e.g. Isaías 53:4-5 / Isaiah 53:4-5" required>
+        </div>
+
+        <!-- Scripture Passage Text -->
+        <div class="admin-field-group">
+          <label for="adminDevoScriptureText" id="adminFieldScriptureLabel">Scripture Text / Texto Bíblico:</label>
+          <textarea id="adminDevoScriptureText" class="admin-textarea" rows="3" placeholder="Paste scripture passage text here..." required></textarea>
+        </div>
+
+        <!-- Reflection Text -->
+        <div class="admin-field-group">
+          <label for="adminDevoReflectionText" id="adminFieldReflectionLabel">Theological Reflection / Reflexión Espiritual:</label>
+          <textarea id="adminDevoReflectionText" class="admin-textarea" rows="5" placeholder="Write the devotional reflection here..." required></textarea>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="admin-actions-bar">
+          <div class="admin-actions-left">
+            <button type="submit" id="adminSaveBtn" class="admin-btn-save">
+              <span class="btn-icon">💾</span> <span id="adminSaveBtnText">Guardar Mensaje</span>
+            </button>
+            <button type="button" id="adminResetBtn" class="admin-btn-reset">
+              <span class="btn-icon">↺</span> <span id="adminResetBtnText">Restaurar por defecto</span>
+            </button>
+          </div>
+          <div class="admin-actions-right">
+            <button type="button" id="adminExportBtn" class="admin-btn-export">
+              <span class="btn-icon">📋</span> <span id="adminExportBtnText">Exportar JSON</span>
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
   <!-- Floating Messianic Worship Audio Player (Yeshua HaMashiach - Jerusalem Praise) -->
   <aside class="messianic-player-bar" id="messianicPlayerBar" aria-label="Hebrew Worship Player">
     <!-- Hidden YouTube API container -->
@@ -497,6 +672,11 @@
       <div class="footer-credits">
         <p id="footerCreditsText"><strong>Eternal Connections</strong> • Built for deep scripture study, reflection, and edification</p>
         <p class="footer-sub" id="footerSubText">All of the Old Testament points forward to the Cross. All of the New Testament looks back to it.</p>
+        <div class="footer-admin-trigger">
+          <button id="footerAdminLockBtn" class="footer-lock-btn" title="Admin Editor (Secret)" aria-label="Admin Editor">
+            <span class="lock-icon">🔒</span> <span class="lock-label">Admin</span>
+          </button>
+        </div>
       </div>
     </div>
   </footer>

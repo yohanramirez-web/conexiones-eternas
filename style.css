@@ -2956,3 +2956,227 @@ body {
     width: 100%;
   }
 }
+
+/* ==========================================================================
+   STUDY COMPLETION & PROGRESS CELEBRATION
+   ========================================================================== */
+.progress-fill.completed-glow {
+  background: linear-gradient(90deg, #b88628, #e6b85c, #fff5d1, #e6b85c, #b88628);
+  background-size: 200% 100%;
+  animation: shimmerProgress 2s linear infinite;
+  box-shadow: 0 0 16px rgba(230, 184, 92, 0.6);
+}
+
+@keyframes shimmerProgress {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+.study-completion-banner {
+  margin-top: 1.25rem;
+  background: linear-gradient(135deg, rgba(230, 184, 92, 0.18), rgba(20, 28, 48, 0.95));
+  border: 1px solid var(--gold-primary);
+  border-radius: 14px;
+  padding: 1.15rem 1.4rem;
+  display: flex;
+  align-items: center;
+  gap: 1.1rem;
+  box-shadow: 0 0 25px var(--gold-glow);
+  animation: bannerPopIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+[data-theme="parchment"] .study-completion-banner {
+  background: linear-gradient(135deg, rgba(148, 105, 28, 0.12), rgba(255, 255, 255, 0.98));
+}
+
+@keyframes bannerPopIn {
+  0% { opacity: 0; transform: translateY(-8px) scale(0.97); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.completion-icon-wrap {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: rgba(230, 184, 92, 0.2);
+  border: 1px solid var(--gold-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.6rem;
+  flex-shrink: 0;
+  box-shadow: 0 0 16px var(--gold-glow);
+  animation: crownPulse 2.5s infinite ease-in-out;
+}
+
+@keyframes crownPulse {
+  0%, 100% { transform: scale(1); box-shadow: 0 0 16px var(--gold-glow); }
+  50% { transform: scale(1.08); box-shadow: 0 0 24px rgba(230, 184, 92, 0.5); }
+}
+
+.completion-details {
+  flex: 1;
+}
+
+.completion-title {
+  font-family: 'Cinzel Decorative', 'Cinzel', serif;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--gold-primary);
+  margin-bottom: 0.25rem;
+  letter-spacing: 0.04em;
+}
+
+[data-theme="parchment"] .completion-title {
+  color: var(--gold-dark);
+}
+
+.completion-desc {
+  font-family: 'Lora', Georgia, serif;
+  font-size: 0.86rem;
+  line-height: 1.55;
+  color: var(--text-main);
+  font-style: italic;
+}
+
+.completion-share-btn {
+  background: linear-gradient(135deg, var(--gold-primary), var(--gold-dark));
+  color: #060911;
+  font-family: 'Cinzel', serif;
+  font-size: 0.8rem;
+  font-weight: 700;
+  padding: 0.6rem 1.15rem;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.completion-share-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 18px var(--gold-glow);
+}
+
+/* Card Study Toggle Button & Bottom Actions */
+.card-bottom-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.75rem;
+  border-top: 1px solid var(--border-subtle);
+  padding-top: 0.95rem;
+  margin-top: auto;
+}
+
+.card-study-btn {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-muted);
+  font-family: 'Cinzel', serif;
+  font-size: 0.76rem;
+  font-weight: 700;
+  padding: 0.4rem 0.85rem;
+  border-radius: 20px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  user-select: none;
+  z-index: 3;
+}
+
+[data-theme="parchment"] .card-study-btn {
+  background: rgba(80, 60, 40, 0.05);
+}
+
+.card-study-btn:hover {
+  background: rgba(230, 184, 92, 0.12);
+  border-color: var(--gold-border);
+  color: var(--gold-light);
+  transform: translateY(-1px);
+}
+
+.card-study-btn.studied {
+  background: rgba(230, 184, 92, 0.18);
+  border-color: var(--gold-primary);
+  color: var(--gold-light);
+  box-shadow: 0 0 12px var(--gold-glow);
+}
+
+.card-study-btn.studied .study-btn-icon {
+  color: var(--gold-light);
+  font-weight: 900;
+  text-shadow: 0 0 8px var(--gold-primary);
+}
+
+.card-study-btn .study-btn-icon {
+  font-size: 0.88rem;
+  line-height: 1;
+}
+
+.card-cta-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.85rem;
+  color: var(--gold-primary);
+  font-weight: 600;
+  transition: color 0.2s ease, transform 0.2s ease;
+  user-select: none;
+}
+
+.card-cta-link svg {
+  width: 14px;
+  height: 14px;
+  transition: transform 0.2s ease;
+}
+
+.prophecy-card:hover .card-cta-link {
+  color: var(--gold-light);
+}
+
+.prophecy-card:hover .card-cta-link svg {
+  transform: translateX(3px);
+}
+
+/* Detail modal mark button polish */
+.mark-studied-btn {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  font-family: 'Cinzel', serif;
+  font-weight: 700;
+  padding: 0.35rem 0.9rem;
+  border-radius: 20px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  transition: all 0.25s ease;
+}
+
+.mark-studied-btn:hover {
+  background: rgba(230, 184, 92, 0.12);
+  border-color: var(--gold-border);
+  color: var(--gold-light);
+}
+
+.mark-studied-btn.active {
+  background: rgba(230, 184, 92, 0.22);
+  border-color: var(--gold-primary);
+  color: var(--gold-light);
+  box-shadow: 0 0 14px var(--gold-glow);
+}
+
+.mark-studied-btn.active .check-icon {
+  color: var(--gold-light);
+  font-weight: 900;
+  text-shadow: 0 0 8px var(--gold-primary);
+}

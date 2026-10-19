@@ -688,9 +688,9 @@ const I18N = {
     sortAntiquity: "Oldest First (BC)",
     sortTitle: "Alphabetical",
     examineCta: "Examine Sacred Connection",
-    studiedBadge: "✓ Studied",
-    markStudied: "Mark as Studied",
-    studiedCompleted: "Studied (Completed)",
+    studiedBadge: "✓ Completed",
+    markStudied: "Mark as Studied / Meditated",
+    studiedCompleted: "✓ Completed",
     otRibbon: "📜 OLD TESTAMENT",
     ntRibbon: "✨ NEW TESTAMENT",
     otSeal: "Prophesied centuries before Christ",
@@ -707,8 +707,12 @@ const I18N = {
     askAiAboutProphecy: "Ask AI Scholar about this prophecy",
     copyDevotionalBtn: "Copy Full Devotional",
     devotionalCopied: "Full devotional copied to clipboard!",
-    studiedMarked: "Prophecy marked as studied! Progress updated.",
+    studiedMarked: "Prophecy marked as completed! Progress updated.",
     studiedUnmarked: "Prophecy unmarked from your study record.",
+    completionTitle: "✦ Prophetic Study Journey Completed! ✦",
+    completionMessage: "“Well done, good and faithful servant... enter into the joy of your Lord.” (Matthew 25:21) You have meditated upon all 14 eternal connections that prove the absolute divine inspiration of the Word of God.",
+    completionShareBtn: "Share Blessing",
+    completionCopied: "Study completion testimony copied to clipboard!",
     probBadge: "MATHEMATICS & APOLOGETICS",
     probModalTitle: "The Texas Silver Dollar Illustration (8 Prophecies)",
     probAuthor: "Based on the probability research of Dr. Peter W. Stoner (Science Speaks)",
@@ -825,9 +829,9 @@ const I18N = {
     sortAntiquity: "Más Antiguas Primero (a.C.)",
     sortTitle: "Alfabético",
     examineCta: "Examinar Conexión Sagrada",
-    studiedBadge: "✓ Estudiada",
-    markStudied: "Marcar como Estudiada",
-    studiedCompleted: "Estudiada (Completada)",
+    studiedBadge: "✓ Completado",
+    markStudied: "Marcar como Meditado / Estudiado",
+    studiedCompleted: "✓ Completado",
     otRibbon: "📜 ANTIGUO TESTAMENTO",
     ntRibbon: "✨ NUEVO TESTAMENTO",
     otSeal: "Profetizado siglos antes de Cristo",
@@ -844,8 +848,12 @@ const I18N = {
     askAiAboutProphecy: "Preguntar al Erudito IA sobre esta profecía",
     copyDevotionalBtn: "Copiar Devocional Completo",
     devotionalCopied: "¡Devocional completo copiado al portapapeles!",
-    studiedMarked: "¡Profecía marcada como estudiada! Progreso actualizado.",
+    studiedMarked: "¡Profecía marcada como completada! Progreso actualizado.",
     studiedUnmarked: "Profecía desmarcada de tu registro de estudio.",
+    completionTitle: "✦ ¡Camino de Meditación Mesiánica Completado! ✦",
+    completionMessage: "«Bien, buen siervo y fiel; sobre poco has sido fiel, sobre mucho te pondré; entra en el gozo de tu señor.» (Mateo 25:21) Has meditado las 14 conexiones eternas que demuestran la fidelidad inmutable de la Palabra de Dios.",
+    completionShareBtn: "Compartir Bendición",
+    completionCopied: "¡Testimonio de estudio completado copiado al portapapeles!",
     probBadge: "MATEMÁTICA Y APOLOGÉTICA",
     probModalTitle: "La Ilustración de los Dólares de Plata en Texas (8 Profecías)",
     probAuthor: "Basado en la investigación probabilística del Dr. Peter W. Stoner (Science Speaks)",
@@ -1227,26 +1235,47 @@ class VoiceNarrator {
 // --- 5. PERSISTENT STUDY PROGRESS TRACKER ---
 class StudyTracker {
   constructor() {
-    this.storageKey = 'eternal_connections_studied_v1';
-    this.studiedSet = new Set(JSON.parse(localStorage.getItem(this.storageKey) || '[]'));
+    this.storageKey = 'conexiones_studied_prophecies';
+    let stored = [];
+    try {
+      const primary = localStorage.getItem(this.storageKey);
+      if (primary) {
+        stored = JSON.parse(primary);
+      } else {
+        const legacy = localStorage.getItem('eternal_connections_studied_v1');
+        if (legacy) {
+          stored = JSON.parse(legacy);
+          localStorage.setItem(this.storageKey, legacy);
+        }
+      }
+    } catch (_) {}
+    this.studiedSet = new Set(Array.isArray(stored) ? stored.map(Number) : []);
   }
 
   isStudied(id) {
-    return this.studiedSet.has(id);
+    return this.studiedSet.has(Number(id));
   }
 
   toggle(id) {
-    if (this.studiedSet.has(id)) {
-      this.studiedSet.delete(id);
+    const numId = Number(id);
+    if (this.studiedSet.has(numId)) {
+      this.studiedSet.delete(numId);
     } else {
-      this.studiedSet.add(id);
+      this.studiedSet.add(numId);
     }
-    localStorage.setItem(this.storageKey, JSON.stringify([...this.studiedSet]));
-    return this.studiedSet.has(id);
+    const arr = [...this.studiedSet];
+    try {
+      localStorage.setItem(this.storageKey, JSON.stringify(arr));
+    } catch (_) {}
+    return this.studiedSet.has(numId);
   }
 
   getCount() {
     return this.studiedSet.size;
+  }
+
+  getAll() {
+    return [...this.studiedSet];
   }
 }
 
@@ -1531,6 +1560,14 @@ document.addEventListener('DOMContentLoaded', () => {
   const adminExportBtnText = document.getElementById('adminExportBtnText');
   const footerAdminLockBtn = document.getElementById('footerAdminLockBtn');
 
+  // Study Completion Banner Elements
+  const studyCompletionBanner = document.getElementById('studyCompletionBanner');
+  const completionTitle = document.getElementById('completionTitle');
+  const completionDesc = document.getElementById('completionDesc');
+  const completionShareBtn = document.getElementById('completionShareBtn');
+  const completionShareText = document.getElementById('completionShareText');
+  const markStudiedIcon = document.getElementById('markStudiedIcon');
+
   // Toast
   const customToast = document.getElementById('customToast');
   const toastMessage = document.getElementById('toastMessage');
@@ -1706,9 +1743,28 @@ document.addEventListener('DOMContentLoaded', () => {
     const total = propheciesData.length;
     const studiedCount = tracker.getCount();
     const percent = Math.round((studiedCount / total) * 100);
-    if (progressFill) progressFill.style.width = `${percent}%`;
+    if (progressFill) {
+      progressFill.style.width = `${percent}%`;
+      if (percent === 100) {
+        progressFill.classList.add('completed-glow');
+      } else {
+        progressFill.classList.remove('completed-glow');
+      }
+    }
     const t = I18N[currentLanguage] || I18N.en;
     if (progressScore) progressScore.textContent = t.studyScoreText(studiedCount, total, percent);
+
+    // Celebration banner when all prophecies are completed
+    if (studyCompletionBanner) {
+      if (studiedCount === total && total > 0) {
+        studyCompletionBanner.style.display = 'flex';
+        if (completionTitle) completionTitle.textContent = t.completionTitle;
+        if (completionDesc) completionDesc.textContent = t.completionMessage;
+        if (completionShareText) completionShareText.textContent = t.completionShareBtn;
+      } else {
+        studyCompletionBanner.style.display = 'none';
+      }
+    }
   }
 
   // Filter & Sort
@@ -1793,13 +1849,41 @@ document.addEventListener('DOMContentLoaded', () => {
             </div>
           </div>
         </div>
-        <div class="card-bottom-cta">
-          <span>${t.examineCta}</span>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M5 12h14M12 5l7 7-7 7"/>
-          </svg>
+        <div class="card-bottom-actions">
+          <button class="card-study-btn ${isStudied ? 'studied' : ''}" data-prophecy-id="${item.id}" title="${isStudied ? t.studiedCompleted : t.markStudied}" aria-label="${isStudied ? t.studiedCompleted : t.markStudied}">
+            <span class="study-btn-icon">${isStudied ? '✓' : '○'}</span>
+            <span class="study-btn-text">${isStudied ? t.studiedCompleted : t.markStudied}</span>
+          </button>
+          <div class="card-cta-link">
+            <span>${t.examineCta}</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
+          </div>
         </div>
       `;
+
+      // Interactive study completion toggle inside card
+      const studyBtn = card.querySelector('.card-study-btn');
+      if (studyBtn) {
+        studyBtn.addEventListener('click', (e) => {
+          e.stopPropagation(); // Prevent opening modal
+          const nowStudied = tracker.toggle(item.id);
+          updateProgress();
+          renderGrid();
+
+          if (activeModalProphecy && activeModalProphecy.id === item.id) {
+            updateStudiedButtonState(item.id);
+          }
+
+          if (nowStudied) {
+            try { audio.playSacredChord(); } catch (_) {}
+            showToast(t.studiedMarked);
+          } else {
+            showToast(t.studiedUnmarked);
+          }
+        });
+      }
 
       card.addEventListener('click', (e) => {
         try { audio.playHarpChime(audio.scale.D4); } catch (_) {}
@@ -1862,9 +1946,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const t = I18N[currentLanguage] || I18N.en;
     if (isStudied) {
       markStudiedBtn.classList.add('active');
+      if (markStudiedIcon) markStudiedIcon.textContent = '✓';
       markStudiedText.textContent = t.studiedCompleted;
     } else {
       markStudiedBtn.classList.remove('active');
+      if (markStudiedIcon) markStudiedIcon.textContent = '○';
       markStudiedText.textContent = t.markStudied;
     }
   }
@@ -1986,6 +2072,24 @@ ${getLocalized(p, 'insight')}
       showToast(isEs ? 'No se pudo copiar automáticamente.' : 'Unable to copy automatically.');
     });
   });
+
+  // Share completion blessing button
+  if (completionShareBtn) {
+    completionShareBtn.addEventListener('click', () => {
+      const isEs = currentLanguage === 'es';
+      const t = I18N[currentLanguage] || I18N.en;
+      const shareText = isEs
+        ? `🕊️ CONEXIONES ETERNAS: He completado el estudio y meditación de las 14 profecías mesiánicas del Antiguo Testamento cumplidas en Jesucristo.\n«Bien, buen siervo y fiel... entra en el gozo de tu señor.» (Mateo 25:21)\nExplora las evidencias en: https://conexiones-eternas.vercel.app`
+        : `🕊️ ETERNAL CONNECTIONS: I have completed the study and meditation of all 14 Messianic Old Testament prophecies fulfilled in Jesus Christ.\n“Well done, good and faithful servant... enter into the joy of your Lord.” (Matthew 25:21)\nExplore the evidences at: https://conexiones-eternas.vercel.app`;
+
+      navigator.clipboard.writeText(shareText).then(() => {
+        try { audio.playSacredChord(); } catch (_) {}
+        showToast(t.completionCopied);
+      }).catch(() => {
+        showToast(isEs ? 'No se pudo copiar automáticamente.' : 'Unable to copy automatically.');
+      });
+    });
+  }
 
   // Modal Navigation
   prevProphecyBtn.addEventListener('click', () => navigateModal('prev'));

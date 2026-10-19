@@ -89,6 +89,23 @@
         <div class="progress-track">
           <div class="progress-fill" id="progressFill" style="width: 0%;"></div>
         </div>
+
+        <!-- Celebration Blessing Banner (Triggered when 14/14 are completed) -->
+        <div class="study-completion-banner" id="studyCompletionBanner" style="display: none;">
+          <div class="completion-icon-wrap">
+            <span class="completion-icon">👑</span>
+          </div>
+          <div class="completion-details">
+            <h4 class="completion-title" id="completionTitle">✦ Prophetic Study Journey Completed! ✦</h4>
+            <p class="completion-desc" id="completionDesc">
+              “Well done, good and faithful servant... enter into the joy of your Lord.” (Matthew 25:21) You have meditated upon all 14 eternal connections that prove the absolute divine inspiration of the Word of God.
+            </p>
+          </div>
+          <button class="completion-share-btn" id="completionShareBtn" title="Share Blessing">
+            <span class="btn-icon">🕊️</span>
+            <span id="completionShareText">Share Blessing</span>
+          </button>
+        </div>
       </div>
 
       <!-- Quick Stats & Apologetics Cards -->
@@ -256,8 +273,8 @@
         <div class="head-meta">
           <span class="meta-tag" id="mCategoryTag">Birth & Royal Lineage</span>
           <span class="meta-gap" id="mGapBadge">⏳ 700 years before fulfillment</span>
-          <button id="markStudiedBtn" class="mark-studied-btn" title="Mark as studied">
-            <span class="check-icon">✓</span> <span id="markStudiedText">Mark as Studied</span>
+          <button id="markStudiedBtn" class="mark-studied-btn" title="Toggle study state" aria-label="Toggle study completion">
+            <span class="check-icon" id="markStudiedIcon">○</span> <span id="markStudiedText">Mark as Studied / Meditated</span>
           </button>
         </div>
         <h2 class="modal-title" id="mTitle">Prophecy Title</h2>

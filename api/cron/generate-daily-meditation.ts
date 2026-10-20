@@ -27,29 +27,44 @@ interface DailyMeditationRecord {
 }
 
 async function saveToStore(data: DailyMeditationRecord): Promise<boolean> {
+  let saved = false;
+
+  // 1. Try Vercel Blob if configured
+  if (process.env.BLOB_READ_WRITE_TOKEN) {
+    try {
+      const { put } = await import('@vercel/blob');
+      await put('latest_daily_meditation.json', JSON.stringify(data), {
+        access: 'public',
+        addRandomSuffix: false
+      });
+      saved = true;
+    } catch (blobErr) {
+      console.warn('[Blob Storage Error]:', blobErr);
+    }
+  }
+
+  // 2. Try Upstash / Vercel KV if configured
   const url = process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL;
   const token = process.env.KV_REST_API_TOKEN || process.env.UPSTASH_REDIS_REST_TOKEN;
 
-  if (!url || !token) {
-    console.warn('[Storage] No KV_REST_API_URL or UPSTASH_REDIS_REST_URL set; skipping persistent store.');
-    return false;
+  if (url && token) {
+    try {
+      const cleanUrl = url.replace(/\/+$/, '');
+      const res = await fetch(`${cleanUrl}/set/latest_daily_meditation`, {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      });
+      if (res.ok) saved = true;
+    } catch (err) {
+      console.warn('[Storage Error] Could not persist meditation to KV/Redis:', err);
+    }
   }
 
-  try {
-    const cleanUrl = url.replace(/\/+$/, '');
-    const res = await fetch(`${cleanUrl}/set/latest_daily_meditation`, {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${token}`,
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(data)
-    });
-    return res.ok;
-  } catch (err) {
-    console.warn('[Storage Error] Could not persist meditation to KV/Redis:', err);
-    return false;
-  }
+  return saved;
 }
 
 function cleanAndParseJson(raw: string): any {

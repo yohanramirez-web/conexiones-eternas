@@ -82,6 +82,26 @@ export const FALLBACK_MEDITATION: DailyMeditationRecord = {
 };
 
 async function getStoredMeditation(): Promise<DailyMeditationRecord | null> {
+  // 1. Check Vercel Blob if configured
+  if (process.env.BLOB_READ_WRITE_TOKEN) {
+    try {
+      const { head } = await import('@vercel/blob');
+      const blobInfo = await head('latest_daily_meditation.json');
+      if (blobInfo && blobInfo.url) {
+        const res = await fetch(blobInfo.url);
+        if (res.ok) {
+          const data = (await res.json()) as DailyMeditationRecord;
+          if (data && data.title && data.otProphecy) {
+            return data;
+          }
+        }
+      }
+    } catch (_) {
+      // Blob file might not be created yet, continue to Redis/KV
+    }
+  }
+
+  // 2. Check Upstash Redis / Vercel KV if configured
   const url = process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL;
   const token = process.env.KV_REST_API_TOKEN || process.env.UPSTASH_REDIS_REST_TOKEN;
 

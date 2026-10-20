@@ -940,11 +940,32 @@ let currentLanguage = localStorage.getItem('conexiones_lang') || (navigator.lang
 
 // --- 2.1 DEVOTIONAL STORE & PERSISTENCE ---
 const DEFAULT_DEVOTIONAL = {
-  frequency: "weekly",
+  id: "daily_ai_meditation",
+  frequency: "daily",
   prophecyId: 11,
   title: {
     es: "El Siervo Sufriente y Nuestra Paz",
     en: "The Suffering Servant and Our Peace"
+  },
+  otProphecy: {
+    passage: {
+      es: "Isaías 53:4-5",
+      en: "Isaiah 53:4-5"
+    },
+    text: {
+      es: "«Ciertamente llevó él nuestras enfermedades, y sufrió nuestros dolores; y nosotros le tuvimos por azotado, por herido de Dios y abatido. Mas él herido fue por nuestras rebeliones, molido por nuestros pecados; el castigo de nuestra paz fue sobre él, y por su llaga fuimos nosotros curados.»",
+      en: "“Surely He has borne our griefs and carried our sorrows; yet we esteemed Him stricken, smitten by God, and afflicted. But He was pierced for our transgressions, He was crushed for our iniquities; upon Him was the chastisement that brought us peace, and with His wounds we are healed.”"
+    }
+  },
+  ntFulfillment: {
+    passage: {
+      es: "1 Pedro 2:24",
+      en: "1 Peter 2:24"
+    },
+    text: {
+      es: "«Quien llevó él mismo nuestros pecados en su cuerpo sobre el madero, para que nosotros, estando muertos a los pecados, vivamos a la justicia; y por cuya herida fuisteis sanados.»",
+      en: "“He Himself bore our sins in His body on the tree, that we might die to sin and live to righteousness. By His wounds you have been healed.”"
+    }
   },
   passageRef: {
     es: "Isaías 53:4-5",
@@ -955,10 +976,14 @@ const DEFAULT_DEVOTIONAL = {
     en: "“Surely He has borne our griefs and carried our sorrows; yet we esteemed Him stricken, smitten by God, and afflicted. But He was pierced for our transgressions, He was crushed for our iniquities; upon Him was the chastisement that brought us peace, and with His wounds we are healed.”"
   },
   reflectionText: {
-    es: "Setecientos años antes de que Roma introdujera la crucifixión en Judea, el profeta Isaías contempló el corazón mismo de la redención. Cada herida y cada gota de sangre derramada por el Mesías en el madero no fueron una tragedia accidental, sino el cumplimiento exacto del plan eterno de Dios para reconciliar a la humanidad consigo mismo. Cuando las pruebas de este mundo intenten turbar tu espíritu, recuerda: el castigo de tu paz ya fue pagado en la Cruz. Descansa hoy en la suficiencia absoluta de Su gracia y amor eterno.",
-    en: "Seven hundred years before Rome introduced crucifixion to Judea, the prophet Isaiah beheld the very heartbeat of redemption. Every wound and every drop of blood poured out by the Messiah on the tree was not an accidental tragedy, but the precise fulfillment of God's eternal blueprint to reconcile humanity to Himself. When the trials of this world seek to trouble your soul, remember: the punishment for your peace has already been paid in full at the Cross. Rest today in the absolute sufficiency of His grace and eternal love."
+    es: "Siete siglos antes de que el Imperio Romano perfeccionara la crueldad de la crucifixión, el profeta Isaías contempló a través del tiempo el misterio sagrado de la redención divina. No describió a un conquistador que ascendía a un trono terrenal de oro, sino a un Siervo inocente que absorbió voluntariamente las penas, dolores y la rebelión de una creación quebrantada.\n\nEn el Gólgota, ese antiguo pergamino profético halló su cumplimiento con una precisión asombrosa. Yeshúa de Nazaret no rehuyó los azotes, la corona de espinas ni los clavos del madero. En aquel momento de entrega suprema, la deuda cósmica que separaba a la humanidad del Creador quedó cancelada para siempre, transformando un instrumento de castigo en el manantial de la paz eterna.\n\nPara el creyente de hoy, esto no es solo un registro histórico; es nuestro refugio presente y ancla del alma. Cualquiera que sea la carga de culpa, ansiedad o cansancio que enfrentes en esta hora, descansa en la certeza inquebrantable de que el precio de tu paz ya fue pagado. Ríndele hoy tus preocupaciones y camina en la plenitud sanadora de Su gracia triunfante.",
+    en: "Seven centuries before the Roman Empire perfected the brutality of crucifixion, the prophet Isaiah gazed across time to perceive the holy mystery of divine redemption. He did not describe a conqueror ascending on an earthly throne of gold, but an innocent Servant willingly absorbing the sorrows, griefs, and moral rebellion of a broken world.\n\nOn Golgotha, this ancient prophetic scroll met history with staggering precision. Yeshua of Nazareth did not retreat from the piercing thorns, the nails, or the spear that cleaved His side. In that sacred moment of supreme surrender, the cosmic penalty that separated humanity from its Creator was fully satisfied, turning an instrument of imperial execution into the fountainhead of everlasting peace.\n\nFor the believer today, this is not merely an ancient historical record; it is our present refuge and anchor of hope. Whatever weight of guilt, exhaustion, or anxiety you face in this hour, know with unshakable confidence that the chastisement for your peace has already been paid in full. You are invited to cease striving, lay down your burdens, and walk today in the restorative wholeness of His triumphant grace."
   },
-  updatedAt: "2026-10-19"
+  meditationPrompt: {
+    es: "¿De qué manera descansar en las llagas victoriosas y consumadas de Cristo transforma hoy la angustia o inquietud específica que llevas en tu corazón?",
+    en: "How does resting in the finished, victorious wounds of Yeshua transform the anxiety or burden you are carrying right now?"
+  },
+  updatedAt: "2026-10-20"
 };
 
 let activeDevotional = null;
@@ -966,8 +991,14 @@ let hasCustomAdminDevo = false;
 try {
   const storedDevo = localStorage.getItem('conexiones_active_devotional');
   if (storedDevo) {
-    activeDevotional = JSON.parse(storedDevo);
-    hasCustomAdminDevo = true;
+    const parsed = JSON.parse(storedDevo);
+    // Only treat as custom admin devotional if explicitly flagged or customized beyond the old legacy default
+    if (parsed && parsed.isCustomAdminSaved === true) {
+      activeDevotional = parsed;
+      hasCustomAdminDevo = true;
+    } else {
+      localStorage.removeItem('conexiones_active_devotional');
+    }
   }
 } catch (e) {
   console.warn("Could not load active devotional from localStorage:", e);
@@ -3521,6 +3552,8 @@ ${getLocalized(p, 'insight')}
       if (!adminDraftDevo.reflectionText.es && adminDraftDevo.reflectionText.en) adminDraftDevo.reflectionText.es = adminDraftDevo.reflectionText.en;
 
       adminDraftDevo.updatedAt = new Date().toISOString().split('T')[0];
+      adminDraftDevo.isCustomAdminSaved = true;
+      hasCustomAdminDevo = true;
 
       // Store in localStorage & active state
       activeDevotional = JSON.parse(JSON.stringify(adminDraftDevo));

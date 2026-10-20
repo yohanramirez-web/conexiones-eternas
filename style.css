@@ -3586,6 +3586,164 @@ body.modal-open .worship-mini-pill,
 }
 
 /* ==========================================================================
+   DAILY MEDITATION SKELETON LOADER & CONTEMPLATION PROMPT
+   ========================================================================== */
+.devo-skeleton {
+  display: none;
+  padding: 0.6rem 0 1.2rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.devotional-card.is-loading .devo-skeleton {
+  display: block;
+}
+
+.devotional-card.is-loading .devo-body,
+.devotional-card.is-loading .devo-actions-row {
+  display: none !important;
+}
+
+.skeleton-shimmer {
+  position: absolute;
+  top: 0;
+  left: -150%;
+  width: 150%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(230, 184, 92, 0.08) 50%,
+    transparent 100%
+  );
+  animation: devoShimmer 1.8s infinite ease-in-out;
+  pointer-events: none;
+}
+
+@keyframes devoShimmer {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(200%); }
+}
+
+.skeleton-line,
+.skeleton-box {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  margin-bottom: 0.9rem;
+}
+
+[data-theme="parchment"] .skeleton-line,
+[data-theme="parchment"] .skeleton-box {
+  background: rgba(0, 0, 0, 0.06);
+}
+
+.skeleton-title-placeholder {
+  width: 65%;
+  height: 32px;
+  border-radius: 6px;
+  background: rgba(230, 184, 92, 0.12);
+  margin-bottom: 0.6rem;
+}
+
+.skeleton-subtitle-placeholder {
+  width: 32%;
+  height: 18px;
+  margin-bottom: 1.4rem;
+}
+
+.skeleton-quote-placeholder {
+  width: 100%;
+  height: 85px;
+  border-left: 3px solid rgba(230, 184, 92, 0.3);
+  border-radius: 0 10px 10px 0;
+  margin-bottom: 1.5rem;
+}
+
+.skeleton-para-placeholder {
+  width: 100%;
+  height: 16px;
+}
+
+.skeleton-para-short-placeholder {
+  width: 70%;
+  height: 16px;
+}
+
+/* Contemplation Prompt Block */
+.devo-prompt-block {
+  background: linear-gradient(135deg, rgba(230, 184, 92, 0.08), rgba(184, 134, 40, 0.04));
+  border: 1px solid rgba(230, 184, 92, 0.28);
+  border-radius: 12px;
+  padding: 1.1rem 1.4rem;
+  margin-top: 1.2rem;
+  margin-bottom: 1.5rem;
+  transition: all 0.3s ease;
+}
+
+[data-theme="parchment"] .devo-prompt-block {
+  background: rgba(184, 134, 40, 0.07);
+  border-color: rgba(184, 134, 40, 0.25);
+}
+
+.devo-prompt-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.45rem;
+}
+
+.devo-prompt-icon {
+  font-size: 1.05rem;
+}
+
+.devo-prompt-label {
+  font-family: 'Cinzel', serif;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--gold-light);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+[data-theme="parchment"] .devo-prompt-label {
+  color: var(--gold-dark);
+}
+
+.devo-prompt-text {
+  font-family: 'Lora', Georgia, serif;
+  font-size: 1.02rem;
+  font-style: italic;
+  line-height: 1.7;
+  color: var(--text-main);
+  display: block;
+}
+
+/* Secondary Fulfillment Quote in Card */
+.devo-fulfillment-quote {
+  border-left-color: var(--nt-accent);
+  background: rgba(100, 149, 237, 0.06);
+  margin-top: -0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+[data-theme="parchment"] .devo-fulfillment-quote {
+  background: rgba(70, 100, 180, 0.06);
+}
+
+.devo-fulfillment-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: 'Cinzel', serif;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--nt-accent);
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+/* ==========================================================================
    ADMIN PASSCODE MODAL
    ========================================================================== */
 .admin-passcode-box {

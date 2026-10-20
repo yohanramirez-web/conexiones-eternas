@@ -1,7 +1,9 @@
 # Environment variables & Secrets
 .env
-.env.*
+.env.local
+.env.*.local
 config.local.js
+!.env.example
 
 # Operating System Files
 .DS_Store

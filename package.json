@@ -1,0 +1,13 @@
+{
+  "name": "conexiones-eternas",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Explorador Interactivo de Profecías Mesiánicas y Cumplimiento Bíblico",
+  "scripts": {
+    "dev": "vercel dev",
+    "deploy": "vercel --prod"
+  },
+  "devDependencies": {
+    "@vercel/node": "^3.2.0"
+  }
+}

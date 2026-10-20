@@ -962,10 +962,12 @@ const DEFAULT_DEVOTIONAL = {
 };
 
 let activeDevotional = null;
+let hasCustomAdminDevo = false;
 try {
   const storedDevo = localStorage.getItem('conexiones_active_devotional');
   if (storedDevo) {
     activeDevotional = JSON.parse(storedDevo);
+    hasCustomAdminDevo = true;
   }
 } catch (e) {
   console.warn("Could not load active devotional from localStorage:", e);
@@ -976,12 +978,91 @@ if (!activeDevotional) {
 
 function getDevotionalField(field, lang = currentLanguage) {
   if (!activeDevotional) return "";
+  
+  // 1. Check in translations object if present
+  if (activeDevotional.translations && activeDevotional.translations[lang] && activeDevotional.translations[lang][field] !== undefined) {
+    const tVal = activeDevotional.translations[lang][field];
+    if (typeof tVal === 'object' && tVal !== null) {
+      return tVal;
+    }
+    return String(tVal);
+  }
+
+  // 2. Fallback to alternative translation
+  const altLang = lang === 'es' ? 'en' : 'es';
+  if (activeDevotional.translations && activeDevotional.translations[altLang] && activeDevotional.translations[altLang][field] !== undefined && !activeDevotional[field]) {
+    const tVal = activeDevotional.translations[altLang][field];
+    if (typeof tVal === 'object' && tVal !== null) {
+      return tVal;
+    }
+    return String(tVal);
+  }
+
+  // 3. Check direct field
   const val = activeDevotional[field];
   if (!val) return "";
   if (typeof val === 'object') {
     return val[lang] || val.es || val.en || "";
   }
   return String(val);
+}
+
+function getPropheticPassage(type = 'ot', lang = currentLanguage) {
+  if (!activeDevotional) return "";
+  if (type === 'ot') {
+    if (activeDevotional.translations?.[lang]?.otProphecy?.passage) {
+      return activeDevotional.translations[lang].otProphecy.passage;
+    }
+    if (activeDevotional.otProphecy?.passage) {
+      const p = activeDevotional.otProphecy.passage;
+      return typeof p === 'object' ? (p[lang] || p.es || p.en) : p;
+    }
+    return getDevotionalField('passageRef', lang);
+  } else {
+    if (activeDevotional.translations?.[lang]?.ntFulfillment?.passage) {
+      return activeDevotional.translations[lang].ntFulfillment.passage;
+    }
+    if (activeDevotional.ntFulfillment?.passage) {
+      const p = activeDevotional.ntFulfillment.passage;
+      return typeof p === 'object' ? (p[lang] || p.es || p.en) : p;
+    }
+    return "";
+  }
+}
+
+function getPropheticScripture(type = 'ot', lang = currentLanguage) {
+  if (!activeDevotional) return "";
+  if (type === 'ot') {
+    if (activeDevotional.translations?.[lang]?.otProphecy?.text) {
+      return activeDevotional.translations[lang].otProphecy.text;
+    }
+    if (activeDevotional.otProphecy?.text) {
+      const t = activeDevotional.otProphecy.text;
+      return typeof t === 'object' ? (t[lang] || t.es || t.en) : t;
+    }
+    return getDevotionalField('scriptureText', lang);
+  } else {
+    if (activeDevotional.translations?.[lang]?.ntFulfillment?.text) {
+      return activeDevotional.translations[lang].ntFulfillment.text;
+    }
+    if (activeDevotional.ntFulfillment?.text) {
+      const t = activeDevotional.ntFulfillment.text;
+      return typeof t === 'object' ? (t[lang] || t.es || t.en) : t;
+    }
+    return "";
+  }
+}
+
+function getPromptText(lang = currentLanguage) {
+  if (!activeDevotional) return "";
+  if (activeDevotional.translations?.[lang]?.meditationPrompt) {
+    return activeDevotional.translations[lang].meditationPrompt;
+  }
+  if (activeDevotional.meditationPrompt) {
+    const p = activeDevotional.meditationPrompt;
+    return typeof p === 'object' ? (p[lang] || p.es || p.en) : p;
+  }
+  return "";
 }
 
 // --- 3. AUTHENTIC HEBREW WORSHIP STREAM (YESHUA HAMASHIACH - JERUSALEM PRAISE) ---
@@ -1541,6 +1622,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // Devotional Card DOM Elements
   const devotionalSection = document.getElementById('devotionalSection');
   const devotionalCard = document.getElementById('devotionalCard');
+  const devoSkeleton = document.getElementById('devoSkeleton');
   const devoBadge = document.getElementById('devoBadge');
   const devoBadgeText = document.getElementById('devoBadgeText');
   const devoFreqPill = document.getElementById('devoFreqPill');
@@ -1549,8 +1631,14 @@ document.addEventListener('DOMContentLoaded', () => {
   const devoPassageRef = document.getElementById('devoPassageRef');
   const devoRefText = document.getElementById('devoRefText');
   const devoScriptureQuote = document.getElementById('devoScriptureQuote');
+  const devoFulfillmentQuote = document.getElementById('devoFulfillmentQuote');
+  const devoFulfillmentBadge = document.getElementById('devoFulfillmentBadge');
+  const devoFulfillmentText = document.getElementById('devoFulfillmentText');
   const devoReflectionLabel = document.getElementById('devoReflectionLabel');
   const devoReflectionText = document.getElementById('devoReflectionText');
+  const devoPromptBlock = document.getElementById('devoPromptBlock');
+  const devoPromptLabel = document.getElementById('devoPromptLabel');
+  const devoPromptText = document.getElementById('devoPromptText');
   const devoLinkedProphecyBtn = document.getElementById('devoLinkedProphecyBtn');
   const devoLinkedProphecyLabel = document.getElementById('devoLinkedProphecyLabel');
   const devoListenBtn = document.getElementById('devoListenBtn');
@@ -2916,8 +3004,26 @@ ${getLocalized(p, 'insight')}
   }
 
   // ============================================================================
-  // --- 11. DEVOTIONAL & SECRET ADMIN EDITOR CONTROLLER ---
+  // --- 11. DEVOTIONAL & DAILY AI MEDITATION CONTROLLER ---
   // ============================================================================
+
+  function detectLinkedProphecyId(data) {
+    if (!data) return 11;
+    const str = `${data.title || ''} ${data.otProphecy?.passage || ''} ${data.passageRef || ''} ${data.translations?.es?.title || ''} ${data.translations?.es?.otProphecy?.passage || ''}`.toLowerCase();
+    if (str.includes('53') || str.includes('siervo') || str.includes('servant') || str.includes('herido') || str.includes('pierced')) return 11;
+    if (str.includes('22') || str.includes('salmo 22') || str.includes('psalm 22') || str.includes('horadaron')) return 12;
+    if (str.includes('miqueas') || str.includes('micah') || str.includes('belén') || str.includes('bethlehem')) return 3;
+    if (str.includes('zacar') || str.includes('zechariah')) {
+      if (str.includes('12')) return 13;
+      if (str.includes('9')) return 7;
+      if (str.includes('11')) return 9;
+    }
+    if (str.includes('génesis') || str.includes('genesis')) return 1;
+    if (str.includes('isaías 7') || str.includes('isaiah 7') || str.includes('virgen') || str.includes('virgin')) return 4;
+    if (str.includes('16:10') || str.includes('resurrec') || str.includes('corrupción')) return 14;
+    if (str.includes('34:20') || str.includes('hueso') || str.includes('bone')) return 10;
+    return 11;
+  }
 
   // Render the visible devotional card
   function renderDevotionalCard() {
@@ -2935,17 +3041,59 @@ ${getLocalized(p, 'insight')}
       devoTitle.textContent = getDevotionalField('title');
     }
     if (devoRefText) {
-      devoRefText.textContent = getDevotionalField('passageRef');
+      devoRefText.textContent = getPropheticPassage('ot') || getDevotionalField('passageRef');
     }
     if (devoScriptureQuote) {
-      devoScriptureQuote.textContent = getDevotionalField('scriptureText');
+      devoScriptureQuote.textContent = getPropheticScripture('ot') || getDevotionalField('scriptureText');
     }
+
+    // New Testament Fulfillment Quote (if provided)
+    const ntPassage = getPropheticPassage('nt');
+    const ntScripture = getPropheticScripture('nt');
+    if (devoFulfillmentQuote && devoFulfillmentText) {
+      if (ntPassage || ntScripture) {
+        if (devoFulfillmentBadge) {
+          devoFulfillmentBadge.textContent = `✝ ${currentLanguage === 'es' ? 'Cumplimiento en el Nuevo Testamento:' : 'New Testament Fulfillment:'} ${ntPassage}`;
+        }
+        devoFulfillmentText.textContent = ntScripture ? (currentLanguage === 'es' ? `«${ntScripture}»` : `“${ntScripture}”`) : '';
+        devoFulfillmentQuote.style.display = 'block';
+      } else {
+        devoFulfillmentQuote.style.display = 'none';
+      }
+    }
+
     if (devoReflectionLabel) {
       devoReflectionLabel.textContent = t.devoReflectionHeading;
     }
     if (devoReflectionText) {
-      devoReflectionText.textContent = getDevotionalField('reflectionText');
+      const rawReflection = getDevotionalField('reflectionText');
+      if (rawReflection && rawReflection.includes('\n\n')) {
+        devoReflectionText.innerHTML = rawReflection
+          .split(/\n\s*\n/)
+          .filter(Boolean)
+          .map(para => `<span style="display:block; margin-bottom: 0.95rem;">${para.trim()}</span>`)
+          .join('');
+      } else {
+        devoReflectionText.textContent = rawReflection;
+      }
     }
+
+    // Closing Contemplation & Prayer Prompt
+    const promptText = getPromptText();
+    if (devoPromptBlock && devoPromptText) {
+      if (promptText) {
+        if (devoPromptLabel) {
+          devoPromptLabel.textContent = currentLanguage === 'es'
+            ? 'Pregunta de Cierre para Contemplación y Oración:'
+            : 'Closing Contemplation & Prayer Prompt:';
+        }
+        devoPromptText.textContent = currentLanguage === 'es' ? `«${promptText}»` : `“${promptText}”`;
+        devoPromptBlock.style.display = 'block';
+      } else {
+        devoPromptBlock.style.display = 'none';
+      }
+    }
+
     if (devoListenBtnText) {
       devoListenBtnText.textContent = t.devoListenBtn;
     }
@@ -2955,7 +3103,7 @@ ${getLocalized(p, 'insight')}
 
     // Linked Prophecy CTA
     if (devoLinkedProphecyBtn) {
-      const pId = Number(activeDevotional.prophecyId);
+      const pId = Number(activeDevotional.prophecyId) || detectLinkedProphecyId(activeDevotional);
       const targetProphecy = propheciesData.find(p => p.id === pId);
       if (targetProphecy) {
         const pTitle = getLocalized(targetProphecy, 'title');
@@ -2974,19 +3122,92 @@ ${getLocalized(p, 'insight')}
     }
   }
 
+  // Fetch live daily meditation from serverless endpoint /api/meditation/today
+  async function fetchTodayMeditation() {
+    if (!devotionalCard) return;
+
+    // Show shimmering golden skeleton while fetching if user hasn't created a custom admin devotional
+    if (!hasCustomAdminDevo) {
+      devotionalCard.classList.add('is-loading');
+    }
+
+    try {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 7500);
+
+      const res = await fetch('/api/meditation/today', {
+        signal: controller.signal,
+        headers: { 'Accept': 'application/json' }
+      });
+      clearTimeout(timeoutId);
+
+      if (res.ok) {
+        const data = await res.json();
+        if (data && data.title && data.otProphecy) {
+          window._apiTodayMeditation = data;
+
+          // If no custom admin override was set by user, update active devotional with today's meditation
+          if (!hasCustomAdminDevo) {
+            activeDevotional = {
+              id: 'daily_ai_meditation',
+              frequency: 'daily',
+              title: data.title,
+              otProphecy: data.otProphecy,
+              ntFulfillment: data.ntFulfillment,
+              passageRef: data.otProphecy.passage,
+              scriptureText: data.otProphecy.text,
+              reflectionText: data.guidedReflection,
+              meditationPrompt: data.meditationPrompt,
+              translations: data.translations,
+              date: data.date,
+              prophecyId: detectLinkedProphecyId(data)
+            };
+            renderDevotionalCard();
+          }
+        }
+      }
+    } catch (err) {
+      console.info('[Daily Meditation API] Loaded default devotional view:', err.message);
+    } finally {
+      devotionalCard.classList.remove('is-loading');
+    }
+  }
+
   // Copy Devotional Button
   if (devoCopyBtn) {
     devoCopyBtn.addEventListener('click', () => {
       const isEs = currentLanguage === 'es';
       const t = I18N[currentLanguage] || I18N.en;
       const title = getDevotionalField('title');
-      const ref = getDevotionalField('passageRef');
-      const scripture = getDevotionalField('scriptureText');
+      const otRef = getPropheticPassage('ot') || getDevotionalField('passageRef');
+      const otScripture = getPropheticScripture('ot') || getDevotionalField('scriptureText');
+      const ntRef = getPropheticPassage('nt');
+      const ntScripture = getPropheticScripture('nt');
       const reflection = getDevotionalField('reflectionText');
+      const prompt = getPromptText();
 
-      const formatted = isEs
-        ? `✨ CONEXIONES ETERNAS • ${activeDevotional.frequency === 'daily' ? 'MENSAJE DIARIO' : 'MENSAJE SEMANAL'}\n═══════════════════════════════════\n📖 ${title} (${ref})\n\n${scripture}\n\n🕊️ REFLEXIÓN ESPIRITUAL:\n${reflection}\n\n— Conexiones Eternas (conexiones-eternas.vercel.app)`
-        : `✨ ETERNAL CONNECTIONS • ${activeDevotional.frequency === 'daily' ? 'DAILY MESSAGE' : 'WEEKLY MESSAGE'}\n═══════════════════════════════════\n📖 ${title} (${ref})\n\n${scripture}\n\n🕊️ THEOLOGICAL REFLECTION:\n${reflection}\n\n— Eternal Connections (conexiones-eternas.vercel.app)`;
+      let formatted = '';
+      if (isEs) {
+        formatted = `✨ CONEXIONES ETERNAS • ${activeDevotional.frequency === 'daily' ? 'MEDITACIÓN DIARIA' : 'MENSAJE SEMANAL'}\n═══════════════════════════════════\n📖 ${title} (${otRef})\n\n«${otScripture}»`;
+        if (ntRef && ntScripture) {
+          formatted += `\n\n✝ CUMPLIMIENTO EN EL NUEVO TESTAMENTO (${ntRef}):\n«${ntScripture}»`;
+        }
+        formatted += `\n\n🕊️ REFLEXIÓN ESPIRITUAL:\n${reflection}`;
+        if (prompt) {
+          formatted += `\n\n💡 PREGUNTA DE CIERRE & ORACIÓN:\n${prompt}`;
+        }
+        formatted += `\n\n— Conexiones Eternas (conexiones-eternas.vercel.app)`;
+      } else {
+        formatted = `✨ ETERNAL CONNECTIONS • ${activeDevotional.frequency === 'daily' ? 'DAILY MEDITATION' : 'WEEKLY MESSAGE'}\n═══════════════════════════════════\n📖 ${title} (${otRef})\n\n“${otScripture}”`;
+        if (ntRef && ntScripture) {
+          formatted += `\n\n✝ NEW TESTAMENT FULFILLMENT (${ntRef}):\n“${ntScripture}”`;
+        }
+        formatted += `\n\n🕊️ THEOLOGICAL REFLECTION:\n${reflection}`;
+        if (prompt) {
+          formatted += `\n\n💡 CLOSING CONTEMPLATION & PRAYER:\n${prompt}`;
+        }
+        formatted += `\n\n— Eternal Connections (conexiones-eternas.vercel.app)`;
+      }
 
       navigator.clipboard.writeText(formatted).then(() => {
         try { audio.playHarpChime(audio.scale.D5); } catch (_) {}
@@ -2997,7 +3218,7 @@ ${getLocalized(p, 'insight')}
     });
   }
 
-  // Devotional Speech Voice (TTS)
+  // Devotional Speech Voice (VoiceNarrator TTS)
   if (devoListenBtn) {
     let isDevoSpeaking = false;
     devoListenBtn.addEventListener('click', () => {
@@ -3014,10 +3235,33 @@ ${getLocalized(p, 'insight')}
 
       window.speechSynthesis.cancel();
       const title = getDevotionalField('title');
-      const ref = getDevotionalField('passageRef');
-      const scripture = getDevotionalField('scriptureText');
+      const otRef = getPropheticPassage('ot') || getDevotionalField('passageRef');
+      const otScripture = getPropheticScripture('ot') || getDevotionalField('scriptureText');
+      const ntRef = getPropheticPassage('nt');
+      const ntScripture = getPropheticScripture('nt');
       const reflection = getDevotionalField('reflectionText');
-      const fullText = `${title}. ${ref}. ${scripture}. ${reflection}`;
+      const prompt = getPromptText();
+
+      let fullText = `${title}. `;
+      if (currentLanguage === 'es') {
+        fullText += `Profecía en ${otRef}: ${otScripture}. `;
+        if (ntRef && ntScripture) {
+          fullText += `Cumplimiento en ${ntRef}: ${ntScripture}. `;
+        }
+        fullText += `Reflexión: ${reflection}. `;
+        if (prompt) {
+          fullText += `Pregunta de meditación: ${prompt}`;
+        }
+      } else {
+        fullText += `Prophecy in ${otRef}: ${otScripture}. `;
+        if (ntRef && ntScripture) {
+          fullText += `Fulfillment in ${ntRef}: ${ntScripture}. `;
+        }
+        fullText += `Reflection: ${reflection}. `;
+        if (prompt) {
+          fullText += `Contemplation prompt: ${prompt}`;
+        }
+      }
 
       const utt = new SpeechSynthesisUtterance(fullText);
       utt.lang = currentLanguage === 'es' ? 'es-ES' : 'en-US';
@@ -3309,8 +3553,27 @@ ${getLocalized(p, 'insight')}
         localStorage.removeItem('conexiones_active_devotional');
       } catch (_) {}
 
-      activeDevotional = JSON.parse(JSON.stringify(DEFAULT_DEVOTIONAL));
-      adminDraftDevo = JSON.parse(JSON.stringify(DEFAULT_DEVOTIONAL));
+      hasCustomAdminDevo = false;
+      if (window._apiTodayMeditation) {
+        const d = window._apiTodayMeditation;
+        activeDevotional = {
+          id: 'daily_ai_meditation',
+          frequency: 'daily',
+          title: d.title,
+          otProphecy: d.otProphecy,
+          ntFulfillment: d.ntFulfillment,
+          passageRef: d.otProphecy?.passage,
+          scriptureText: d.otProphecy?.text,
+          reflectionText: d.guidedReflection,
+          meditationPrompt: d.meditationPrompt,
+          translations: d.translations,
+          date: d.date,
+          prophecyId: detectLinkedProphecyId(d)
+        };
+      } else {
+        activeDevotional = JSON.parse(JSON.stringify(DEFAULT_DEVOTIONAL));
+      }
+      adminDraftDevo = JSON.parse(JSON.stringify(activeDevotional));
       loadInputsFromDraft(adminEditingLang);
       renderDevotionalCard();
 
@@ -3348,6 +3611,7 @@ ${getLocalized(p, 'insight')}
     }
   });
 
-  // Initial Boot with selected language
+  // Initial Boot with selected language & live daily meditation fetch
   applyLanguage(currentLanguage);
+  fetchTodayMeditation();
 });
